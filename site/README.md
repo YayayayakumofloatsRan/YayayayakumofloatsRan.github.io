@@ -19,10 +19,11 @@ GitHub Pages:
 - Put the `site/` files in a public repository.
 - Enable Pages and point it at the branch/folder that contains these files.
 
-The current site is structured as a horizontal, screen-snapped personal blog homepage
-with Holo as the primary project, ProjectH as a private research system, astronomy as a
-visible personal thread, GALLERY visual notes, favourite movies, blog lanes, project
-cards, and a persistent dark/light theme toggle.
+The current site is structured as a mixed personal blog homepage: Intro/About/Projects/
+Astronomy live in a 3D horizontal astronomy deck, while GALLERY visual notes, favourite
+movies, blog lanes, and Contact remain in a traditional vertical scroll flow. Holo is
+the primary project, ProjectH is a private research system, and the page keeps a
+persistent dark/light theme toggle.
 
 Default theme is light cyan / ice blue rather than beige. Dark mode uses indigo and cyan
 as primary colors with gold line accents.

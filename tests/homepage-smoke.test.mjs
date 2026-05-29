@@ -43,10 +43,10 @@ assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope cap
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
 assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size/i, "gallery size should be interactive and persisted");
-assert.match(html, /screen-stage|screen-panel|screenDots/i, "homepage should use a horizontal screen-stage architecture");
-assert.match(css, /scroll-snap-type:\s*x\s+mandatory/i, "screen stage should snap horizontally");
-assert.match(css, /overflow-x:\s*auto/i, "screen stage should scroll horizontally");
-assert.match(js, /navigateScreen|currentScreen|wheel|ArrowRight|ArrowLeft/i, "script should wire Apple-like screen navigation");
+assert.match(html, /stellar-deck|deck-panel|deckDots|vertical-flow/i, "homepage should mix a 3D deck with normal vertical flow");
+assert.match(css, /perspective:\s*\d+px|transform-style:\s*preserve-3d|rotateY|translate3d/i, "deck should use 3D transform language");
+assert.match(css, /scroll-snap-type:\s*y\s+proximity/i, "vertical content should keep traditional scroll behavior");
+assert.match(js, /navigateDeck|currentDeck|deckDots|wheel|ArrowRight|ArrowLeft/i, "script should wire 3D deck navigation");
 assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
 
 for (const movie of [

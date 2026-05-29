@@ -3,13 +3,13 @@ const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
 const canvas = document.querySelector(".network-canvas");
 const context = canvas?.getContext("2d");
-const screenStage = document.querySelector("#screenStage");
-const screenPanels = Array.from(document.querySelectorAll(".screen-panel"));
-const screenDots = document.querySelector("#screenDots");
-const screenPrev = document.querySelector("#screenPrev");
-const screenNext = document.querySelector("#screenNext");
-const currentScreen = document.querySelector("#currentScreen");
-const totalScreens = document.querySelector("#totalScreens");
+const deckViewport = document.querySelector("#stellarDeck");
+const deckPanels = Array.from(document.querySelectorAll("[data-deck-panel]"));
+const deckDots = document.querySelector("#deckDots");
+const deckPrev = document.querySelector("#deckPrev");
+const deckNext = document.querySelector("#deckNext");
+const currentDeck = document.querySelector("#currentDeck");
+const totalDecks = document.querySelector("#totalDecks");
 const focusButtons = document.querySelectorAll("[data-focus]");
 const movieButtons = document.querySelectorAll("[data-movie-filter]");
 const movieCards = document.querySelectorAll(".movie-card");
@@ -21,14 +21,14 @@ const gallerySizeValue = document.querySelector("#gallerySizeValue");
 const orbitRange = document.querySelector("#orbitRange");
 const orbitReadout = document.querySelector("#orbitReadout");
 
+const initialHash = window.location.hash;
 const storedTheme = localStorage.getItem("nemo-theme-v3");
 const storedGallerySize = localStorage.getItem("nemo-gallery-size");
 
 let nodes = [];
 let animationFrame = 0;
-let activeScreen = 0;
+let activeDeck = 0;
 let wheelLock = 0;
-let scrollFrame = 0;
 
 function setTheme(theme) {
   root.dataset.theme = theme;
@@ -38,70 +38,100 @@ function setTheme(theme) {
   }
 }
 
-function screenLabel(index) {
+function deckLabel(index) {
   return String(index + 1).padStart(2, "0");
 }
 
-function updateScreenState(index) {
-  activeScreen = Math.max(0, Math.min(screenPanels.length - 1, index));
+function deckId(panel) {
+  return panel?.dataset.deckId || panel?.id || "intro";
+}
 
-  document.body.dataset.screen = screenPanels[activeScreen]?.id || `screen-${activeScreen}`;
-  currentScreen && (currentScreen.textContent = screenLabel(activeScreen));
-  totalScreens && (totalScreens.textContent = screenLabel(screenPanels.length - 1));
+function updateDeckState(index) {
+  activeDeck = Math.max(0, Math.min(deckPanels.length - 1, index));
 
-  screenDots?.querySelectorAll(".screen-dot").forEach((dot, dotIndex) => {
-    dot.classList.toggle("active", dotIndex === activeScreen);
-    dot.setAttribute("aria-current", dotIndex === activeScreen ? "true" : "false");
+  document.body.dataset.deck = deckId(deckPanels[activeDeck]);
+  currentDeck && (currentDeck.textContent = deckLabel(activeDeck));
+  totalDecks && (totalDecks.textContent = deckLabel(deckPanels.length - 1));
+
+  deckPanels.forEach((panel, panelIndex) => {
+    panel.classList.toggle("active", panelIndex === activeDeck);
+    panel.classList.toggle("is-prev", panelIndex === activeDeck - 1);
+    panel.classList.toggle("is-next", panelIndex === activeDeck + 1);
+    panel.classList.toggle("is-far", Math.abs(panelIndex - activeDeck) > 1);
+    panel.setAttribute("aria-hidden", panelIndex === activeDeck ? "false" : "true");
+  });
+
+  deckDots?.querySelectorAll(".deck-dot").forEach((dot, dotIndex) => {
+    dot.classList.toggle("active", dotIndex === activeDeck);
+    dot.setAttribute("aria-current", dotIndex === activeDeck ? "true" : "false");
   });
 }
 
-function nearestScreenIndex() {
-  if (!screenStage) return 0;
-  const left = screenStage.scrollLeft;
-  return screenPanels.reduce((best, panel, index) => {
-    const currentDistance = Math.abs(panel.offsetLeft - left);
-    const bestDistance = Math.abs(screenPanels[best].offsetLeft - left);
-    return currentDistance < bestDistance ? index : best;
-  }, 0);
+function deckIndexFromTarget(target) {
+  const id = String(target).replace("#", "");
+  const found = deckPanels.findIndex((panel) => deckId(panel) === id || panel.id === id);
+  return found >= 0 ? found : -1;
 }
 
-function navigateScreen(target) {
-  if (!screenStage || screenPanels.length === 0) return;
+function navigateDeck(target, options = {}) {
+  if (deckPanels.length === 0) return;
 
   const nextIndex =
     typeof target === "string"
-      ? Math.max(0, screenPanels.findIndex((panel) => panel.id === target.replace("#", "")))
-      : Math.max(0, Math.min(screenPanels.length - 1, target));
-  const panel = screenPanels[nextIndex];
+      ? deckIndexFromTarget(target)
+      : Math.max(0, Math.min(deckPanels.length - 1, target));
+  const panel = deckPanels[nextIndex];
 
   if (!panel) return;
 
-  screenStage.scrollTo({ left: panel.offsetLeft, behavior: "smooth" });
-  updateScreenState(nextIndex);
+  updateDeckState(nextIndex);
 
-  if (panel.id) {
-    history.replaceState(null, "", `#${panel.id}`);
+  if (options.scrollIntoView !== false) {
+    document.querySelector(".stellar-deck-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  const id = deckId(panel);
+  if (id) {
+    history.replaceState(null, "", `#${id}`);
   }
 }
 
-function buildScreenDots() {
-  if (!screenDots) return;
-  screenDots.textContent = "";
-  screenPanels.forEach((panel, index) => {
+function navigateToHash(target) {
+  if (!target?.startsWith("#")) return;
+
+  const deckIndex = deckIndexFromTarget(target);
+  if (deckIndex >= 0 || target === "#intro") {
+    navigateDeck(deckIndex >= 0 ? deckIndex : 0);
+    return;
+  }
+
+  const element = document.querySelector(target);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", target);
+  }
+}
+
+function buildDeckDots() {
+  if (!deckDots) return;
+  deckDots.textContent = "";
+  deckPanels.forEach((panel, index) => {
     const dot = document.createElement("button");
-    dot.className = "screen-dot";
+    dot.className = "deck-dot";
     dot.type = "button";
-    dot.setAttribute("aria-label", `Go to ${panel.id || `screen ${index + 1}`}`);
-    dot.addEventListener("click", () => navigateScreen(index));
-    screenDots.append(dot);
+    dot.setAttribute("aria-label", `Go to ${deckId(panel) || `deck ${index + 1}`}`);
+    dot.addEventListener("click", () => navigateDeck(index));
+    deckDots.append(dot);
   });
 }
 
-function setFocus(focus) {
+function setFocus(focus, shouldNavigate = true) {
   document.body.dataset.focus = focus;
   focusButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.focus === focus);
   });
+
+  if (!shouldNavigate) return;
 
   const target = {
     systems: "#projects",
@@ -110,9 +140,9 @@ function setFocus(focus) {
   }[focus];
 
   if (target) {
-    navigateScreen(target);
+    navigateToHash(target);
   } else {
-    navigateScreen(0);
+    navigateDeck(0);
   }
 }
 
@@ -228,7 +258,7 @@ document.querySelectorAll(".nav a").forEach((link) => {
     const target = link.getAttribute("href");
     if (target?.startsWith("#")) {
       event.preventDefault();
-      navigateScreen(target);
+      navigateToHash(target);
     }
   });
 });
@@ -240,15 +270,10 @@ movieButtons.forEach((button) => {
 gallerySize?.addEventListener("input", () => setGallerySize(gallerySize.value));
 orbitRange?.addEventListener("input", () => setOrbitAngle(orbitRange.value));
 
-screenPrev?.addEventListener("click", () => navigateScreen(activeScreen - 1));
-screenNext?.addEventListener("click", () => navigateScreen(activeScreen + 1));
+deckPrev?.addEventListener("click", () => navigateDeck(activeDeck - 1));
+deckNext?.addEventListener("click", () => navigateDeck(activeDeck + 1));
 
-screenStage?.addEventListener("scroll", () => {
-  window.cancelAnimationFrame(scrollFrame);
-  scrollFrame = window.requestAnimationFrame(() => updateScreenState(nearestScreenIndex()));
-});
-
-screenStage?.addEventListener(
+deckViewport?.addEventListener(
   "wheel",
   (event) => {
     const intent = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
@@ -259,18 +284,22 @@ screenStage?.addEventListener(
     if (now - wheelLock < 640) return;
 
     wheelLock = now;
-    navigateScreen(activeScreen + Math.sign(intent));
+    navigateDeck(activeDeck + Math.sign(intent), { scrollIntoView: false });
   },
   { passive: false },
 );
 
 window.addEventListener("keydown", (event) => {
+  const deckRect = deckViewport?.getBoundingClientRect();
+  const deckVisible = deckRect && deckRect.bottom > 0 && deckRect.top < window.innerHeight;
+  if (!deckVisible && document.activeElement !== deckViewport) return;
+
   if (event.key === "ArrowRight" || event.key === "PageDown") {
-    navigateScreen(activeScreen + 1);
+    navigateDeck(activeDeck + 1, { scrollIntoView: false });
   }
 
   if (event.key === "ArrowLeft" || event.key === "PageUp") {
-    navigateScreen(activeScreen - 1);
+    navigateDeck(activeDeck - 1, { scrollIntoView: false });
   }
 });
 
@@ -284,11 +313,14 @@ window.addEventListener("resize", resizeCanvas);
 window.addEventListener("pagehide", () => window.cancelAnimationFrame(animationFrame));
 
 setTheme(storedTheme || "light");
-buildScreenDots();
-setFocus("all");
+buildDeckDots();
+setFocus("all", false);
 setMovieFilter("all");
 setGallerySize(storedGallerySize || gallerySize?.value || 210);
 setOrbitAngle(orbitRange?.value || 42);
-updateScreenState(0);
+updateDeckState(0);
+if (initialHash) {
+  navigateToHash(initialHash);
+}
 resizeCanvas();
 drawNetwork();

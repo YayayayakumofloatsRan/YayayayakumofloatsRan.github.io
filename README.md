@@ -45,8 +45,10 @@ sections until the original assets are supplied again.
 ## Interactions
 
 - Theme toggle defaults to light and persists dark/light preference.
-- The homepage is a horizontal screen-stage with snap panels, arrow controls, dots,
-  keyboard navigation, and wheel-to-screen navigation.
+- The homepage now mixes a 3D horizontal astronomy deck for Intro/About/Projects/Astronomy
+  with a traditional vertical content flow for GALLERY, Movies, Notes, and Contact.
+- Deck controls include arrows, dots, keyboard navigation, and wheel-to-deck navigation
+  while the rest of the page remains vertically scrollable.
 - The default palette is pale cyan / ice blue instead of beige; dark mode keeps the
   astronomy-facing indigo, cyan, and gold accent direction.
 - Focus chips jump between systems, astronomy, and GALLERY screens.

@@ -45,14 +45,16 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
   background: var(--bg);
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   min-width: 320px;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 18% 8%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 24rem),
     radial-gradient(circle at 90% 30%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 26rem),
@@ -94,7 +96,7 @@ h3 {
 }
 
 .topbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   right: 0;
   left: 0;
@@ -171,8 +173,111 @@ h3 {
 }
 
 main > section,
+.vertical-flow > section,
 .footer {
   padding: clamp(4rem, 8vw, 7rem) 5vw;
+}
+
+.page-flow {
+  width: 100%;
+}
+
+.stellar-deck-section {
+  min-height: calc(100dvh - 72px);
+  display: grid;
+  align-items: center;
+  scroll-snap-align: start;
+}
+
+.deck-viewport {
+  position: relative;
+  width: min(1480px, 100%);
+  min-height: min(760px, calc(100dvh - 150px));
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 18% 16%, color-mix(in srgb, var(--cyan) 16%, transparent), transparent 20rem),
+    linear-gradient(135deg, color-mix(in srgb, var(--panel-solid) 86%, transparent), color-mix(in srgb, var(--bg-soft) 42%, transparent));
+  box-shadow: var(--shadow);
+  perspective: 1600px;
+}
+
+.deck-track {
+  position: relative;
+  min-height: inherit;
+  transform-style: preserve-3d;
+}
+
+.deck-panel {
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  overflow: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(62%, 0, -280px) rotateY(-28deg) scale(0.84);
+  transform-origin: center;
+  transition:
+    transform 760ms cubic-bezier(0.2, 0.78, 0.16, 1),
+    opacity 420ms ease,
+    filter 420ms ease;
+  z-index: 0;
+  scrollbar-width: thin;
+}
+
+.deck-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+  filter: none;
+  z-index: 4;
+}
+
+.deck-panel.is-prev {
+  opacity: 0.46;
+  transform: translate3d(-58%, 0, -300px) rotateY(30deg) scale(0.82);
+  filter: saturate(0.82) blur(0.4px);
+  z-index: 2;
+}
+
+.deck-panel.is-next {
+  opacity: 0.46;
+  transform: translate3d(58%, 0, -300px) rotateY(-30deg) scale(0.82);
+  filter: saturate(0.82) blur(0.4px);
+  z-index: 2;
+}
+
+.deck-panel.is-far {
+  opacity: 0;
+  transform: translate3d(0, 0, -520px) rotateY(0deg) scale(0.72);
+}
+
+.deck-panel > .section-heading,
+.deck-panel > .project-grid,
+.deck-panel > .note-grid,
+.deck-panel > .gallery-controls,
+.deck-panel > .gallery-grid,
+.deck-panel > .movie-controls,
+.deck-panel > .movie-grid,
+.deck-panel > .astro-media-grid,
+.deck-panel > .astro-copy,
+.deck-panel > .about-layout,
+.deck-panel > .profile-facts,
+.deck-panel > .section-kicker {
+  width: min(var(--max), 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.vertical-flow {
+  scroll-snap-align: start;
+}
+
+.vertical-flow > section {
+  scroll-snap-align: start;
 }
 
 .hero {
@@ -323,23 +428,26 @@ h3 {
 
 .profile-strip {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding-top: 0;
-  padding-bottom: 0;
-  border-bottom: 1px solid var(--line);
+  align-content: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 4rem);
 }
 
-.profile-strip article {
+.profile-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.profile-facts article {
   min-width: 0;
-  padding: 2rem 1.3rem;
-  border-right: 1px solid var(--line-soft);
+  padding: 1.15rem;
+  background: color-mix(in srgb, var(--panel-solid) 88%, transparent);
 }
 
-.profile-strip article:last-child {
-  border-right: 0;
-}
-
-.profile-strip span,
+.profile-facts span,
 .project-topline,
 .note-grid span,
 .movie-card span,
@@ -351,13 +459,13 @@ h3 {
   text-transform: uppercase;
 }
 
-.profile-strip strong {
+.profile-facts strong {
   display: block;
   margin-top: 0.7rem;
-  font-size: 1.35rem;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
 }
 
-.profile-strip p,
+.profile-facts p,
 .about-copy p,
 .project-card p,
 .note-grid p,
@@ -376,6 +484,18 @@ h3 {
 .contact-section {
   max-width: var(--max);
   margin: 0 auto;
+}
+
+.deck-panel.projects-section,
+.deck-panel.astronomy-section,
+.deck-panel.profile-strip,
+.deck-panel.hero {
+  max-width: none;
+  margin: 0;
+}
+
+.deck-panel.hero {
+  min-height: 100%;
 }
 
 .about-layout,
@@ -745,68 +865,20 @@ h3 {
 }
 
 .footer {
-  display: none;
+  display: flex;
   justify-content: space-between;
   gap: 1rem;
   border-top: 1px solid var(--line-soft);
   color: var(--muted);
 }
 
-.screen-stage {
-  position: fixed;
-  top: 72px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  width: 100vw;
-  height: auto;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-.screen-stage::-webkit-scrollbar {
-  display: none;
-}
-
-.screen-panel {
-  position: relative;
-  flex: 0 0 100vw;
-  width: 100vw;
-  min-width: 100vw;
-  max-width: none !important;
-  min-height: calc(100dvh - 72px);
-  max-height: calc(100dvh - 72px);
-  margin: 0 !important;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  padding-top: clamp(3rem, 5vw, 5rem);
-  padding-bottom: clamp(5.5rem, 8vw, 7rem);
-}
-
-.screen-panel > .section-heading,
-.screen-panel > .project-grid,
-.screen-panel > .note-grid,
-.screen-panel > .gallery-controls,
-.screen-panel > .gallery-grid,
-.screen-panel > .movie-controls,
-.screen-panel > .movie-grid,
-.screen-panel > .astro-media-grid,
-.screen-panel > .astro-copy,
-.screen-panel > .about-layout,
-.screen-panel > .section-kicker,
 .contact-section > * {
   width: min(var(--max), 100%);
   margin-right: auto;
   margin-left: auto;
 }
 
-.screen-controls {
+.deck-controls {
   position: fixed;
   right: clamp(1rem, 3vw, 2rem);
   bottom: clamp(1rem, 3vw, 1.8rem);
@@ -822,7 +894,7 @@ h3 {
   backdrop-filter: blur(18px);
 }
 
-.screen-arrow {
+.deck-arrow {
   width: 2.3rem;
   height: 2.3rem;
   border: 1px solid var(--line);
@@ -834,12 +906,12 @@ h3 {
   cursor: pointer;
 }
 
-.screen-dots {
+.deck-dots {
   display: flex;
   gap: 0.35rem;
 }
 
-.screen-dot {
+.deck-dot {
   width: 0.55rem;
   height: 0.55rem;
   border: 0;
@@ -848,13 +920,13 @@ h3 {
   cursor: pointer;
 }
 
-.screen-dot.active {
+.deck-dot.active {
   width: 1.6rem;
   border-radius: 999px;
   background: var(--cyan);
 }
 
-.screen-readout {
+.deck-readout {
   display: inline-flex;
   gap: 0.16rem;
   min-width: 3.2rem;
@@ -906,18 +978,18 @@ h3 {
   transform: rotate(var(--orbit-angle, 42deg));
 }
 
-.projects-section.screen-panel h2,
-.movies-section.screen-panel h2,
-.notes-section.screen-panel h2 {
+.projects-section.deck-panel h2,
+.movies-section h2,
+.notes-section h2 {
   font-size: clamp(2.35rem, 5.6vw, 4.35rem);
   max-width: 980px;
 }
 
-.screen-panel .project-card {
+.deck-panel .project-card {
   min-height: 16rem;
 }
 
-.screen-panel .note-grid article {
+.deck-panel .note-grid article {
   min-height: 12rem;
 }
 
@@ -955,20 +1027,21 @@ h3 {
   }
 
   .profile-strip,
+  .profile-facts,
   .about-layout,
   .astronomy-section,
   .contact-section {
     grid-template-columns: 1fr;
   }
 
-  .profile-strip article {
-    border-right: 0;
-    border-bottom: 1px solid var(--line-soft);
+  .profile-facts article {
+    border-bottom: 0;
   }
 }
 
 @media (max-width: 560px) {
   main > section,
+  .vertical-flow > section,
   .footer {
     padding-right: 1.25rem;
     padding-left: 1.25rem;
@@ -989,35 +1062,43 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .screen-panel {
-    padding-top: 1.6rem;
-    padding-bottom: 5.25rem;
-    overflow-y: hidden;
+  .stellar-deck-section {
+    min-height: calc(100dvh - 62px);
+    padding-top: 1.25rem;
+    padding-bottom: 4.75rem;
   }
 
-  .astronomy-section.screen-panel {
+  .deck-viewport {
+    min-height: calc(100dvh - 160px);
+  }
+
+  .deck-panel {
+    padding: 1.15rem;
+  }
+
+  .astronomy-section.deck-panel {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 1rem;
     align-content: start;
   }
 
-  .astronomy-section.screen-panel .astro-media-grid {
+  .astronomy-section.deck-panel .astro-media-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.45rem;
     order: 2;
   }
 
-  .astronomy-section.screen-panel .astro-copy {
+  .astronomy-section.deck-panel .astro-copy {
     order: 1;
   }
 
-  .astronomy-section.screen-panel h2 {
+  .astronomy-section.deck-panel h2 {
     font-size: clamp(1.85rem, 9vw, 2.4rem);
     line-height: 0.96;
   }
 
-  .astronomy-section.screen-panel .astro-copy p {
+  .astronomy-section.deck-panel .astro-copy p {
     display: none;
   }
 
@@ -1034,7 +1115,7 @@ h3 {
     font-size: 0.78rem;
   }
 
-  .astronomy-section.screen-panel .astro-card figcaption {
+  .astronomy-section.deck-panel .astro-card figcaption {
     display: none;
   }
 
@@ -1059,7 +1140,7 @@ h3 {
     padding: 0.55rem;
   }
 
-  .screen-controls {
+  .deck-controls {
     right: 50%;
     transform: translateX(50%);
     max-width: calc(100vw - 1.5rem);
