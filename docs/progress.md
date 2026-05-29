@@ -22,6 +22,9 @@
   controls that brighten on hover/focus, lower-opacity neighboring panels, subtle
   upward pitch in the perspective, and content-aware deck height so panels are not
   clipped when browser size changes.
+- Optimized deck smoothness: circular first/last page navigation, stable max-content
+  deck height, throttled starfield rendering, lower canvas density, and compositing
+  hints for deck panels.
 - Replaced the light beige palette with a pale cyan / ice-blue default palette while
   retaining indigo, cyan, and gold for the dark astronomy theme.
 

@@ -27,8 +27,14 @@ const storedGallerySize = localStorage.getItem("nemo-gallery-size");
 
 let nodes = [];
 let animationFrame = 0;
+let deckHeightFrame = 0;
+let deckMotionTimer = 0;
+let resizeFrame = 0;
+let lastNetworkFrame = 0;
 let activeDeck = 0;
 let wheelLock = 0;
+
+const networkFrameMs = 1000 / 30;
 
 function setTheme(theme) {
   root.dataset.theme = theme;
@@ -46,18 +52,45 @@ function deckId(panel) {
   return panel?.dataset.deckId || panel?.id || "intro";
 }
 
+function wrapDeckIndex(index) {
+  if (deckPanels.length === 0) return 0;
+  return ((index % deckPanels.length) + deckPanels.length) % deckPanels.length;
+}
+
+function circularDeckDelta(panelIndex, activeIndex) {
+  if (deckPanels.length === 0) return 0;
+
+  let delta = panelIndex - activeIndex;
+  const midpoint = deckPanels.length / 2;
+
+  if (delta > midpoint) delta -= deckPanels.length;
+  if (delta < -midpoint) delta += deckPanels.length;
+
+  return delta;
+}
+
+function markDeckMotion() {
+  document.body.classList.add("is-deck-moving");
+  window.clearTimeout(deckMotionTimer);
+  deckMotionTimer = window.setTimeout(() => {
+    document.body.classList.remove("is-deck-moving");
+  }, 720);
+}
+
 function updateDeckState(index) {
-  activeDeck = Math.max(0, Math.min(deckPanels.length - 1, index));
+  activeDeck = wrapDeckIndex(index);
+  markDeckMotion();
 
   document.body.dataset.deck = deckId(deckPanels[activeDeck]);
   currentDeck && (currentDeck.textContent = deckLabel(activeDeck));
   totalDecks && (totalDecks.textContent = deckLabel(deckPanels.length - 1));
 
   deckPanels.forEach((panel, panelIndex) => {
+    const delta = circularDeckDelta(panelIndex, activeDeck);
     panel.classList.toggle("active", panelIndex === activeDeck);
-    panel.classList.toggle("is-prev", panelIndex === activeDeck - 1);
-    panel.classList.toggle("is-next", panelIndex === activeDeck + 1);
-    panel.classList.toggle("is-far", Math.abs(panelIndex - activeDeck) > 1);
+    panel.classList.toggle("is-prev", delta === -1);
+    panel.classList.toggle("is-next", delta === 1);
+    panel.classList.toggle("is-far", Math.abs(delta) > 1);
     panel.setAttribute("aria-hidden", panelIndex === activeDeck ? "false" : "true");
   });
 
@@ -96,22 +129,18 @@ function syncDeckHeight(index = activeDeck) {
   if (!deckViewport || deckPanels.length === 0) return;
 
   const baseline = deckBaselineHeight();
-  const panel = deckPanels[Math.max(0, Math.min(deckPanels.length - 1, index))];
+  const activePanel = deckPanels[wrapDeckIndex(index)];
 
-  const fit = (attempt = 0) => {
-    const needed = Math.ceil(deckContentHeight(panel) + 32);
-    deckViewport.style.setProperty("--deck-height", `${Math.max(baseline, needed)}px`);
-
-    if (attempt >= 5) return;
-
-    window.setTimeout(() => {
-      if (panel && panel.scrollHeight > panel.clientHeight + 4) {
-        fit(attempt + 1);
-      }
-    }, 130);
-  };
-
-  window.requestAnimationFrame(() => fit());
+  window.cancelAnimationFrame(deckHeightFrame);
+  deckHeightFrame = window.requestAnimationFrame(() => {
+    const maxContentHeight = deckPanels.reduce((height, panel) => {
+      return Math.max(height, deckContentHeight(panel) + 32);
+    }, baseline);
+    const activeScrollHeight = activePanel?.scrollHeight || 0;
+    const cappedScrollHeight = Math.min(activeScrollHeight, maxContentHeight + 64);
+    const nextHeight = Math.ceil(Math.max(baseline, maxContentHeight, cappedScrollHeight));
+    deckViewport.style.setProperty("--deck-height", `${nextHeight}px`);
+  });
 }
 
 function navigateDeck(target, options = {}) {
@@ -120,7 +149,7 @@ function navigateDeck(target, options = {}) {
   const nextIndex =
     typeof target === "string"
       ? deckIndexFromTarget(target)
-      : Math.max(0, Math.min(deckPanels.length - 1, target));
+      : wrapDeckIndex(target);
   const panel = deckPanels[nextIndex];
 
   if (!panel) return;
@@ -229,14 +258,14 @@ function setOrbitAngle(value) {
 function resizeCanvas() {
   if (!canvas || !context) return;
 
-  const ratio = Math.min(window.devicePixelRatio || 1, 2);
+  const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
   canvas.width = Math.floor(window.innerWidth * ratio);
   canvas.height = Math.floor(window.innerHeight * ratio);
   canvas.style.width = `${window.innerWidth}px`;
   canvas.style.height = `${window.innerHeight}px`;
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-  nodes = Array.from({ length: Math.min(90, Math.floor(window.innerWidth / 16)) }, () => ({
+  nodes = Array.from({ length: Math.min(64, Math.floor(window.innerWidth / 22)) }, () => ({
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
     vx: (Math.random() - 0.5) * 0.22,
@@ -252,8 +281,12 @@ function palette() {
   };
 }
 
-function drawNetwork() {
+function drawNetwork(timestamp = 0) {
   if (!context) return;
+
+  animationFrame = window.requestAnimationFrame(drawNetwork);
+  if (timestamp - lastNetworkFrame < networkFrameMs) return;
+  lastNetworkFrame = timestamp;
 
   const colors = palette();
   context.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -282,8 +315,6 @@ function drawNetwork() {
       }
     }
   });
-
-  animationFrame = window.requestAnimationFrame(drawNetwork);
 }
 
 themeToggle?.addEventListener("click", () => {
@@ -349,13 +380,21 @@ aptTrigger?.addEventListener("click", () => {
   const open = aptPanel?.hasAttribute("hidden");
   aptPanel?.toggleAttribute("hidden", !open);
   aptTrigger.textContent = open ? "deadlock resolved?" : "apt not found";
+  syncDeckHeight();
 });
 
 window.addEventListener("resize", () => {
-  resizeCanvas();
-  syncDeckHeight();
+  window.cancelAnimationFrame(resizeFrame);
+  resizeFrame = window.requestAnimationFrame(() => {
+    resizeCanvas();
+    syncDeckHeight();
+  });
 });
-window.addEventListener("pagehide", () => window.cancelAnimationFrame(animationFrame));
+window.addEventListener("pagehide", () => {
+  window.cancelAnimationFrame(animationFrame);
+  window.cancelAnimationFrame(deckHeightFrame);
+  window.cancelAnimationFrame(resizeFrame);
+});
 
 setTheme(storedTheme || "light");
 buildDeckDots();
@@ -368,4 +407,5 @@ if (initialHash) {
   navigateToHash(initialHash);
 }
 resizeCanvas();
+syncDeckHeight();
 drawNetwork();

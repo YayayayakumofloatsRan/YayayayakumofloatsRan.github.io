@@ -53,6 +53,11 @@ assert.match(css, /scrollbar-width:\s*none|::-webkit-scrollbar[\s\S]*display:\s*
 assert.match(css, /rotateX\(/i, "deck perspective should include subtle vertical pitch");
 assert.match(css, /\.deck-panel\.is-prev[\s\S]*opacity:\s*0\.[12]\d/i, "neighboring deck panels should be visually quieter");
 assert.match(css, /\.deck-controls[\s\S]*opacity:\s*0\.[0-5]\d?[\s\S]*\.deck-controls(?::hover|:focus-within)/i, "deck controls should be understated until hovered or focused");
+assert.match(js, /wrapDeckIndex[\s\S]*%[\s\S]*deckPanels\.length/i, "deck navigation should wrap between the first and last panels");
+assert.match(js, /circularDeckDelta|is-prev[\s\S]*is-next/i, "first and last deck panels should be treated as adjacent");
+assert.match(js, /deckContentHeight[\s\S]*reduce/i, "deck height should be measured once from panel content bounds");
+assert.match(js, /networkFrameMs|lastNetworkFrame/i, "starfield rendering should be frame-throttled");
+assert.match(css, /will-change:\s*transform|backface-visibility:\s*hidden|contain:\s*layout paint/i, "deck panels should be optimized for composited transforms");
 assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
 
 for (const movie of [
