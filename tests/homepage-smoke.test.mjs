@@ -47,6 +47,12 @@ assert.match(html, /stellar-deck|deck-panel|deckDots|vertical-flow/i, "homepage 
 assert.match(css, /perspective:\s*\d+px|transform-style:\s*preserve-3d|rotateY|translate3d/i, "deck should use 3D transform language");
 assert.match(css, /scroll-snap-type:\s*y\s+proximity/i, "vertical content should keep traditional scroll behavior");
 assert.match(js, /navigateDeck|currentDeck|deckDots|wheel|ArrowRight|ArrowLeft/i, "script should wire 3D deck navigation");
+assert.match(js, /syncDeckHeight|--deck-height|scrollHeight/i, "deck height should adapt to active panel content instead of using internal scrollbars");
+assert.match(css, /\.deck-panel[\s\S]*overflow:\s*hidden/i, "deck panels should not show internal scrollbars");
+assert.match(css, /scrollbar-width:\s*none|::-webkit-scrollbar[\s\S]*display:\s*none/i, "deck scrollbars should be suppressed");
+assert.match(css, /rotateX\(/i, "deck perspective should include subtle vertical pitch");
+assert.match(css, /\.deck-panel\.is-prev[\s\S]*opacity:\s*0\.[12]\d/i, "neighboring deck panels should be visually quieter");
+assert.match(css, /\.deck-controls[\s\S]*opacity:\s*0\.[0-5]\d?[\s\S]*\.deck-controls(?::hover|:focus-within)/i, "deck controls should be understated until hovered or focused");
 assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
 
 for (const movie of [

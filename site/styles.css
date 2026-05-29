@@ -192,7 +192,8 @@ main > section,
 .deck-viewport {
   position: relative;
   width: min(1480px, 100%);
-  min-height: min(760px, calc(100dvh - 150px));
+  height: var(--deck-height, min(860px, calc(100dvh - 72px)));
+  min-height: var(--deck-height, min(860px, calc(100dvh - 72px)));
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -201,11 +202,14 @@ main > section,
     radial-gradient(circle at 18% 16%, color-mix(in srgb, var(--cyan) 16%, transparent), transparent 20rem),
     linear-gradient(135deg, color-mix(in srgb, var(--panel-solid) 86%, transparent), color-mix(in srgb, var(--bg-soft) 42%, transparent));
   box-shadow: var(--shadow);
-  perspective: 1600px;
+  perspective: 1650px;
+  perspective-origin: 50% 64%;
+  transition: height 360ms ease, min-height 360ms ease;
 }
 
 .deck-track {
   position: relative;
+  height: 100%;
   min-height: inherit;
   transform-style: preserve-3d;
 }
@@ -215,44 +219,48 @@ main > section,
   inset: 0;
   min-width: 0;
   padding: clamp(2rem, 5vw, 4.5rem);
-  overflow: auto;
+  overflow: hidden;
   opacity: 0;
   pointer-events: none;
-  transform: translate3d(62%, 0, -280px) rotateY(-28deg) scale(0.84);
+  transform: translate3d(62%, 4%, -320px) rotateY(-30deg) rotateX(5deg) scale(0.82);
   transform-origin: center;
   transition:
     transform 760ms cubic-bezier(0.2, 0.78, 0.16, 1),
     opacity 420ms ease,
     filter 420ms ease;
   z-index: 0;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+}
+
+.deck-panel::-webkit-scrollbar {
+  display: none;
 }
 
 .deck-panel.active {
   opacity: 1;
   pointer-events: auto;
-  transform: translate3d(0, 0, 0) rotateY(0deg) scale(1);
+  transform: translate3d(0, 0, 0) rotateY(0deg) rotateX(0deg) scale(1);
   filter: none;
   z-index: 4;
 }
 
 .deck-panel.is-prev {
-  opacity: 0.46;
-  transform: translate3d(-58%, 0, -300px) rotateY(30deg) scale(0.82);
-  filter: saturate(0.82) blur(0.4px);
+  opacity: 0.24;
+  transform: translate3d(-62%, 5%, -380px) rotateY(34deg) rotateX(6deg) scale(0.78);
+  filter: saturate(0.74) blur(0.9px);
   z-index: 2;
 }
 
 .deck-panel.is-next {
-  opacity: 0.46;
-  transform: translate3d(58%, 0, -300px) rotateY(-30deg) scale(0.82);
-  filter: saturate(0.82) blur(0.4px);
+  opacity: 0.24;
+  transform: translate3d(62%, 5%, -380px) rotateY(-34deg) rotateX(6deg) scale(0.78);
+  filter: saturate(0.74) blur(0.9px);
   z-index: 2;
 }
 
 .deck-panel.is-far {
   opacity: 0;
-  transform: translate3d(0, 0, -520px) rotateY(0deg) scale(0.72);
+  transform: translate3d(0, 7%, -620px) rotateY(0deg) rotateX(8deg) scale(0.68);
 }
 
 .deck-panel > .section-heading,
@@ -428,7 +436,7 @@ h3 {
 
 .profile-strip {
   display: grid;
-  align-content: center;
+  align-content: start;
   gap: clamp(1.25rem, 3vw, 2.5rem);
   padding: clamp(2rem, 5vw, 4rem);
 }
@@ -892,6 +900,20 @@ h3 {
   background: color-mix(in srgb, var(--panel-solid) 78%, transparent);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+  opacity: 0.18;
+  transform: translateY(0.35rem);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    background 220ms ease;
+}
+
+.deck-controls:hover,
+.deck-controls:focus-within,
+body:has(.deck-viewport:hover) .deck-controls,
+body:has(.deck-viewport:focus-within) .deck-controls {
+  opacity: 0.96;
+  transform: translateY(0);
 }
 
 .deck-arrow {
@@ -904,6 +926,7 @@ h3 {
   font-size: 1.35rem;
   font-weight: 900;
   cursor: pointer;
+  opacity: 0.92;
 }
 
 .deck-dots {
@@ -1069,7 +1092,8 @@ h3 {
   }
 
   .deck-viewport {
-    min-height: calc(100dvh - 160px);
+    height: var(--deck-height, calc(100dvh - 160px));
+    min-height: var(--deck-height, calc(100dvh - 160px));
   }
 
   .deck-panel {

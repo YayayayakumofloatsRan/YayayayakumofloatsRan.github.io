@@ -73,6 +73,47 @@ function deckIndexFromTarget(target) {
   return found >= 0 ? found : -1;
 }
 
+function deckBaselineHeight() {
+  const mobile = window.matchMedia("(max-width: 560px)").matches;
+  return Math.max(mobile ? 640 : 720, window.innerHeight - (mobile ? 160 : 72));
+}
+
+function deckContentHeight(panel) {
+  if (!panel) return 0;
+
+  const style = window.getComputedStyle(panel);
+  const paddingBottom = Number.parseFloat(style.paddingBottom) || 0;
+  const children = Array.from(panel.children).filter((child) => {
+    return window.getComputedStyle(child).position !== "absolute";
+  });
+
+  return children.reduce((bottom, child) => {
+    return Math.max(bottom, child.offsetTop + child.offsetHeight);
+  }, 0) + paddingBottom;
+}
+
+function syncDeckHeight(index = activeDeck) {
+  if (!deckViewport || deckPanels.length === 0) return;
+
+  const baseline = deckBaselineHeight();
+  const panel = deckPanels[Math.max(0, Math.min(deckPanels.length - 1, index))];
+
+  const fit = (attempt = 0) => {
+    const needed = Math.ceil(deckContentHeight(panel) + 32);
+    deckViewport.style.setProperty("--deck-height", `${Math.max(baseline, needed)}px`);
+
+    if (attempt >= 5) return;
+
+    window.setTimeout(() => {
+      if (panel && panel.scrollHeight > panel.clientHeight + 4) {
+        fit(attempt + 1);
+      }
+    }, 130);
+  };
+
+  window.requestAnimationFrame(() => fit());
+}
+
 function navigateDeck(target, options = {}) {
   if (deckPanels.length === 0) return;
 
@@ -85,6 +126,7 @@ function navigateDeck(target, options = {}) {
   if (!panel) return;
 
   updateDeckState(nextIndex);
+  syncDeckHeight(nextIndex);
 
   if (options.scrollIntoView !== false) {
     document.querySelector(".stellar-deck-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -309,7 +351,10 @@ aptTrigger?.addEventListener("click", () => {
   aptTrigger.textContent = open ? "deadlock resolved?" : "apt not found";
 });
 
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  syncDeckHeight();
+});
 window.addEventListener("pagehide", () => window.cancelAnimationFrame(animationFrame));
 
 setTheme(storedTheme || "light");

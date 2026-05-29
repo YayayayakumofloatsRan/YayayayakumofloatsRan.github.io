@@ -18,6 +18,10 @@
 - Reworked the homepage architecture again into a mixed model: a 3D horizontal astronomy
   deck for Intro/About/Projects/Astronomy plus normal vertical scrolling for GALLERY,
   Movies, Notes, and Contact.
+- Refined the 3D deck interaction: hidden internal panel scrollbars, subdued edge
+  controls that brighten on hover/focus, lower-opacity neighboring panels, subtle
+  upward pitch in the perspective, and content-aware deck height so panels are not
+  clipped when browser size changes.
 - Replaced the light beige palette with a pale cyan / ice-blue default palette while
   retaining indigo, cyan, and gold for the dark astronomy theme.
 
