@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Nemo Qi's personal blog on Holo, AI systems, quantitative research, astronomy, math, physics, sensing, and automation."
+    />
+    <title>Nemo Qi · Holo / Astronomy / Systems</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas class="network-canvas" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <a class="brand" href="#intro" aria-label="Nemo Qi personal blog">Nemo Qi</a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#astronomy">Astronomy</a>
+        <a href="#gallery">GALLERY</a>
+        <a href="#movies">Movies</a>
+        <a href="#notes">Notes</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme">
+        <span class="theme-dot" aria-hidden="true"></span>
+        <span id="themeLabel">Dark</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" id="intro">
+        <img
+          class="moon-hero"
+          src="assets/moon-20240321-phase.jpg"
+          alt="Moon captured by Nemo Qi on 2024-03-21, phase 0.885"
+        />
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">PERSONAL BLOG / HOLO LAB / NIGHT-SKY LOG</p>
+          <h1>Nemo Qi</h1>
+          <p class="lead">
+            I build Holo, study AI systems and quantitative research, and spend clear
+            nights with equatorial mounts, optics, deep-sky targets, and planetary detail.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="https://github.com/YayayayakumofloatsRan/Holo" target="_blank" rel="noreferrer">
+              Primary project · Holo
+            </a>
+            <a class="secondary-link" href="https://github.com/YayayayakumofloatsRan" target="_blank" rel="noreferrer">
+              GitHub · YayayayakumofloatsRan
+            </a>
+          </div>
+          <div class="control-dock" aria-label="Interactive focus controls">
+            <button class="focus-chip active" type="button" data-focus="all">All signals</button>
+            <button class="focus-chip" type="button" data-focus="systems">Systems</button>
+            <button class="focus-chip" type="button" data-focus="astronomy">Astronomy</button>
+            <button class="focus-chip" type="button" data-focus="gallery">GALLERY</button>
+            <button class="focus-chip" type="button" id="aptTrigger">apt not found</button>
+          </div>
+          <div class="apt-panel" id="aptPanel" hidden>
+            <pre aria-label="apt not found joke"><code>Command 'apt' not found, but can be installed with:
+sudo apt install apt</code></pre>
+            <p>
+              Deadlock joke: process A waits for apt, apt waits for apt install apt,
+              and the package manager politely refuses to be born.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="profile-strip" id="about" aria-label="Profile facts">
+        <article>
+          <span>School</span>
+          <strong>Shanghai Jiao Tong University</strong>
+          <p>B.Eng. candidate in Intelligent Sensing Engineering.</p>
+        </article>
+        <article>
+          <span>Direction</span>
+          <strong>AI systems / Automation / Quant</strong>
+          <p>Holo runtime work, ProjectH quantitative research, sensing and control software.</p>
+        </article>
+        <article>
+          <span>Contact</span>
+          <strong>enhancednemoqi@outlook.com</strong>
+          <p>Public contact surface for project notes and collaboration.</p>
+        </article>
+      </section>
+
+      <section class="about-section">
+        <div class="section-kicker">ABOUT</div>
+        <div class="about-layout">
+          <h2>Systems, instruments, and first-principles taste.</h2>
+          <div class="about-copy">
+            <p>
+              My main engineering project is Holo: a personal AI runtime where cognition,
+              transport boundaries, memory, active threads, and online canary surfaces are
+              treated as inspectable system contracts.
+            </p>
+            <p>
+              I am interested in mathematical and physical reasoning. Fermi and Feynman
+              are useful reference points for taste: estimate from fundamentals, explain
+              plainly, and distrust vague authority until the model touches reality.
+            </p>
+            <p>
+              Resume-side work includes Flutter-based pump controller development,
+              Ubuntu industrial-controller communication tests, and systematic market-data
+              research workflows.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects-section" id="projects">
+        <div class="section-heading">
+          <p class="eyebrow">PROJECTS</p>
+          <h2>Work that should be legible from the outside.</h2>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card flagship">
+            <div class="project-topline">
+              <span>Primary project</span>
+              <span>Public repo</span>
+            </div>
+            <h3>Holo</h3>
+            <p>
+              Personal AI runtime and operating surface. The important part is not a chat
+              skin; it is boundary discipline across cognition, memory, transport,
+              watcher behavior, and staged runtime evolution.
+            </p>
+            <a href="https://github.com/YayayayakumofloatsRan/Holo" target="_blank" rel="noreferrer">
+              Open Holo repository
+            </a>
+          </article>
+
+          <article class="project-card quant">
+            <div class="project-topline">
+              <span>Research system</span>
+              <span>Private repo</span>
+            </div>
+            <h3>ProjectH</h3>
+            <p>
+              Quantitative research infrastructure for medium- and low-frequency market
+              workflows: walk-forward rigor, real trading constraints, model comparison,
+              and production-grade truth chains.
+            </p>
+            <a href="https://github.com/YayayayakumofloatsRan" target="_blank" rel="noreferrer">
+              GitHub profile
+            </a>
+          </article>
+
+          <article class="project-card">
+            <div class="project-topline">
+              <span>Measurement</span>
+              <span>Public repo</span>
+            </div>
+            <h3>laser_extraction</h3>
+            <p>
+              Laser extraction and measurement tooling. It stays here as a technical side
+              project, not the identity of the homepage.
+            </p>
+            <a href="https://github.com/YayayayakumofloatsRan/laser_extraction" target="_blank" rel="noreferrer">
+              View repository
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="astronomy-section" id="astronomy">
+        <div class="astro-media-grid">
+          <figure class="astro-card">
+            <img src="assets/moon-20240321-phase.jpg" alt="Waxing gibbous Moon image by Nemo Qi" />
+            <figcaption>
+              <span>2024.03.21 / phase 0.885</span>
+              <strong>Moon observation log</strong>
+            </figcaption>
+          </figure>
+          <figure class="astro-card generated-card secondary-view">
+            <div class="scope-visual" aria-hidden="true"></div>
+            <figcaption>
+              <span>Optics</span>
+              <strong>Secondary mirror alignment</strong>
+            </figcaption>
+          </figure>
+          <figure class="astro-card generated-card newtonian-view">
+            <div class="scope-visual" aria-hidden="true"></div>
+            <figcaption>
+              <span>Instrument</span>
+              <strong>Newtonian reflector / 大黑200mmF5</strong>
+            </figcaption>
+          </figure>
+          <figure class="astro-card generated-card reticle-view">
+            <div class="reticle-visual" aria-hidden="true"></div>
+            <figcaption>
+              <span>Alignment</span>
+              <strong>Polar scope reticle / 极轴镜内部视角</strong>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="astro-copy">
+          <p class="eyebrow">ASTRONOMY</p>
+          <h2>Observing is engineering with the sky as the bench.</h2>
+          <p>
+            Astronomy is not decoration for me. I am familiar with EQ6 equatorial mounts,
+            Schmidt-Cassegrain telescopes, large Newtonian reflectors, and the different
+            patience required by deep-sky imaging and planetary capture.
+          </p>
+          <ul class="tag-list" aria-label="Astronomy equipment and interests">
+            <li>EQ6</li>
+            <li>Schmidt-Cassegrain</li>
+            <li>large Newtonian</li>
+            <li>deep-sky</li>
+            <li>planetary</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="gallery-section" id="gallery">
+        <div class="section-heading">
+          <p class="eyebrow">GALLERY</p>
+          <h2>Visual field notes</h2>
+          <p>
+            Rebuilt visual notes use local generated studies until the original painting
+            photos are supplied again. The layout stays compact, even when zoomed.
+          </p>
+        </div>
+
+        <div class="gallery-controls" aria-label="GALLERY display controls">
+          <label for="gallerySize">Image size</label>
+          <input id="gallerySize" type="range" min="150" max="290" value="210" step="10" />
+          <output id="gallerySizeValue" for="gallerySize">210px</output>
+        </div>
+
+        <div class="gallery-grid" aria-label="Painting gallery">
+          <figure class="art-card art-cat">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Watercolor</span><strong>Cat study</strong></figcaption>
+          </figure>
+          <figure class="art-card art-skyline">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Urban dusk</span><strong>Skyline silhouettes</strong></figcaption>
+          </figure>
+          <figure class="art-card art-lake">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Landscape</span><strong>Lake and trees</strong></figcaption>
+          </figure>
+          <figure class="art-card art-road">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Path</span><strong>Forest road</strong></figcaption>
+          </figure>
+          <figure class="art-card art-ridge">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Night study</span><strong>Ridge under stars</strong></figcaption>
+          </figure>
+          <figure class="art-card art-mountain">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Mountain</span><strong>Snow line</strong></figcaption>
+          </figure>
+          <figure class="art-card art-web">
+            <div class="art-image" aria-hidden="true"></div>
+            <figcaption><span>Structure</span><strong>Web geometry</strong></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="movies-section" id="movies">
+        <div class="section-heading">
+          <p class="eyebrow">MOVIES</p>
+          <h2>Favourite movies</h2>
+          <p>
+            Custom same-size title cards avoid embedding copyrighted poster sources while
+            keeping this as a separate personal shelf.
+          </p>
+        </div>
+        <div class="movie-controls" aria-label="Movie filters">
+          <button class="movie-filter active" type="button" data-movie-filter="all">All</button>
+          <button class="movie-filter" type="button" data-movie-filter="space">Space</button>
+          <button class="movie-filter" type="button" data-movie-filter="music">Music</button>
+          <button class="movie-filter" type="button" data-movie-filter="mind">Mind</button>
+          <button class="movie-filter" type="button" data-movie-filter="myth">Myth</button>
+        </div>
+        <div class="movie-grid">
+          <article class="movie-card space"><span>1997</span><strong>Contact</strong><small>signal / faith / science</small></article>
+          <article class="movie-card music"><span>1998</span><strong>1900</strong><small>music / boundary</small></article>
+          <article class="movie-card mind"><span>2017</span><strong>Gifted</strong><small>math / childhood</small></article>
+          <article class="movie-card space"><span>2014</span><strong>Interstellar</strong><small>gravity / family</small></article>
+          <article class="movie-card mind"><span>2010</span><strong>The King's Speech</strong><small>voice / discipline</small></article>
+          <article class="movie-card myth"><span>2008</span><strong>Batman Dark Knight</strong><small>order / chaos</small></article>
+          <article class="movie-card myth"><span>2022</span><strong>Puss in Boots</strong><small>mortality / courage</small></article>
+          <article class="movie-card space"><span>2003</span><strong>Finding Nemo</strong><small>name coincidence</small></article>
+        </div>
+      </section>
+
+      <section class="notes-section" id="notes">
+        <div class="section-heading">
+          <p class="eyebrow">BLOG</p>
+          <h2>Notes to publish next.</h2>
+        </div>
+        <div class="note-grid">
+          <article><span>Holo</span><h3>Runtime boundaries</h3><p>How memory, transport, and active-thread logic should stay inspectable.</p></article>
+          <article><span>ProjectH</span><h3>Walk-forward research</h3><p>Why trading experiments need truth chains before they need larger models.</p></article>
+          <article><span>Astronomy</span><h3>Field logs</h3><p>Polar alignment, EQ6 habits, deep-sky patience, and planetary capture notes.</p></article>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div>
+          <p class="eyebrow">CONTACT</p>
+          <h2>Public routes only.</h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:enhancednemoqi@outlook.com">enhancednemoqi@outlook.com</a>
+          <a href="https://github.com/YayayayakumofloatsRan" target="_blank" rel="noreferrer">GitHub profile</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Nemo Qi</span>
+      <span>Static personal blog · ready for GitHub Pages or Cloudflare Pages.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

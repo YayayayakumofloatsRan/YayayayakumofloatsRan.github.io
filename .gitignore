@@ -1,0 +1,21 @@
+# Private source materials
+*.docx
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*Resume*.md
+
+# Local/editor noise
+.DS_Store
+Thumbs.db
+node_modules/
+.codex-tmp/
+
+# Keep public site assets tracked.
+!site/
+!site/**
+!docs/
+!docs/**
+!tests/
+!tests/**
