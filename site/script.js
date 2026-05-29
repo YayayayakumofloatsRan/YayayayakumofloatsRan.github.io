@@ -5,11 +5,7 @@ const canvas = document.querySelector(".network-canvas");
 const context = canvas?.getContext("2d");
 const deckViewport = document.querySelector("#stellarDeck");
 const deckPanels = Array.from(document.querySelectorAll("[data-deck-panel]"));
-const deckDots = document.querySelector("#deckDots");
-const deckPrev = document.querySelector("#deckPrev");
-const deckNext = document.querySelector("#deckNext");
-const currentDeck = document.querySelector("#currentDeck");
-const totalDecks = document.querySelector("#totalDecks");
+const deckEdgeButtons = document.querySelectorAll("[data-deck-action]");
 const focusButtons = document.querySelectorAll("[data-focus]");
 const movieButtons = document.querySelectorAll("[data-movie-filter]");
 const movieCards = document.querySelectorAll(".movie-card");
@@ -32,7 +28,6 @@ let deckMotionTimer = 0;
 let resizeFrame = 0;
 let lastNetworkFrame = 0;
 let activeDeck = 0;
-let wheelLock = 0;
 
 const networkFrameMs = 1000 / 30;
 
@@ -82,8 +77,6 @@ function updateDeckState(index) {
   markDeckMotion();
 
   document.body.dataset.deck = deckId(deckPanels[activeDeck]);
-  currentDeck && (currentDeck.textContent = deckLabel(activeDeck));
-  totalDecks && (totalDecks.textContent = deckLabel(deckPanels.length - 1));
 
   deckPanels.forEach((panel, panelIndex) => {
     const delta = circularDeckDelta(panelIndex, activeDeck);
@@ -92,11 +85,9 @@ function updateDeckState(index) {
     panel.classList.toggle("is-next", delta === 1);
     panel.classList.toggle("is-far", Math.abs(delta) > 1);
     panel.setAttribute("aria-hidden", panelIndex === activeDeck ? "false" : "true");
-  });
-
-  deckDots?.querySelectorAll(".deck-dot").forEach((dot, dotIndex) => {
-    dot.classList.toggle("active", dotIndex === activeDeck);
-    dot.setAttribute("aria-current", dotIndex === activeDeck ? "true" : "false");
+    panel.querySelectorAll("[data-deck-action]").forEach((button) => {
+      button.tabIndex = panelIndex === activeDeck ? 0 : -1;
+    });
   });
 }
 
@@ -181,19 +172,6 @@ function navigateToHash(target) {
     element.scrollIntoView({ behavior: "smooth", block: "start" });
     history.replaceState(null, "", target);
   }
-}
-
-function buildDeckDots() {
-  if (!deckDots) return;
-  deckDots.textContent = "";
-  deckPanels.forEach((panel, index) => {
-    const dot = document.createElement("button");
-    dot.className = "deck-dot";
-    dot.type = "button";
-    dot.setAttribute("aria-label", `Go to ${deckId(panel) || `deck ${index + 1}`}`);
-    dot.addEventListener("click", () => navigateDeck(index));
-    deckDots.append(dot);
-  });
 }
 
 function setFocus(focus, shouldNavigate = true) {
@@ -343,37 +321,11 @@ movieButtons.forEach((button) => {
 gallerySize?.addEventListener("input", () => setGallerySize(gallerySize.value));
 orbitRange?.addEventListener("input", () => setOrbitAngle(orbitRange.value));
 
-deckPrev?.addEventListener("click", () => navigateDeck(activeDeck - 1));
-deckNext?.addEventListener("click", () => navigateDeck(activeDeck + 1));
-
-deckViewport?.addEventListener(
-  "wheel",
-  (event) => {
-    const intent = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-    if (Math.abs(intent) < 8) return;
-
-    event.preventDefault();
-    const now = Date.now();
-    if (now - wheelLock < 640) return;
-
-    wheelLock = now;
-    navigateDeck(activeDeck + Math.sign(intent), { scrollIntoView: false });
-  },
-  { passive: false },
-);
-
-window.addEventListener("keydown", (event) => {
-  const deckRect = deckViewport?.getBoundingClientRect();
-  const deckVisible = deckRect && deckRect.bottom > 0 && deckRect.top < window.innerHeight;
-  if (!deckVisible && document.activeElement !== deckViewport) return;
-
-  if (event.key === "ArrowRight" || event.key === "PageDown") {
-    navigateDeck(activeDeck + 1, { scrollIntoView: false });
-  }
-
-  if (event.key === "ArrowLeft" || event.key === "PageUp") {
-    navigateDeck(activeDeck - 1, { scrollIntoView: false });
-  }
+deckEdgeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const direction = button.dataset.deckAction === "prev" ? -1 : 1;
+    navigateDeck(activeDeck + direction, { scrollIntoView: false });
+  });
 });
 
 aptTrigger?.addEventListener("click", () => {
@@ -397,7 +349,6 @@ window.addEventListener("pagehide", () => {
 });
 
 setTheme(storedTheme || "light");
-buildDeckDots();
 setFocus("all", false);
 setMovieFilter("all");
 setGallerySize(storedGallerySize || gallerySize?.value || 210);

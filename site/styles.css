@@ -247,6 +247,71 @@ main > section,
   display: none;
 }
 
+.deck-edge-actions {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+
+.deck-edge-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(3.6rem, 8vw, 6.8rem);
+  border: 0;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--cyan) 20%, transparent),
+      transparent
+    );
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: auto;
+  transition: opacity 180ms ease, background 180ms ease;
+}
+
+.deck-edge-button span {
+  display: inline-grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--panel-solid) 76%, transparent);
+  box-shadow: var(--shadow);
+  font-size: 1.45rem;
+  font-weight: 950;
+}
+
+.deck-edge-button-prev {
+  left: 0;
+  text-align: left;
+}
+
+.deck-edge-button-next {
+  right: 0;
+  text-align: right;
+  background:
+    linear-gradient(
+      270deg,
+      color-mix(in srgb, var(--cyan) 20%, transparent),
+      transparent
+    );
+}
+
+.deck-edge-button:hover,
+.deck-edge-button:focus-visible {
+  opacity: 0.96;
+}
+
+.deck-edge-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -4px;
+}
+
 .deck-panel.active {
   opacity: 1;
   pointer-events: auto;
@@ -895,79 +960,6 @@ h3 {
   margin-left: auto;
 }
 
-.deck-controls {
-  position: fixed;
-  right: clamp(1rem, 3vw, 2rem);
-  bottom: clamp(1rem, 3vw, 1.8rem);
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--panel-solid) 78%, transparent);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
-  opacity: 0.18;
-  transform: translateY(0.35rem);
-  transition:
-    opacity 220ms ease,
-    transform 220ms ease,
-    background 220ms ease;
-}
-
-.deck-controls:hover,
-.deck-controls:focus-within,
-body:has(.deck-viewport:hover) .deck-controls,
-body:has(.deck-viewport:focus-within) .deck-controls {
-  opacity: 0.96;
-  transform: translateY(0);
-}
-
-.deck-arrow {
-  width: 2.3rem;
-  height: 2.3rem;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--panel);
-  color: var(--text);
-  font-size: 1.35rem;
-  font-weight: 900;
-  cursor: pointer;
-  opacity: 0.92;
-}
-
-.deck-dots {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.deck-dot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border: 0;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--muted) 46%, transparent);
-  cursor: pointer;
-}
-
-.deck-dot.active {
-  width: 1.6rem;
-  border-radius: 999px;
-  background: var(--cyan);
-}
-
-.deck-readout {
-  display: inline-flex;
-  gap: 0.16rem;
-  min-width: 3.2rem;
-  justify-content: center;
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 950;
-}
-
 .orbit-console {
   display: flex;
   flex-wrap: wrap;
@@ -1173,11 +1165,6 @@ body:has(.deck-viewport:focus-within) .deck-controls {
     padding: 0.55rem;
   }
 
-  .deck-controls {
-    right: 50%;
-    transform: translateX(50%);
-    max-width: calc(100vw - 1.5rem);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

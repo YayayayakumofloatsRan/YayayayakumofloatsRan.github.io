@@ -25,6 +25,8 @@
 - Optimized deck smoothness: circular first/last page navigation, stable max-content
   deck height, throttled starfield rendering, lower canvas density, and compositing
   hints for deck panels.
+- Moved deck page controls into per-panel left/right invisible edge strips and removed
+  wheel/keyboard page-turning so vertical scroll remains natural.
 - Replaced the light beige palette with a pale cyan / ice-blue default palette while
   retaining indigo, cyan, and gold for the dark astronomy theme.
 

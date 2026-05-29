@@ -30,13 +30,6 @@
       </button>
     </header>
 
-    <div class="deck-controls" aria-label="3D deck navigation">
-      <button class="deck-arrow" id="deckPrev" type="button" aria-label="Previous deck panel">‹</button>
-      <div class="deck-dots" id="deckDots" aria-label="Deck dots"></div>
-      <button class="deck-arrow" id="deckNext" type="button" aria-label="Next deck panel">›</button>
-      <div class="deck-readout"><span id="currentDeck">01</span><span>/</span><span id="totalDecks">04</span></div>
-    </div>
-
     <main class="page-flow">
       <section class="stellar-deck-section" id="intro" aria-label="3D astronomy deck">
         <div class="deck-viewport stellar-deck" id="stellarDeck" tabindex="0" aria-roledescription="carousel">
@@ -79,6 +72,10 @@ sudo apt install apt</code></pre>
                   </p>
                 </div>
               </div>
+              <div class="deck-edge-actions" aria-label="Deck page controls">
+                <button class="deck-edge-button deck-edge-button-prev" type="button" data-deck-action="prev" aria-label="Previous deck page"><span aria-hidden="true">‹</span></button>
+                <button class="deck-edge-button deck-edge-button-next" type="button" data-deck-action="next" aria-label="Next deck page"><span aria-hidden="true">›</span></button>
+              </div>
             </section>
 
             <section class="profile-strip deck-panel" id="about" data-deck-panel data-deck-id="about" aria-label="Profile and about">
@@ -119,6 +116,10 @@ sudo apt install apt</code></pre>
                   <strong>Controller / Ubuntu / data workflows</strong>
                   <p>Flutter-based pump-controller work, industrial-controller communication tests, and systematic market-data research.</p>
                 </article>
+              </div>
+              <div class="deck-edge-actions" aria-label="Deck page controls">
+                <button class="deck-edge-button deck-edge-button-prev" type="button" data-deck-action="prev" aria-label="Previous deck page"><span aria-hidden="true">‹</span></button>
+                <button class="deck-edge-button deck-edge-button-next" type="button" data-deck-action="next" aria-label="Next deck page"><span aria-hidden="true">›</span></button>
               </div>
             </section>
 
@@ -176,6 +177,10 @@ sudo apt install apt</code></pre>
                   </a>
                 </article>
               </div>
+              <div class="deck-edge-actions" aria-label="Deck page controls">
+                <button class="deck-edge-button deck-edge-button-prev" type="button" data-deck-action="prev" aria-label="Previous deck page"><span aria-hidden="true">‹</span></button>
+                <button class="deck-edge-button deck-edge-button-next" type="button" data-deck-action="next" aria-label="Next deck page"><span aria-hidden="true">›</span></button>
+              </div>
             </section>
 
             <section class="astronomy-section deck-panel constellation-screen" id="astronomy" data-deck-panel data-deck-id="astronomy">
@@ -229,6 +234,10 @@ sudo apt install apt</code></pre>
                   <input id="orbitRange" type="range" min="0" max="360" value="42" step="6" />
                   <output id="orbitReadout" for="orbitRange">42°</output>
                 </div>
+              </div>
+              <div class="deck-edge-actions" aria-label="Deck page controls">
+                <button class="deck-edge-button deck-edge-button-prev" type="button" data-deck-action="prev" aria-label="Previous deck page"><span aria-hidden="true">‹</span></button>
+                <button class="deck-edge-button deck-edge-button-next" type="button" data-deck-action="next" aria-label="Next deck page"><span aria-hidden="true">›</span></button>
               </div>
             </section>
           </div>
