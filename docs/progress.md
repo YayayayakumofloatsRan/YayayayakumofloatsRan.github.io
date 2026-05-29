@@ -15,6 +15,11 @@
 - Preserved the last requested naming: `大黑200mmF5` for the Newtonian reflector note.
 - Added a smoke test to guard public content, privacy boundaries, theme support,
   GALLERY sizing, movie entries, and required sections.
+- Reworked the homepage architecture from vertical document scrolling into a horizontal
+  screen-stage with snap panels, arrows, dots, keyboard navigation, wheel-to-screen
+  navigation, and an astronomy orbit-control interaction.
+- Replaced the light beige palette with a pale cyan / ice-blue default palette while
+  retaining indigo, cyan, and gold for the dark astronomy theme.
 
 ## Next Data Needed
 

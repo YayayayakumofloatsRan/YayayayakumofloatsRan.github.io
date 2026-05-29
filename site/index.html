@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <canvas class="network-canvas" aria-hidden="true"></canvas>
+    <canvas class="network-canvas starfield-canvas" aria-hidden="true"></canvas>
 
     <header class="topbar">
       <a class="brand" href="#intro" aria-label="Nemo Qi personal blog">Nemo Qi</a>
@@ -30,8 +30,15 @@
       </button>
     </header>
 
-    <main>
-      <section class="hero" id="intro">
+    <div class="screen-controls" aria-label="Screen navigation">
+      <button class="screen-arrow" id="screenPrev" type="button" aria-label="Previous screen">‹</button>
+      <div class="screen-dots" id="screenDots" aria-label="Screen dots"></div>
+      <button class="screen-arrow" id="screenNext" type="button" aria-label="Next screen">›</button>
+      <div class="screen-readout"><span id="currentScreen">01</span><span>/</span><span id="totalScreens">08</span></div>
+    </div>
+
+    <main class="screen-stage" id="screenStage" tabindex="0" aria-label="Horizontal astronomy themed screens">
+      <section class="hero screen-panel" id="intro">
         <img
           class="moon-hero"
           src="assets/moon-20240321-phase.jpg"
@@ -71,7 +78,7 @@ sudo apt install apt</code></pre>
         </div>
       </section>
 
-      <section class="profile-strip" id="about" aria-label="Profile facts">
+      <section class="profile-strip screen-panel" id="about" aria-label="Profile facts">
         <article>
           <span>School</span>
           <strong>Shanghai Jiao Tong University</strong>
@@ -89,7 +96,7 @@ sudo apt install apt</code></pre>
         </article>
       </section>
 
-      <section class="about-section">
+      <section class="about-section screen-panel">
         <div class="section-kicker">ABOUT</div>
         <div class="about-layout">
           <h2>Systems, instruments, and first-principles taste.</h2>
@@ -113,7 +120,7 @@ sudo apt install apt</code></pre>
         </div>
       </section>
 
-      <section class="projects-section" id="projects">
+      <section class="projects-section screen-panel" id="projects">
         <div class="section-heading">
           <p class="eyebrow">PROJECTS</p>
           <h2>Work that should be legible from the outside.</h2>
@@ -169,7 +176,7 @@ sudo apt install apt</code></pre>
         </div>
       </section>
 
-      <section class="astronomy-section" id="astronomy">
+      <section class="astronomy-section screen-panel constellation-screen" id="astronomy">
         <div class="astro-media-grid">
           <figure class="astro-card">
             <img src="assets/moon-20240321-phase.jpg" alt="Waxing gibbous Moon image by Nemo Qi" />
@@ -215,10 +222,15 @@ sudo apt install apt</code></pre>
             <li>deep-sky</li>
             <li>planetary</li>
           </ul>
+          <div class="orbit-console" aria-label="Orbit interaction controls">
+            <label for="orbitRange">Orbit sweep</label>
+            <input id="orbitRange" type="range" min="0" max="360" value="42" step="6" />
+            <output id="orbitReadout" for="orbitRange">42°</output>
+          </div>
         </div>
       </section>
 
-      <section class="gallery-section" id="gallery">
+      <section class="gallery-section screen-panel" id="gallery">
         <div class="section-heading">
           <p class="eyebrow">GALLERY</p>
           <h2>Visual field notes</h2>
@@ -266,7 +278,7 @@ sudo apt install apt</code></pre>
         </div>
       </section>
 
-      <section class="movies-section" id="movies">
+      <section class="movies-section screen-panel" id="movies">
         <div class="section-heading">
           <p class="eyebrow">MOVIES</p>
           <h2>Favourite movies</h2>
@@ -294,7 +306,7 @@ sudo apt install apt</code></pre>
         </div>
       </section>
 
-      <section class="notes-section" id="notes">
+      <section class="notes-section screen-panel" id="notes">
         <div class="section-heading">
           <p class="eyebrow">BLOG</p>
           <h2>Notes to publish next.</h2>
@@ -306,7 +318,7 @@ sudo apt install apt</code></pre>
         </div>
       </section>
 
-      <section class="contact-section" id="contact">
+      <section class="contact-section screen-panel" id="contact">
         <div>
           <p class="eyebrow">CONTACT</p>
           <h2>Public routes only.</h2>

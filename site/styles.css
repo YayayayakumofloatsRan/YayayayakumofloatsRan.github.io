@@ -1,17 +1,17 @@
 :root {
   color-scheme: light;
-  --bg: #f6f0e4;
-  --bg-soft: #eee5d5;
-  --panel: rgba(255, 250, 239, 0.78);
-  --panel-solid: #fffaf0;
+  --bg: #e8fbff;
+  --bg-soft: #d7f5f7;
+  --panel: rgba(247, 254, 255, 0.78);
+  --panel-solid: #f7feff;
   --text: #11172f;
-  --muted: #56617d;
-  --line: rgba(153, 116, 54, 0.28);
-  --line-soft: rgba(153, 116, 54, 0.16);
-  --gold: #c48319;
+  --muted: #50677b;
+  --line: rgba(15, 127, 134, 0.26);
+  --line-soft: rgba(15, 127, 134, 0.15);
+  --gold: #b8872a;
   --gold-soft: #f1c76c;
-  --cyan: #247c7a;
-  --cyan-soft: #c9ebe6;
+  --cyan: #0f7f86;
+  --cyan-soft: #bfeef2;
   --indigo: #11183b;
   --shadow: 0 24px 70px rgba(76, 54, 22, 0.15);
   --radius: 8px;
@@ -49,9 +49,10 @@ html {
 }
 
 body {
+  height: 100vh;
   min-width: 320px;
   margin: 0;
-  overflow-x: hidden;
+  overflow: hidden;
   background:
     radial-gradient(circle at 18% 8%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 24rem),
     radial-gradient(circle at 90% 30%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 26rem),
@@ -93,8 +94,10 @@ h3 {
 }
 
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 20;
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -742,11 +745,180 @@ h3 {
 }
 
 .footer {
-  display: flex;
+  display: none;
   justify-content: space-between;
   gap: 1rem;
   border-top: 1px solid var(--line-soft);
   color: var(--muted);
+}
+
+.screen-stage {
+  position: fixed;
+  top: 72px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.screen-stage::-webkit-scrollbar {
+  display: none;
+}
+
+.screen-panel {
+  position: relative;
+  flex: 0 0 100vw;
+  width: 100vw;
+  min-width: 100vw;
+  max-width: none !important;
+  min-height: calc(100dvh - 72px);
+  max-height: calc(100dvh - 72px);
+  margin: 0 !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-bottom: clamp(5.5rem, 8vw, 7rem);
+}
+
+.screen-panel > .section-heading,
+.screen-panel > .project-grid,
+.screen-panel > .note-grid,
+.screen-panel > .gallery-controls,
+.screen-panel > .gallery-grid,
+.screen-panel > .movie-controls,
+.screen-panel > .movie-grid,
+.screen-panel > .astro-media-grid,
+.screen-panel > .astro-copy,
+.screen-panel > .about-layout,
+.screen-panel > .section-kicker,
+.contact-section > * {
+  width: min(var(--max), 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.screen-controls {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 1.8rem);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel-solid) 78%, transparent);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.screen-arrow {
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 1.35rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.screen-dots {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.screen-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--muted) 46%, transparent);
+  cursor: pointer;
+}
+
+.screen-dot.active {
+  width: 1.6rem;
+  border-radius: 999px;
+  background: var(--cyan);
+}
+
+.screen-readout {
+  display: inline-flex;
+  gap: 0.16rem;
+  min-width: 3.2rem;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 950;
+}
+
+.orbit-console {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.3rem;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--panel-solid) 72%, transparent);
+}
+
+.orbit-console label,
+.orbit-console output {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.orbit-console input[type="range"] {
+  width: min(18rem, 100%);
+  accent-color: var(--cyan);
+}
+
+.constellation-screen::before {
+  content: "";
+  position: absolute;
+  inset: 5rem 5vw auto auto;
+  width: min(36vw, 28rem);
+  aspect-ratio: 1 / 1;
+  border: 1px solid color-mix(in srgb, var(--cyan) 32%, transparent);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 6%, var(--gold-soft) 0 0.18rem, transparent 0.22rem),
+    radial-gradient(circle at 86% 50%, var(--cyan) 0 0.18rem, transparent 0.22rem),
+    radial-gradient(circle at 50% 94%, var(--gold-soft) 0 0.18rem, transparent 0.22rem),
+    radial-gradient(circle at 14% 50%, var(--cyan) 0 0.18rem, transparent 0.22rem);
+  opacity: 0.42;
+  pointer-events: none;
+  transform: rotate(var(--orbit-angle, 42deg));
+}
+
+.projects-section.screen-panel h2,
+.movies-section.screen-panel h2,
+.notes-section.screen-panel h2 {
+  font-size: clamp(2.35rem, 5.6vw, 4.35rem);
+  max-width: 980px;
+}
+
+.screen-panel .project-card {
+  min-height: 16rem;
+}
+
+.screen-panel .note-grid article {
+  min-height: 12rem;
 }
 
 @media (max-width: 1080px) {
@@ -785,7 +957,6 @@ h3 {
   .profile-strip,
   .about-layout,
   .astronomy-section,
-  .astro-media-grid,
   .contact-section {
     grid-template-columns: 1fr;
   }
@@ -816,6 +987,82 @@ h3 {
 
   .apt-panel {
     grid-template-columns: 1fr;
+  }
+
+  .screen-panel {
+    padding-top: 1.6rem;
+    padding-bottom: 5.25rem;
+    overflow-y: hidden;
+  }
+
+  .astronomy-section.screen-panel {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  .astronomy-section.screen-panel .astro-media-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.45rem;
+    order: 2;
+  }
+
+  .astronomy-section.screen-panel .astro-copy {
+    order: 1;
+  }
+
+  .astronomy-section.screen-panel h2 {
+    font-size: clamp(1.85rem, 9vw, 2.4rem);
+    line-height: 0.96;
+  }
+
+  .astronomy-section.screen-panel .astro-copy p {
+    display: none;
+  }
+
+  .astro-card figcaption,
+  .art-card figcaption {
+    right: 0.4rem;
+    bottom: 0.4rem;
+    left: 0.4rem;
+    padding: 0.45rem 0.5rem;
+  }
+
+  .astro-card strong,
+  .art-card strong {
+    font-size: 0.78rem;
+  }
+
+  .astronomy-section.screen-panel .astro-card figcaption {
+    display: none;
+  }
+
+  .astro-card span,
+  .art-card span {
+    font-size: 0.62rem;
+  }
+
+  .tag-list {
+    gap: 0.35rem;
+    margin-top: 0.8rem;
+  }
+
+  .tag-list li {
+    min-height: 1.85rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.78rem;
+  }
+
+  .orbit-console {
+    margin-top: 0.8rem;
+    padding: 0.55rem;
+  }
+
+  .screen-controls {
+    right: 50%;
+    transform: translateX(50%);
+    max-width: calc(100vw - 1.5rem);
   }
 }
 

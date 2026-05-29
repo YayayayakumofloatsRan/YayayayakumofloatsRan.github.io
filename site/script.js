@@ -3,6 +3,13 @@ const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
 const canvas = document.querySelector(".network-canvas");
 const context = canvas?.getContext("2d");
+const screenStage = document.querySelector("#screenStage");
+const screenPanels = Array.from(document.querySelectorAll(".screen-panel"));
+const screenDots = document.querySelector("#screenDots");
+const screenPrev = document.querySelector("#screenPrev");
+const screenNext = document.querySelector("#screenNext");
+const currentScreen = document.querySelector("#currentScreen");
+const totalScreens = document.querySelector("#totalScreens");
 const focusButtons = document.querySelectorAll("[data-focus]");
 const movieButtons = document.querySelectorAll("[data-movie-filter]");
 const movieCards = document.querySelectorAll(".movie-card");
@@ -11,12 +18,17 @@ const aptPanel = document.querySelector("#aptPanel");
 const gallerySection = document.querySelector(".gallery-section");
 const gallerySize = document.querySelector("#gallerySize");
 const gallerySizeValue = document.querySelector("#gallerySizeValue");
+const orbitRange = document.querySelector("#orbitRange");
+const orbitReadout = document.querySelector("#orbitReadout");
 
 const storedTheme = localStorage.getItem("nemo-theme-v3");
 const storedGallerySize = localStorage.getItem("nemo-gallery-size");
 
 let nodes = [];
 let animationFrame = 0;
+let activeScreen = 0;
+let wheelLock = 0;
+let scrollFrame = 0;
 
 function setTheme(theme) {
   root.dataset.theme = theme;
@@ -24,6 +36,65 @@ function setTheme(theme) {
   if (themeLabel) {
     themeLabel.textContent = theme === "dark" ? "Light" : "Dark";
   }
+}
+
+function screenLabel(index) {
+  return String(index + 1).padStart(2, "0");
+}
+
+function updateScreenState(index) {
+  activeScreen = Math.max(0, Math.min(screenPanels.length - 1, index));
+
+  document.body.dataset.screen = screenPanels[activeScreen]?.id || `screen-${activeScreen}`;
+  currentScreen && (currentScreen.textContent = screenLabel(activeScreen));
+  totalScreens && (totalScreens.textContent = screenLabel(screenPanels.length - 1));
+
+  screenDots?.querySelectorAll(".screen-dot").forEach((dot, dotIndex) => {
+    dot.classList.toggle("active", dotIndex === activeScreen);
+    dot.setAttribute("aria-current", dotIndex === activeScreen ? "true" : "false");
+  });
+}
+
+function nearestScreenIndex() {
+  if (!screenStage) return 0;
+  const left = screenStage.scrollLeft;
+  return screenPanels.reduce((best, panel, index) => {
+    const currentDistance = Math.abs(panel.offsetLeft - left);
+    const bestDistance = Math.abs(screenPanels[best].offsetLeft - left);
+    return currentDistance < bestDistance ? index : best;
+  }, 0);
+}
+
+function navigateScreen(target) {
+  if (!screenStage || screenPanels.length === 0) return;
+
+  const nextIndex =
+    typeof target === "string"
+      ? Math.max(0, screenPanels.findIndex((panel) => panel.id === target.replace("#", "")))
+      : Math.max(0, Math.min(screenPanels.length - 1, target));
+  const panel = screenPanels[nextIndex];
+
+  if (!panel) return;
+
+  screenStage.scrollTo({ left: panel.offsetLeft, behavior: "smooth" });
+  updateScreenState(nextIndex);
+
+  if (panel.id) {
+    history.replaceState(null, "", `#${panel.id}`);
+  }
+}
+
+function buildScreenDots() {
+  if (!screenDots) return;
+  screenDots.textContent = "";
+  screenPanels.forEach((panel, index) => {
+    const dot = document.createElement("button");
+    dot.className = "screen-dot";
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Go to ${panel.id || `screen ${index + 1}`}`);
+    dot.addEventListener("click", () => navigateScreen(index));
+    screenDots.append(dot);
+  });
 }
 
 function setFocus(focus) {
@@ -39,7 +110,9 @@ function setFocus(focus) {
   }[focus];
 
   if (target) {
-    document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    navigateScreen(target);
+  } else {
+    navigateScreen(0);
   }
 }
 
@@ -66,6 +139,19 @@ function setGallerySize(size) {
   }
 
   localStorage.setItem("nemo-gallery-size", String(nextSize));
+}
+
+function setOrbitAngle(value) {
+  const angle = Math.max(0, Math.min(360, Number(value) || 0));
+  document.querySelector(".constellation-screen")?.style.setProperty("--orbit-angle", `${angle}deg`);
+
+  if (orbitRange) {
+    orbitRange.value = String(angle);
+  }
+
+  if (orbitReadout) {
+    orbitReadout.textContent = `${angle}°`;
+  }
 }
 
 function resizeCanvas() {
@@ -137,11 +223,56 @@ focusButtons.forEach((button) => {
   button.addEventListener("click", () => setFocus(button.dataset.focus));
 });
 
+document.querySelectorAll(".nav a").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const target = link.getAttribute("href");
+    if (target?.startsWith("#")) {
+      event.preventDefault();
+      navigateScreen(target);
+    }
+  });
+});
+
 movieButtons.forEach((button) => {
   button.addEventListener("click", () => setMovieFilter(button.dataset.movieFilter));
 });
 
 gallerySize?.addEventListener("input", () => setGallerySize(gallerySize.value));
+orbitRange?.addEventListener("input", () => setOrbitAngle(orbitRange.value));
+
+screenPrev?.addEventListener("click", () => navigateScreen(activeScreen - 1));
+screenNext?.addEventListener("click", () => navigateScreen(activeScreen + 1));
+
+screenStage?.addEventListener("scroll", () => {
+  window.cancelAnimationFrame(scrollFrame);
+  scrollFrame = window.requestAnimationFrame(() => updateScreenState(nearestScreenIndex()));
+});
+
+screenStage?.addEventListener(
+  "wheel",
+  (event) => {
+    const intent = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+    if (Math.abs(intent) < 8) return;
+
+    event.preventDefault();
+    const now = Date.now();
+    if (now - wheelLock < 640) return;
+
+    wheelLock = now;
+    navigateScreen(activeScreen + Math.sign(intent));
+  },
+  { passive: false },
+);
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowRight" || event.key === "PageDown") {
+    navigateScreen(activeScreen + 1);
+  }
+
+  if (event.key === "ArrowLeft" || event.key === "PageUp") {
+    navigateScreen(activeScreen - 1);
+  }
+});
 
 aptTrigger?.addEventListener("click", () => {
   const open = aptPanel?.hasAttribute("hidden");
@@ -153,8 +284,11 @@ window.addEventListener("resize", resizeCanvas);
 window.addEventListener("pagehide", () => window.cancelAnimationFrame(animationFrame));
 
 setTheme(storedTheme || "light");
+buildScreenDots();
 setFocus("all");
 setMovieFilter("all");
 setGallerySize(storedGallerySize || gallerySize?.value || 210);
+setOrbitAngle(orbitRange?.value || 42);
+updateScreenState(0);
 resizeCanvas();
 drawNetwork();

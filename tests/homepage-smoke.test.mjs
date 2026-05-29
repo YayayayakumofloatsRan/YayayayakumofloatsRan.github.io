@@ -43,6 +43,11 @@ assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope cap
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
 assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size/i, "gallery size should be interactive and persisted");
+assert.match(html, /screen-stage|screen-panel|screenDots/i, "homepage should use a horizontal screen-stage architecture");
+assert.match(css, /scroll-snap-type:\s*x\s+mandatory/i, "screen stage should snap horizontally");
+assert.match(css, /overflow-x:\s*auto/i, "screen stage should scroll horizontally");
+assert.match(js, /navigateScreen|currentScreen|wheel|ArrowRight|ArrowLeft/i, "script should wire Apple-like screen navigation");
+assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
 
 for (const movie of [
   "Contact",
@@ -65,6 +70,8 @@ assert.match(js, /focus|movie|gallerySize|apt/i, "interactive controls should be
 assert.match(html, /<html[^>]+data-theme="light"/, "default theme should be light");
 assert.match(css, /\[data-theme="dark"\]/, "dark theme should exist");
 assert.match(css, /#070a18|#0f766e|#80d7d0|#d8b45d|#f1c76c/i, "indigo/cyan/gold palette should be encoded");
+assert.match(css, /#e8fbff|#d7f5f7|#bfeef2|#0f7f86/i, "light theme should use a pale cyan palette");
+assert.doesNotMatch(css, /#f6f0e4|#eee5d5|#fffaf0/i, "default palette should not use the old beige theme");
 assert.match(css, /overflow-wrap:\s*anywhere|word-break:\s*break-word/i, "long text should be protected");
 assert.match(css, /minmax\(|clamp\(|aspect-ratio/i, "responsive constraints should be encoded");
 

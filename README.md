@@ -45,7 +45,12 @@ sections until the original assets are supplied again.
 ## Interactions
 
 - Theme toggle defaults to light and persists dark/light preference.
-- Focus chips jump between systems, astronomy, and GALLERY sections.
+- The homepage is a horizontal screen-stage with snap panels, arrow controls, dots,
+  keyboard navigation, and wheel-to-screen navigation.
+- The default palette is pale cyan / ice blue instead of beige; dark mode keeps the
+  astronomy-facing indigo, cyan, and gold accent direction.
+- Focus chips jump between systems, astronomy, and GALLERY screens.
 - GALLERY uses a compact same-size grid with a persisted image-size slider.
+- Astronomy includes an orbit sweep control and constellation-style background motion.
 - The movie shelf uses custom same-size title cards instead of copyrighted poster assets.
 - The `apt not found` button reveals a small terminal/deadlock easter egg.
