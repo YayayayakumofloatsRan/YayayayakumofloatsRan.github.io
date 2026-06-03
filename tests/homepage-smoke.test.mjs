@@ -95,7 +95,8 @@ assert.match(html + css + js, /solar-system|data-planet|planetReadout|orbitSpeed
 
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
-assert.match(html, /gallery-filter|data-gallery-filter|Schrodinger/i, "GALLERY should expose supplied drawing/cat categories");
+assert.match(html, /gallery-filter|data-gallery-filter|Schrödinger The Cat/i, "GALLERY should expose supplied drawing/cat categories with the requested spelling");
+assert.doesNotMatch(html, /Schrodinger Cat/i, "cat gallery label should not use the unaccented spelling");
 assert.match(html, /assets\/drawings\/star-sea\.jpg/, "GALLERY should use supplied drawing images");
 assert.match(html, /assets\/cats\/cat-portrait\.jpg/, "GALLERY should use supplied cat images");
 assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size|setGalleryFilter/i, "gallery size and categories should be interactive and persisted");

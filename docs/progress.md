@@ -37,7 +37,7 @@
   `site/assets/movies`, using stable public filenames instead of source WeChat filenames.
 - Replaced the Astronomy CSS placeholder cards with the supplied Newtonian, secondary
   mirror, polar-scope, and Moon field images while keeping the existing Moon hero.
-- Rebuilt GALLERY around real supplied drawing and Schrodinger Cat images, with category
+- Rebuilt GALLERY around real supplied drawing and Schrödinger The Cat images, with category
   filters plus the existing persistent image-size slider.
 - Rebuilt Movies to follow the supplied movie assets exactly: 1900, Contact, Batman Dark
   Knight, Fight Club, Ford v. Ferrari, Gifted, Interstellar, and Puss in Boots. Removed
@@ -79,6 +79,8 @@
   the contrast of both the page background orbit and the in-card solar-system widget.
 - Replaced the duplicate colored `Moon field study` astronomy card with the supplied
   monochrome unrendered Moon frame while keeping the high-resolution preview path in sync.
+- Set the cat gallery label to `Schrödinger The Cat`, using the requested Austrian
+  spelling with `ö`.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
