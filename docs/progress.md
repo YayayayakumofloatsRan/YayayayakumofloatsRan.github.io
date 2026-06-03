@@ -83,6 +83,13 @@
   spelling with `ö`.
 - Shortened the apt easter-egg trigger and terminal copy from `apt not found` to `apt`
   while keeping the deadlock joke behavior.
+
+## 2026-06-04
+
+- Refined public copy across the homepage for a manual-edit handoff: hero, About,
+  profile facts, project cards, Astronomy, GALLERY, Movies, Blog notes, and Contact now
+  read more like a personal blog notebook while preserving the protected public-info,
+  privacy, asset, and interaction contracts.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
