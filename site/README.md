@@ -27,3 +27,10 @@ persistent dark/light theme toggle.
 
 Default theme is light cyan / ice blue rather than beige. Dark mode uses indigo and cyan
 as primary colors with gold line accents.
+
+Current interaction notes:
+- The horizontal deck loops through its four cards and is controlled only through the
+  invisible left/right edge buttons on each card.
+- Mouse wheel input stays reserved for normal vertical page scrolling.
+- Astronomy includes six image cards plus a lightweight solar-system control.
+- Content images open a captioned lightbox preview.

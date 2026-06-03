@@ -33,26 +33,24 @@ repository settings.
 ## Rebuild Notes
 
 This workspace was rebuilt after the previous local folder was no longer available. The
-Moon image source was still available and was copied into the public site as an optimized
-asset:
-
-- `site/assets/moon-20240321-phase.jpg`
-
-The WeChat temporary source images for paintings, telescope photos, and the apt meme were
-already gone. The rebuilt page therefore uses local CSS-generated visual cards for those
-sections until the original assets are supplied again.
+site now uses deployable, renamed public assets under `site/assets/` rather than linking
+to private local source paths. The current Astronomy set keeps exactly six image cards,
+including the Moon hero and the low-resolution phase 0.885 Moon log.
 
 ## Interactions
 
 - Theme toggle defaults to light and persists dark/light preference.
 - The homepage now mixes a 3D horizontal astronomy deck for Intro/About/Projects/Astronomy
   with a traditional vertical content flow for GALLERY, Movies, Notes, and Contact.
-- Deck controls include arrows, dots, keyboard navigation, and wheel-to-deck navigation
-  while the rest of the page remains vertically scrollable.
+- Deck controls use invisible left/right edge buttons on each card and loop from the
+  last card back to the first. Mouse wheel page-turning is intentionally disabled so
+  normal vertical scrolling stays predictable.
 - The default palette is pale cyan / ice blue instead of beige; dark mode keeps the
   astronomy-facing indigo, cyan, and gold accent direction.
 - Focus chips jump between systems, astronomy, and GALLERY screens.
 - GALLERY uses a compact same-size grid with a persisted image-size slider.
-- Astronomy includes an orbit sweep control and constellation-style background motion.
-- The movie shelf uses custom same-size title cards instead of copyrighted poster assets.
+- Astronomy includes a lightweight interactive solar-system widget with planet selection,
+  orbit phase, and orbit speed controls.
+- Every content image opens a larger captioned preview lightbox on click or keyboard open.
+- The movie shelf uses the supplied movie materials as same-size visual cards.
 - The `apt not found` button reveals a small terminal/deadlock easter egg.

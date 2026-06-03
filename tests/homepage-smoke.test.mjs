@@ -13,7 +13,7 @@ const suppliedAssetPaths = [
   "assets/astronomy/secondary-mirror-reflection.jpg",
   "assets/astronomy/polar-scope-reticle.jpg",
   "assets/astronomy/moon-wide-field.jpg",
-  "assets/astronomy/moon-close-field.jpg",
+  "assets/astronomy/moon-phase-0885-lowres.jpg",
   "assets/drawings/star-sea.jpg",
   "assets/drawings/campus-linework.jpg",
   "assets/drawings/lake-study.jpg",
@@ -68,16 +68,21 @@ assert.match(html, /https:\/\/github\.com\/YayayayakumofloatsRan\/Holo/, "Holo s
 assert.match(html, /Primary project|flagship/i, "Holo should be framed as the main project");
 assert.match(html, /ProjectH/, "ProjectH should be present");
 assert.match(html, /laser_extraction/, "secondary public project should be present");
+assert.match(html, /runtime contract|Holo lab/i, "Holo project copy should be updated with clearer runtime language");
+assert.match(html, /quant research lab|walk-forward/i, "ProjectH copy should be updated with clearer research language");
+assert.match(html, /measurement archive|calibration/i, "laser_extraction copy should be reframed as a measurement archive");
 
 assert.match(html, /assets\/moon-20240321-phase\.jpg/, "Moon image asset should be used");
 assert.match(html, /assets\/astronomy\/newtonian-front-cell\.jpg/, "astronomy should use supplied Newtonian photo");
 assert.match(html, /assets\/astronomy\/secondary-mirror-reflection\.jpg/, "astronomy should use supplied mirror reflection photo");
 assert.match(html, /assets\/astronomy\/polar-scope-reticle\.jpg/, "astronomy should use supplied polar scope photo");
-assert.match(html, /assets\/astronomy\/moon-wide-field\.jpg|assets\/astronomy\/moon-close-field\.jpg/, "astronomy should include supplied Moon photos");
+assert.match(html, /assets\/astronomy\/moon-wide-field\.jpg|assets\/astronomy\/moon-phase-0885-lowres\.jpg/, "astronomy should include supplied Moon photos");
+assert.doesNotMatch(html, /assets\/astronomy\/moon-close-field\.jpg/, "duplicate color Moon card should be replaced by the new low-res phase 0.885 asset");
 assert.match(html, /EQ6|deep-sky|planetary/i, "astronomy interests should be present");
 assert.match(html, /大黑200mmF5/, "requested telescope label should be exact");
 assert.match(html, /Polar scope|极轴镜/i, "polar scope field note should be present");
 assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope caption must not be present");
+assert.match(html + css + js, /solar-system|data-planet|planetReadout|orbitSpeed|planetProfiles|setPlanet/i, "orbit toy should be expanded into an interactive solar system");
 
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
@@ -103,6 +108,10 @@ assert.match(js, /deckContentHeight[\s\S]*reduce/i, "deck height should be measu
 assert.match(js, /networkFrameMs|lastNetworkFrame/i, "starfield rendering should be frame-throttled");
 assert.match(css, /will-change:\s*transform|backface-visibility:\s*hidden|contain:\s*layout paint/i, "deck panels should be optimized for composited transforms");
 assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
+assert.match(js, /effectiveFrameMs|is-deck-moving|Math\.min\(48/i, "starfield rendering should reduce work during deck motion");
+assert.match(css, /animation-play-state:\s*paused[\s\S]*body\[data-deck="astronomy"\][\s\S]*animation-play-state:\s*running/i, "solar-system animation should pause outside the astronomy deck");
+assert.match(css, /\.deck-panel\.is-far[\s\S]*visibility:\s*hidden/i, "far deck panels should be hidden from rendering");
+assert.match(html + css + js, /imageLightbox|lightboxImage|openLightbox|image-lightbox/i, "site images should open in a lightbox preview");
 
 const suppliedMovies = [
   "Contact",

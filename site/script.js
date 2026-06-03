@@ -18,6 +18,15 @@ const gallerySize = document.querySelector("#gallerySize");
 const gallerySizeValue = document.querySelector("#gallerySizeValue");
 const orbitRange = document.querySelector("#orbitRange");
 const orbitReadout = document.querySelector("#orbitReadout");
+const orbitSpeed = document.querySelector("#orbitSpeed");
+const orbitSpeedReadout = document.querySelector("#orbitSpeedReadout");
+const solarSystem = document.querySelector("#solarSystem");
+const planetButtons = document.querySelectorAll("[data-planet]");
+const planetReadout = document.querySelector("#planetReadout");
+const imageLightbox = document.querySelector("#imageLightbox");
+const lightboxImage = document.querySelector("#lightboxImage");
+const lightboxCaption = document.querySelector("#lightboxCaption");
+const lightboxClose = document.querySelector("#lightboxClose");
 
 const initialHash = window.location.hash;
 const storedTheme = localStorage.getItem("nemo-theme-v3");
@@ -30,8 +39,20 @@ let deckMotionTimer = 0;
 let resizeFrame = 0;
 let lastNetworkFrame = 0;
 let activeDeck = 0;
+let maxDeckContentHeight = 0;
+let deckHeightDirty = true;
 
-const networkFrameMs = 1000 / 30;
+const networkFrameMs = 1000 / 24;
+const planetProfiles = {
+  mercury: { name: "Mercury", angle: 18, fact: "Fast inner orbit: small radius, high angular urgency." },
+  venus: { name: "Venus", angle: 62, fact: "Bright phase logic: visually calm, physically hostile." },
+  earth: { name: "Earth", angle: 108, fact: "Home orbit: stable enough for field notes, unstable enough for research." },
+  mars: { name: "Mars", angle: 148, fact: "Thin atmosphere, strong myth, useful engineering target." },
+  jupiter: { name: "Jupiter", angle: 204, fact: "Mass dominates the room; gravity becomes system architecture." },
+  saturn: { name: "Saturn", angle: 248, fact: "Rings make orbital mechanics visible without a lecture." },
+  uranus: { name: "Uranus", angle: 294, fact: "Tilted axis: the reminder that initial conditions matter." },
+  neptune: { name: "Neptune", angle: 334, fact: "Distant, blue, and found by math before direct familiarity." },
+};
 
 function setTheme(theme) {
   root.dataset.theme = theme;
@@ -72,6 +93,10 @@ function markDeckMotion() {
   deckMotionTimer = window.setTimeout(() => {
     document.body.classList.remove("is-deck-moving");
   }, 720);
+}
+
+function invalidateDeckHeight() {
+  deckHeightDirty = true;
 }
 
 function updateDeckState(index) {
@@ -126,9 +151,13 @@ function syncDeckHeight(index = activeDeck) {
 
   window.cancelAnimationFrame(deckHeightFrame);
   deckHeightFrame = window.requestAnimationFrame(() => {
-    const maxContentHeight = deckPanels.reduce((height, panel) => {
-      return Math.max(height, deckContentHeight(panel) + 32);
-    }, baseline);
+    if (deckHeightDirty || maxDeckContentHeight === 0) {
+      maxDeckContentHeight = deckPanels.reduce((height, panel) => {
+        return Math.max(height, deckContentHeight(panel) + 32);
+      }, baseline);
+      deckHeightDirty = false;
+    }
+    const maxContentHeight = Math.max(baseline, maxDeckContentHeight);
     const activeScrollHeight = activePanel?.scrollHeight || 0;
     const cappedScrollHeight = Math.min(activeScrollHeight, maxContentHeight + 64);
     const nextHeight = Math.ceil(Math.max(baseline, maxContentHeight, cappedScrollHeight));
@@ -236,6 +265,7 @@ function setGallerySize(size) {
 function setOrbitAngle(value) {
   const angle = Math.max(0, Math.min(360, Number(value) || 0));
   document.querySelector(".constellation-screen")?.style.setProperty("--orbit-angle", `${angle}deg`);
+  solarSystem?.style.setProperty("--orbit-angle", `${angle}deg`);
 
   if (orbitRange) {
     orbitRange.value = String(angle);
@@ -243,6 +273,65 @@ function setOrbitAngle(value) {
 
   if (orbitReadout) {
     orbitReadout.textContent = `${angle}°`;
+  }
+}
+
+function setOrbitSpeed(value) {
+  const speed = Math.max(8, Math.min(48, Number(value) || 24));
+  solarSystem?.style.setProperty("--orbit-speed", `${speed}s`);
+
+  if (orbitSpeed) {
+    orbitSpeed.value = String(speed);
+  }
+
+  if (orbitSpeedReadout) {
+    orbitSpeedReadout.textContent = `${speed}s`;
+  }
+}
+
+function setPlanet(planet) {
+  const profile = planetProfiles[planet] || planetProfiles.earth;
+
+  planetButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.planet === planet);
+  });
+
+  solarSystem?.style.setProperty("--selected-angle", `${profile.angle}deg`);
+  if (solarSystem) {
+    solarSystem.dataset.activePlanet = planet;
+  }
+
+  if (planetReadout) {
+    planetReadout.innerHTML = `<strong>${profile.name}</strong><span>${profile.fact}</span>`;
+  }
+}
+
+function lightboxTextFor(image) {
+  const figureCaption = image.closest("figure")?.querySelector("figcaption")?.innerText;
+  const movieTitle = image.closest(".movie-card")?.querySelector("strong")?.innerText;
+  return figureCaption || movieTitle || image.alt || "Image preview";
+}
+
+function openLightbox(image) {
+  if (!imageLightbox || !lightboxImage || image.closest(".image-lightbox")) return;
+
+  lightboxImage.src = image.currentSrc || image.src;
+  lightboxImage.alt = image.alt || "";
+  if (lightboxCaption) {
+    lightboxCaption.textContent = lightboxTextFor(image);
+  }
+  imageLightbox.hidden = false;
+  document.body.classList.add("is-lightbox-open");
+  lightboxClose?.focus();
+}
+
+function closeLightbox() {
+  if (!imageLightbox || imageLightbox.hidden) return;
+
+  imageLightbox.hidden = true;
+  document.body.classList.remove("is-lightbox-open");
+  if (lightboxImage) {
+    lightboxImage.removeAttribute("src");
   }
 }
 
@@ -256,12 +345,16 @@ function resizeCanvas() {
   canvas.style.height = `${window.innerHeight}px`;
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-  nodes = Array.from({ length: Math.min(64, Math.floor(window.innerWidth / 22)) }, () => ({
+  nodes = Array.from({ length: Math.min(48, Math.floor(window.innerWidth / 30)) }, () => ({
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
     vx: (Math.random() - 0.5) * 0.22,
     vy: (Math.random() - 0.5) * 0.22,
   }));
+}
+
+function effectiveFrameMs() {
+  return document.body.classList.contains("is-deck-moving") ? 1000 / 12 : networkFrameMs;
 }
 
 function palette() {
@@ -276,7 +369,7 @@ function drawNetwork(timestamp = 0) {
   if (!context) return;
 
   animationFrame = window.requestAnimationFrame(drawNetwork);
-  if (timestamp - lastNetworkFrame < networkFrameMs) return;
+  if (document.hidden || timestamp - lastNetworkFrame < effectiveFrameMs()) return;
   lastNetworkFrame = timestamp;
 
   const colors = palette();
@@ -297,8 +390,8 @@ function drawNetwork(timestamp = 0) {
       const other = nodes[next];
       const distance = Math.hypot(node.x - other.x, node.y - other.y);
 
-      if (distance < 118) {
-        context.strokeStyle = `${colors.line} ${0.14 * (1 - distance / 118)})`;
+      if (distance < 104) {
+        context.strokeStyle = `${colors.line} ${0.12 * (1 - distance / 104)})`;
         context.beginPath();
         context.moveTo(node.x, node.y);
         context.lineTo(other.x, other.y);
@@ -337,6 +430,47 @@ galleryButtons.forEach((button) => {
 
 gallerySize?.addEventListener("input", () => setGallerySize(gallerySize.value));
 orbitRange?.addEventListener("input", () => setOrbitAngle(orbitRange.value));
+orbitSpeed?.addEventListener("input", () => setOrbitSpeed(orbitSpeed.value));
+
+planetButtons.forEach((button) => {
+  button.addEventListener("click", () => setPlanet(button.dataset.planet));
+});
+
+document.querySelectorAll("img").forEach((image) => {
+  image.tabIndex = 0;
+  image.setAttribute("role", "button");
+  image.addEventListener("load", () => {
+    invalidateDeckHeight();
+    syncDeckHeight();
+  }, { once: true });
+});
+
+document.addEventListener("click", (event) => {
+  const image = event.target.closest("img");
+  if (image) {
+    openLightbox(image);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeLightbox();
+    return;
+  }
+
+  const image = event.target.closest?.("img");
+  if (image && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    openLightbox(image);
+  }
+});
+
+imageLightbox?.addEventListener("click", (event) => {
+  if (event.target === imageLightbox) {
+    closeLightbox();
+  }
+});
+lightboxClose?.addEventListener("click", closeLightbox);
 
 deckEdgeButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -349,12 +483,14 @@ aptTrigger?.addEventListener("click", () => {
   const open = aptPanel?.hasAttribute("hidden");
   aptPanel?.toggleAttribute("hidden", !open);
   aptTrigger.textContent = open ? "deadlock resolved?" : "apt not found";
+  invalidateDeckHeight();
   syncDeckHeight();
 });
 
 window.addEventListener("resize", () => {
   window.cancelAnimationFrame(resizeFrame);
   resizeFrame = window.requestAnimationFrame(() => {
+    invalidateDeckHeight();
     resizeCanvas();
     syncDeckHeight();
   });
@@ -371,6 +507,8 @@ setMovieFilter("all");
 setGalleryFilter("all");
 setGallerySize(storedGallerySize || gallerySize?.value || 210);
 setOrbitAngle(orbitRange?.value || 42);
+setOrbitSpeed(orbitSpeed?.value || 24);
+setPlanet("earth");
 updateDeckState(0);
 if (initialHash) {
   navigateToHash(initialHash);

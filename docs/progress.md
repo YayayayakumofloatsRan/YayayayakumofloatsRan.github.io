@@ -44,6 +44,22 @@
   movie entries that did not have supplied assets in this batch.
 - Added smoke-test coverage for the new asset contract and verified image loading and
   Gallery/Movie filter behavior in headless Edge.
+- Replaced the duplicated colored Moon card in Astronomy with the new low-resolution
+  phase 0.885 asset while keeping exactly six Astronomy image cards and removing the
+  stale `moon-close-field.jpg` deployable output.
+- Expanded the former orbit control into an interactive solar-system widget with planet
+  selection, orbit phase, and orbit speed controls.
+- Added site-wide image preview: clicking or keyboard-opening any content image now
+  shows a larger lightbox with a caption and Escape/backdrop close behavior.
+- Updated project copy for Holo, ProjectH, and laser_extraction so the public project
+  descriptions better match their current roles.
+- Optimized rendering during deck movement by caching deck height, hiding far panels,
+  throttling the background canvas more aggressively during deck transitions, and
+  pausing solar-system animation outside the active Astronomy deck.
+- Verified the current page in headless Edge: all content images load, Astronomy has six
+  cards, the old duplicate Moon asset is not referenced, deck navigation loops through
+  all four pages, Mars planet selection updates the readout, lightbox open/close works,
+  and desktop/mobile widths have no horizontal overflow.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
