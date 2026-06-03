@@ -15,6 +15,8 @@ The page includes public-facing profile information: email, school, major, direc
 astronomy interests, project summaries, and selected repository links. It intentionally
 does not include identity-card photos, phone numbers, student numbers, date of birth,
 grade details, raw resume files, or private local source paths.
+Drawing assets keep only already-public naming marks such as `祁` or `Nemo Qi`; masked
+full-name regions are softened for presentation and are not reconstructed.
 
 ## Preview
 

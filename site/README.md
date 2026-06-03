@@ -3,6 +3,8 @@
 This folder is the public deployable surface. It intentionally excludes private resume
 files, identity-card images, phone numbers, student numbers, birth dates, grade details,
 and local source paths.
+Drawing images keep only already-public `祁` / `Nemo Qi` marks; previously masked
+full-name areas are softened for display and are not reconstructed.
 
 ## Local Preview
 

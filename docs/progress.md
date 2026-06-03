@@ -70,6 +70,10 @@
   keeping date, phase, and `Nemo Qi`.
 - Added a browser lightbox regression test that checks every movie, gallery, and
   Astronomy card opens its matching high-resolution preview image.
+- Reworked the public drawing assets and high-resolution drawing previews so the
+  already-masked full-name areas are locally deblocked with soft edges. The surname
+  `祁` remains visible where it was already public, while no hidden name information is
+  reconstructed or exposed.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
