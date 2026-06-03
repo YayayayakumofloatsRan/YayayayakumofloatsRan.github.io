@@ -154,7 +154,8 @@ for (const staleMovie of ["The King's Speech", "Finding Nemo"]) {
 assert.match(html, /assets\/movies\/contact\.jpg|assets\/movies\/ford-v-ferrari\.jpg/, "movie shelf should render supplied movie stills");
 assert.match(html, /movie-filter|movie-card|movie-still/, "movie shelf should be interactive and visual");
 
-assert.match(html, /apt not found|deadlock/i, "apt/deadlock easter egg should be present");
+assert.match(html, />apt<\/button>|deadlock/i, "apt/deadlock easter egg should be present");
+assert.doesNotMatch(html + js, /apt not found/i, "apt easter egg should not use the not-found label");
 assert.match(js, /themeToggle|localStorage|data-theme/, "theme toggle should persist state");
 assert.match(js, /focus|movie|gallerySize|apt/i, "interactive controls should be wired");
 

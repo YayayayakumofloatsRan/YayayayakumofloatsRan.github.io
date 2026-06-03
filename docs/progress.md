@@ -81,6 +81,8 @@
   monochrome unrendered Moon frame while keeping the high-resolution preview path in sync.
 - Set the cat gallery label to `Schrödinger The Cat`, using the requested Austrian
   spelling with `ö`.
+- Shortened the apt easter-egg trigger and terminal copy from `apt not found` to `apt`
+  while keeping the deadlock joke behavior.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

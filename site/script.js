@@ -641,7 +641,7 @@ deckEdgeButtons.forEach((button) => {
 aptTrigger?.addEventListener("click", () => {
   const open = aptPanel?.hasAttribute("hidden");
   aptPanel?.toggleAttribute("hidden", !open);
-  aptTrigger.textContent = open ? "deadlock resolved?" : "apt not found";
+  aptTrigger.textContent = open ? "deadlock resolved?" : "apt";
   invalidateDeckHeight();
   syncDeckHeight();
 });

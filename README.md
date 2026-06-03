@@ -58,4 +58,4 @@ hide the location line while keeping the date, phase, and `Nemo Qi` credit.
   card images use lightweight display assets and high-resolution `site/assets/preview/`
   files for the enlarged view.
 - The movie shelf uses the supplied movie materials as same-size visual cards.
-- The `apt not found` button reveals a small terminal/deadlock easter egg.
+- The `apt` button reveals a small terminal/deadlock easter egg.
