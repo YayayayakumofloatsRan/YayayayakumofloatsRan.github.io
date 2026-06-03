@@ -77,6 +77,8 @@
 - Optimized the astronomy background orbit layer by caching static orbit rings on an
   offscreen canvas, reducing starfield node count and pair-distance cost, and increasing
   the contrast of both the page background orbit and the in-card solar-system widget.
+- Replaced the duplicate colored `Moon field study` astronomy card with the supplied
+  monochrome unrendered Moon frame while keeping the high-resolution preview path in sync.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

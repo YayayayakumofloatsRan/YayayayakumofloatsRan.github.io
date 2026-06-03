@@ -85,6 +85,7 @@ assert.match(html, /assets\/astronomy\/newtonian-front-cell\.jpg/, "astronomy sh
 assert.match(html, /assets\/astronomy\/secondary-mirror-reflection\.jpg/, "astronomy should use supplied mirror reflection photo");
 assert.match(html, /assets\/astronomy\/polar-scope-reticle\.jpg/, "astronomy should use supplied polar scope photo");
 assert.match(html, /assets\/astronomy\/moon-wide-field\.jpg|assets\/astronomy\/moon-phase-0885-lowres\.jpg/, "astronomy should include supplied Moon photos");
+assert.match(html, /Monochrome unrendered Moon field image|Lunar \/ monochrome/i, "Moon field study should use the monochrome unrendered Moon asset");
 assert.doesNotMatch(html, /assets\/astronomy\/moon-close-field\.jpg/, "duplicate color Moon card should be replaced by the new low-res phase 0.885 asset");
 assert.match(html, /EQ6|deep-sky|planetary/i, "astronomy interests should be present");
 assert.match(html, /大黑200mmF5/, "requested telescope label should be exact");
