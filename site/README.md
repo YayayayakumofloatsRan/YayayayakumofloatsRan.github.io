@@ -33,4 +33,7 @@ Current interaction notes:
   invisible left/right edge buttons on each card.
 - Mouse wheel input stays reserved for normal vertical page scrolling.
 - Astronomy includes six image cards plus a lightweight solar-system control.
-- Content images open a captioned lightbox preview.
+- Content images open a captioned lightbox preview. The card images stay lightweight, and
+  the preview overlay prefers high-resolution files under `assets/preview/`.
+- Public Moon images hide the location line while preserving the date, phase, and
+  `Nemo Qi` credit.

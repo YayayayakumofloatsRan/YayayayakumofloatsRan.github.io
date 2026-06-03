@@ -35,7 +35,8 @@ repository settings.
 This workspace was rebuilt after the previous local folder was no longer available. The
 site now uses deployable, renamed public assets under `site/assets/` rather than linking
 to private local source paths. The current Astronomy set keeps exactly six image cards,
-including the Moon hero and the low-resolution phase 0.885 Moon log.
+including the Moon hero and the low-resolution phase 0.885 Moon log. Public Moon images
+hide the location line while keeping the date, phase, and `Nemo Qi` credit.
 
 ## Interactions
 
@@ -51,6 +52,8 @@ including the Moon hero and the low-resolution phase 0.885 Moon log.
 - GALLERY uses a compact same-size grid with a persisted image-size slider.
 - Astronomy includes a lightweight interactive solar-system widget with planet selection,
   orbit phase, and orbit speed controls.
-- Every content image opens a larger captioned preview lightbox on click or keyboard open.
+- Every content image opens a larger captioned preview lightbox on click or keyboard open;
+  card images use lightweight display assets and high-resolution `site/assets/preview/`
+  files for the enlarged view.
 - The movie shelf uses the supplied movie materials as same-size visual cards.
 - The `apt not found` button reveals a small terminal/deadlock easter egg.

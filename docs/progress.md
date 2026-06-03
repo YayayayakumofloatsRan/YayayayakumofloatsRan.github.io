@@ -60,6 +60,16 @@
   cards, the old duplicate Moon asset is not referenced, deck navigation loops through
   all four pages, Mars planet selection updates the readout, lightbox open/close works,
   and desktop/mobile widths have no horizontal overflow.
+- Fixed the lightbox trigger model so the whole movie/gallery/astronomy card opens the
+  preview promptly on pointerdown instead of only responding when the exact `<img>` node
+  is clicked.
+- Added high-resolution preview assets under `site/assets/preview`; lightbox opens
+  immediately with the displayed asset and swaps to the larger `data-full` image once it
+  loads.
+- Removed the location line from public Moon assets and their preview counterparts while
+  keeping date, phase, and `Nemo Qi`.
+- Added a browser lightbox regression test that checks every movie, gallery, and
+  Astronomy card opens its matching high-resolution preview image.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

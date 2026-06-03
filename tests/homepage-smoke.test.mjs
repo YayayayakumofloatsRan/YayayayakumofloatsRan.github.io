@@ -39,6 +39,10 @@ const suppliedAssetPaths = [
   "assets/movies/interstellar.jpg",
   "assets/movies/puss-in-boots.jpg",
 ];
+const previewAssetPaths = [
+  "assets/preview/moon-20240321-phase.jpg",
+  ...suppliedAssetPaths.map((assetPath) => assetPath.replace(/^assets\//, "assets/preview/")),
+];
 
 for (const file of [indexPath, stylesPath, scriptPath, moonPath]) {
   assert.equal(existsSync(file), true, `${file} should exist`);
@@ -46,6 +50,10 @@ for (const file of [indexPath, stylesPath, scriptPath, moonPath]) {
 
 for (const assetPath of suppliedAssetPaths) {
   assert.equal(existsSync(join(site, assetPath)), true, `${assetPath} should exist as a site-local optimized asset`);
+}
+
+for (const assetPath of previewAssetPaths) {
+  assert.equal(existsSync(join(site, assetPath)), true, `${assetPath} should exist as a high-resolution preview asset`);
 }
 
 const html = readFileSync(indexPath, "utf8");
@@ -112,6 +120,12 @@ assert.match(js, /effectiveFrameMs|is-deck-moving|Math\.min\(48/i, "starfield re
 assert.match(css, /animation-play-state:\s*paused[\s\S]*body\[data-deck="astronomy"\][\s\S]*animation-play-state:\s*running/i, "solar-system animation should pause outside the astronomy deck");
 assert.match(css, /\.deck-panel\.is-far[\s\S]*visibility:\s*hidden/i, "far deck panels should be hidden from rendering");
 assert.match(html + css + js, /imageLightbox|lightboxImage|openLightbox|image-lightbox/i, "site images should open in a lightbox preview");
+assert.match(js, /previewCardSelector|previewImageFromTarget|pointerdown/i, "image preview should bind to whole cards and open promptly on pointerdown");
+assert.match(js, /dataset\.full|previewSrcFor|is-loading-full/i, "lightbox should prefer high-resolution data-full previews without delaying overlay opening");
+assert.match(css, /\.preview-surface[\s\S]*cursor:\s*zoom-in/i, "previewable cards should visibly behave like image preview surfaces");
+assert.match(html, /data-full="assets\/preview\/movies\/ford-v-ferrari\.jpg"/, "movie lightbox should use high-resolution preview assets");
+assert.match(html, /data-full="assets\/preview\/drawings\/star-sea\.jpg"/, "gallery lightbox should use high-resolution preview assets");
+assert.match(html, /data-full="assets\/preview\/astronomy\/moon-wide-field\.jpg"/, "astronomy lightbox should use high-resolution preview assets");
 
 const suppliedMovies = [
   "Contact",

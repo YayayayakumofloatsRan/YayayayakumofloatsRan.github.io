@@ -78,8 +78,13 @@ img {
   max-width: 100%;
 }
 
-img[role="button"] {
+.preview-surface {
   cursor: zoom-in;
+}
+
+.preview-surface:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
 }
 
 p,
@@ -1251,6 +1256,12 @@ body.is-lightbox-open {
   border-radius: var(--radius);
   background: #05060a;
   box-shadow: var(--shadow);
+  transition: filter 160ms ease, opacity 160ms ease;
+}
+
+.lightbox-frame img.is-loading-full {
+  filter: saturate(0.75) contrast(0.9);
+  opacity: 0.88;
 }
 
 .lightbox-frame figcaption {

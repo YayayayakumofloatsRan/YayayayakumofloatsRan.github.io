@@ -27,6 +27,8 @@ const imageLightbox = document.querySelector("#imageLightbox");
 const lightboxImage = document.querySelector("#lightboxImage");
 const lightboxCaption = document.querySelector("#lightboxCaption");
 const lightboxClose = document.querySelector("#lightboxClose");
+const previewCardSelector = ".astro-card, .art-card, .movie-card";
+const interactiveSelector = "a, button, input, label, select, textarea";
 
 const initialHash = window.location.hash;
 const storedTheme = localStorage.getItem("nemo-theme-v3");
@@ -41,6 +43,8 @@ let lastNetworkFrame = 0;
 let activeDeck = 0;
 let maxDeckContentHeight = 0;
 let deckHeightDirty = true;
+let lightboxRequestId = 0;
+let ignoreNextBackdropClick = false;
 
 const networkFrameMs = 1000 / 24;
 const planetProfiles = {
@@ -312,10 +316,70 @@ function lightboxTextFor(image) {
   return figureCaption || movieTitle || image.alt || "Image preview";
 }
 
+function previewImageFromTarget(target) {
+  if (!(target instanceof Element) || target.closest(".image-lightbox")) return null;
+  if (target.closest(interactiveSelector)) return null;
+
+  const directImage = target.closest("img");
+  if (directImage) return directImage;
+
+  const previewCard = target.closest(previewCardSelector);
+  return previewCard?.querySelector("img") || null;
+}
+
+function previewLabelFor(image) {
+  return `Open image preview: ${lightboxTextFor(image).replace(/\s+/g, " ").trim()}`;
+}
+
+function absoluteImageSrc(source) {
+  return source ? new URL(source, document.baseURI).href : "";
+}
+
+function previewSrcFor(image) {
+  return absoluteImageSrc(image.dataset.full || image.currentSrc || image.src);
+}
+
+function preparePreviewSurfaces() {
+  const surfaces = new Set();
+
+  document.querySelectorAll(previewCardSelector).forEach((card) => {
+    if (card.querySelector("img")) {
+      surfaces.add(card);
+    }
+  });
+
+  document.querySelectorAll("img").forEach((image) => {
+    if (!image.closest(".image-lightbox") && !image.closest(previewCardSelector)) {
+      surfaces.add(image);
+    }
+
+    image.addEventListener("load", () => {
+      invalidateDeckHeight();
+      syncDeckHeight();
+    }, { once: true });
+  });
+
+  surfaces.forEach((surface) => {
+    const image = surface.matches("img") ? surface : surface.querySelector("img");
+    if (!image) return;
+
+    surface.classList.add("preview-surface");
+    surface.tabIndex = 0;
+    surface.setAttribute("role", "button");
+    surface.setAttribute("aria-label", previewLabelFor(image));
+  });
+}
+
 function openLightbox(image) {
   if (!imageLightbox || !lightboxImage || image.closest(".image-lightbox")) return;
 
-  lightboxImage.src = image.currentSrc || image.src;
+  const requestId = String(++lightboxRequestId);
+  const immediateSrc = image.currentSrc || image.src;
+  const fullSrc = previewSrcFor(image);
+
+  lightboxImage.dataset.requestId = requestId;
+  lightboxImage.classList.toggle("is-loading-full", Boolean(fullSrc && fullSrc !== immediateSrc));
+  lightboxImage.src = immediateSrc;
   lightboxImage.alt = image.alt || "";
   if (lightboxCaption) {
     lightboxCaption.textContent = lightboxTextFor(image);
@@ -323,6 +387,23 @@ function openLightbox(image) {
   imageLightbox.hidden = false;
   document.body.classList.add("is-lightbox-open");
   lightboxClose?.focus();
+
+  if (fullSrc && fullSrc !== immediateSrc) {
+    const fullImage = new Image();
+    fullImage.decoding = "async";
+    fullImage.onload = () => {
+      if (lightboxImage.dataset.requestId !== requestId) return;
+
+      lightboxImage.src = fullSrc;
+      lightboxImage.classList.remove("is-loading-full");
+    };
+    fullImage.onerror = () => {
+      if (lightboxImage.dataset.requestId === requestId) {
+        lightboxImage.classList.remove("is-loading-full");
+      }
+    };
+    fullImage.src = fullSrc;
+  }
 }
 
 function closeLightbox() {
@@ -332,6 +413,8 @@ function closeLightbox() {
   document.body.classList.remove("is-lightbox-open");
   if (lightboxImage) {
     lightboxImage.removeAttribute("src");
+    lightboxImage.classList.remove("is-loading-full");
+    delete lightboxImage.dataset.requestId;
   }
 }
 
@@ -436,19 +519,19 @@ planetButtons.forEach((button) => {
   button.addEventListener("click", () => setPlanet(button.dataset.planet));
 });
 
-document.querySelectorAll("img").forEach((image) => {
-  image.tabIndex = 0;
-  image.setAttribute("role", "button");
-  image.addEventListener("load", () => {
-    invalidateDeckHeight();
-    syncDeckHeight();
-  }, { once: true });
-});
+preparePreviewSurfaces();
 
-document.addEventListener("click", (event) => {
-  const image = event.target.closest("img");
+document.addEventListener("pointerdown", (event) => {
+  if (event.button !== 0 && event.pointerType === "mouse") return;
+
+  const image = previewImageFromTarget(event.target);
   if (image) {
+    event.preventDefault();
     openLightbox(image);
+    ignoreNextBackdropClick = true;
+    window.setTimeout(() => {
+      ignoreNextBackdropClick = false;
+    }, 420);
   }
 });
 
@@ -458,7 +541,7 @@ document.addEventListener("keydown", (event) => {
     return;
   }
 
-  const image = event.target.closest?.("img");
+  const image = previewImageFromTarget(event.target);
   if (image && (event.key === "Enter" || event.key === " ")) {
     event.preventDefault();
     openLightbox(image);
@@ -467,6 +550,11 @@ document.addEventListener("keydown", (event) => {
 
 imageLightbox?.addEventListener("click", (event) => {
   if (event.target === imageLightbox) {
+    if (ignoreNextBackdropClick) {
+      ignoreNextBackdropClick = false;
+      return;
+    }
+
     closeLightbox();
   }
 });
