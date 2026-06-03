@@ -137,6 +137,7 @@ body.is-deck-moving .network-canvas {
 .nav a,
 .theme-toggle,
 .focus-chip,
+.gallery-filter,
 .movie-filter,
 .primary-link,
 .secondary-link {
@@ -161,6 +162,7 @@ body.is-deck-moving .network-canvas {
 
 .theme-toggle,
 .focus-chip,
+.gallery-filter,
 .movie-filter {
   min-width: 0;
   padding: 0.65rem 1rem;
@@ -440,6 +442,7 @@ h3 {
 
 .hero-actions,
 .control-dock,
+.gallery-filter-row,
 .movie-controls {
   display: flex;
   flex-wrap: wrap;
@@ -471,6 +474,7 @@ h3 {
 }
 
 .focus-chip.active,
+.gallery-filter.active,
 .movie-filter.active {
   border-color: var(--cyan);
   background: color-mix(in srgb, var(--cyan) 18%, var(--panel-solid));
@@ -797,6 +801,10 @@ h3 {
   font-weight: 850;
 }
 
+.gallery-filter-row {
+  flex-basis: 100%;
+}
+
 .gallery-controls input[type="range"] {
   width: min(18rem, 100%);
   accent-color: var(--cyan);
@@ -829,6 +837,8 @@ h3 {
 .art-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center;
   transition: transform 420ms ease, filter 420ms ease;
 }
 
@@ -836,6 +846,10 @@ h3 {
 .art-card:focus-within .art-image {
   transform: scale(1.035);
   filter: saturate(1.08) contrast(1.03);
+}
+
+.art-card.is-hidden {
+  display: none;
 }
 
 .art-cat .art-image {
@@ -895,28 +909,63 @@ h3 {
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1px;
-  border: 1px solid var(--line);
-  background: var(--line);
+  gap: clamp(0.65rem, 1.35vw, 1rem);
 }
 
 .movie-card {
+  position: relative;
   min-width: 0;
-  min-height: 12rem;
-  display: grid;
-  align-content: space-between;
-  padding: 1.1rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #05060a;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+}
+
+.movie-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background:
-    radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--cyan) 20%, transparent), transparent 6rem),
-    linear-gradient(145deg, color-mix(in srgb, var(--indigo) 16%, var(--panel-solid)), var(--panel-solid));
+    linear-gradient(180deg, transparent 22%, rgba(0, 0, 0, 0.72)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.44), transparent 58%);
+  pointer-events: none;
+}
+
+.movie-still {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 420ms ease, filter 420ms ease;
+}
+
+.movie-card:hover .movie-still,
+.movie-card:focus-within .movie-still {
+  transform: scale(1.035);
+  filter: saturate(1.06) contrast(1.05);
+}
+
+.movie-copy {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.78rem;
+  left: 0.85rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.22rem;
+  color: #f8f1df;
 }
 
 .movie-card strong {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 1.65vw, 1.32rem);
+  line-height: 1.05;
 }
 
 .movie-card small {
-  color: var(--muted);
+  color: rgba(248, 241, 223, 0.78);
   font-weight: 800;
 }
 
@@ -1031,6 +1080,10 @@ h3 {
   .movie-grid {
     grid-template-columns: 1fr;
   }
+
+  .movie-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 860px) {
@@ -1080,6 +1133,10 @@ h3 {
   .primary-link,
   .secondary-link {
     width: 100%;
+  }
+
+  .movie-grid {
+    grid-template-columns: 1fr;
   }
 
   .apt-panel {

@@ -1,4 +1,4 @@
-# Progress Log
+﻿# Progress Log
 
 ## 2026-05-29
 
@@ -30,9 +30,21 @@
 - Replaced the light beige palette with a pale cyan / ice-blue default palette while
   retaining indigo, cyan, and gold for the dark astronomy theme.
 
+## 2026-06-03
+
+- Imported the supplied categorized materials from `素材` into site-local deployable assets
+  under `site/assets/astronomy`, `site/assets/drawings`, `site/assets/cats`, and
+  `site/assets/movies`, using stable public filenames instead of source WeChat filenames.
+- Replaced the Astronomy CSS placeholder cards with the supplied Newtonian, secondary
+  mirror, polar-scope, and Moon field images while keeping the existing Moon hero.
+- Rebuilt GALLERY around real supplied drawing and Schrodinger Cat images, with category
+  filters plus the existing persistent image-size slider.
+- Rebuilt Movies to follow the supplied movie assets exactly: 1900, Contact, Batman Dark
+  Knight, Fight Club, Ford v. Ferrari, Gifted, Interstellar, and Puss in Boots. Removed
+  movie entries that did not have supplied assets in this batch.
+- Added smoke-test coverage for the new asset contract and verified image loading and
+  Gallery/Movie filter behavior in headless Edge.
 ## Next Data Needed
 
-- Re-send the original painting/telescope/apt images if the rebuilt CSS visual cards
-  should be replaced by the real materials.
 - Final blog post titles and any real article URLs.
 - Any final public wording for Holo and ProjectH before deployment.

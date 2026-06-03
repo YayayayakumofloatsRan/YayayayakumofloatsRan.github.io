@@ -1,4 +1,4 @@
-const root = document.documentElement;
+﻿const root = document.documentElement;
 const themeToggle = document.querySelector("#themeToggle");
 const themeLabel = document.querySelector("#themeLabel");
 const canvas = document.querySelector(".network-canvas");
@@ -12,6 +12,8 @@ const movieCards = document.querySelectorAll(".movie-card");
 const aptTrigger = document.querySelector("#aptTrigger");
 const aptPanel = document.querySelector("#aptPanel");
 const gallerySection = document.querySelector(".gallery-section");
+const galleryButtons = document.querySelectorAll("[data-gallery-filter]");
+const galleryCards = document.querySelectorAll("[data-gallery-card]");
 const gallerySize = document.querySelector("#gallerySize");
 const gallerySizeValue = document.querySelector("#gallerySizeValue");
 const orbitRange = document.querySelector("#orbitRange");
@@ -205,6 +207,17 @@ function setMovieFilter(filter) {
   });
 }
 
+function setGalleryFilter(filter) {
+  galleryButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.galleryFilter === filter);
+  });
+
+  galleryCards.forEach((card) => {
+    const kind = card.dataset.galleryKind || "";
+    card.classList.toggle("is-hidden", filter !== "all" && kind !== filter);
+  });
+}
+
 function setGallerySize(size) {
   const nextSize = Math.max(150, Math.min(290, Number(size) || 210));
   gallerySection?.style.setProperty("--gallery-min", `${nextSize}px`);
@@ -318,6 +331,10 @@ movieButtons.forEach((button) => {
   button.addEventListener("click", () => setMovieFilter(button.dataset.movieFilter));
 });
 
+galleryButtons.forEach((button) => {
+  button.addEventListener("click", () => setGalleryFilter(button.dataset.galleryFilter));
+});
+
 gallerySize?.addEventListener("input", () => setGallerySize(gallerySize.value));
 orbitRange?.addEventListener("input", () => setOrbitAngle(orbitRange.value));
 
@@ -351,6 +368,7 @@ window.addEventListener("pagehide", () => {
 setTheme(storedTheme || "light");
 setFocus("all", false);
 setMovieFilter("all");
+setGalleryFilter("all");
 setGallerySize(storedGallerySize || gallerySize?.value || 210);
 setOrbitAngle(orbitRange?.value || 42);
 updateDeckState(0);

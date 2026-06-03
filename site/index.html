@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="UTF-8" />
@@ -186,31 +186,45 @@ sudo apt install apt</code></pre>
             <section class="astronomy-section deck-panel constellation-screen" id="astronomy" data-deck-panel data-deck-id="astronomy">
               <div class="astro-media-grid">
                 <figure class="astro-card">
-                  <img src="assets/moon-20240321-phase.jpg" alt="Waxing gibbous Moon image by Nemo Qi" />
+                  <img src="assets/moon-20240321-phase.jpg" alt="Moon captured by Nemo Qi on 2024-03-21" />
                   <figcaption>
                     <span>2024.03.21 / phase 0.885</span>
                     <strong>Moon observation log</strong>
                   </figcaption>
                 </figure>
-                <figure class="astro-card generated-card secondary-view">
-                  <div class="scope-visual" aria-hidden="true"></div>
-                  <figcaption>
-                    <span>Optics</span>
-                    <strong>Secondary mirror alignment</strong>
-                  </figcaption>
-                </figure>
-                <figure class="astro-card generated-card newtonian-view">
-                  <div class="scope-visual" aria-hidden="true"></div>
+                <figure class="astro-card">
+                  <img src="assets/astronomy/newtonian-front-cell.jpg" alt="Dahei 200mm F5 Newtonian reflector front-cell view" loading="lazy" decoding="async" />
                   <figcaption>
                     <span>Instrument</span>
-                    <strong>Newtonian reflector / 大黑200mmF5</strong>
+                    <strong>大黑200mmF5 / Newtonian front cell</strong>
                   </figcaption>
                 </figure>
-                <figure class="astro-card generated-card reticle-view">
-                  <div class="reticle-visual" aria-hidden="true"></div>
+                <figure class="astro-card">
+                  <img src="assets/astronomy/secondary-mirror-reflection.jpg" alt="Secondary mirror reflection inside a Newtonian reflector" loading="lazy" decoding="async" />
+                  <figcaption>
+                    <span>Optics</span>
+                    <strong>Secondary mirror reflection</strong>
+                  </figcaption>
+                </figure>
+                <figure class="astro-card">
+                  <img src="assets/astronomy/polar-scope-reticle.jpg" alt="Polar scope reticle internal view" loading="lazy" decoding="async" />
                   <figcaption>
                     <span>Alignment</span>
                     <strong>Polar scope reticle / 极轴镜内部视角</strong>
+                  </figcaption>
+                </figure>
+                <figure class="astro-card">
+                  <img src="assets/astronomy/moon-wide-field.jpg" alt="Supplied Moon observation field image" loading="lazy" decoding="async" />
+                  <figcaption>
+                    <span>Lunar</span>
+                    <strong>Moon field study</strong>
+                  </figcaption>
+                </figure>
+                <figure class="astro-card">
+                  <img src="assets/astronomy/moon-close-field.jpg" alt="Supplied Moon close field image" loading="lazy" decoding="async" />
+                  <figcaption>
+                    <span>Lunar</span>
+                    <strong>Moon close field</strong>
                   </figcaption>
                 </figure>
               </div>
@@ -225,7 +239,7 @@ sudo apt install apt</code></pre>
                 <ul class="tag-list" aria-label="Astronomy equipment and interests">
                   <li>EQ6</li>
                   <li>Schmidt-Cassegrain</li>
-                  <li>large Newtonian</li>
+                  <li>大黑200mmF5</li>
                   <li>deep-sky</li>
                   <li>planetary</li>
                 </ul>
@@ -251,56 +265,94 @@ sudo apt install apt</code></pre>
           <p class="eyebrow">GALLERY</p>
           <h2>Visual field notes</h2>
           <p>
-            Rebuilt visual notes use local generated studies until the original painting
-            photos are supplied again. The layout stays compact, even when zoomed.
+            Real supplied drawings and Schrodinger Cat photos, kept compact with filtering and a persistent image-size control.
           </p>
         </div>
 
         <div class="gallery-controls" aria-label="GALLERY display controls">
+          <div class="gallery-filter-row" aria-label="GALLERY category filters">
+            <button class="gallery-filter active" type="button" data-gallery-filter="all">All</button>
+            <button class="gallery-filter" type="button" data-gallery-filter="drawings">Drawings</button>
+            <button class="gallery-filter" type="button" data-gallery-filter="cats">Schrodinger Cat</button>
+          </div>
           <label for="gallerySize">Image size</label>
           <input id="gallerySize" type="range" min="150" max="290" value="210" step="10" />
           <output id="gallerySizeValue" for="gallerySize">210px</output>
         </div>
 
-        <div class="gallery-grid" aria-label="Painting gallery">
-          <figure class="art-card art-cat">
-            <div class="art-image" aria-hidden="true"></div>
-            <figcaption><span>Watercolor</span><strong>Cat study</strong></figcaption>
+        <div class="gallery-grid" aria-label="Supplied drawing and cat gallery">
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/star-sea.jpg" alt="Watercolor night sea drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Drawing</span><strong>Star sea</strong></figcaption>
           </figure>
-          <figure class="art-card art-skyline">
-            <div class="art-image" aria-hidden="true"></div>
-            <figcaption><span>Urban dusk</span><strong>Skyline silhouettes</strong></figcaption>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/campus-linework.jpg" alt="Campus architecture linework drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Linework</span><strong>Campus steps</strong></figcaption>
           </figure>
-          <figure class="art-card art-lake">
-            <div class="art-image" aria-hidden="true"></div>
-            <figcaption><span>Landscape</span><strong>Lake and trees</strong></figcaption>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/lake-study.jpg" alt="Sepia lake and tree watercolor drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Landscape</span><strong>Lake study</strong></figcaption>
           </figure>
-          <figure class="art-card art-road">
-            <div class="art-image" aria-hidden="true"></div>
-            <figcaption><span>Path</span><strong>Forest road</strong></figcaption>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/web-geometry.jpg" alt="Watercolor spider web geometry drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Structure</span><strong>Web geometry</strong></figcaption>
           </figure>
-          <figure class="art-card art-ridge">
-            <div class="art-image" aria-hidden="true"></div>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/ridge-under-stars.jpg" alt="Watercolor ridge under stars drawing" loading="lazy" decoding="async" />
             <figcaption><span>Night study</span><strong>Ridge under stars</strong></figcaption>
           </figure>
-          <figure class="art-card art-mountain">
-            <div class="art-image" aria-hidden="true"></div>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/snow-mountain.jpg" alt="Snow mountain watercolor drawing" loading="lazy" decoding="async" />
             <figcaption><span>Mountain</span><strong>Snow line</strong></figcaption>
           </figure>
-          <figure class="art-card art-web">
-            <div class="art-image" aria-hidden="true"></div>
-            <figcaption><span>Structure</span><strong>Web geometry</strong></figcaption>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/skyline-dusk.jpg" alt="Blue dusk skyline drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Urban dusk</span><strong>Skyline silhouettes</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/watercolor-cat.jpg" alt="Watercolor white cat drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Watercolor</span><strong>Cat study</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="drawings">
+            <img class="art-image" src="assets/drawings/forest-road.jpg" alt="Forest road watercolor drawing" loading="lazy" decoding="async" />
+            <figcaption><span>Path</span><strong>Forest road</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-portrait.jpg" alt="Schrodinger Cat portrait" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Wide-eyed portrait</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-blanket.jpg" alt="Schrodinger Cat lying on a blanket" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Blanket mode</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-closeup.jpg" alt="Schrodinger Cat close-up" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Close orbit</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-resting.jpg" alt="Schrodinger Cat resting" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Rest state</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-plant.jpg" alt="Schrodinger Cat near a plant" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Plant inspection</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-drum.jpg" alt="Schrodinger Cat inside a drum-like circular frame" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Circular chamber</strong></figcaption>
+          </figure>
+          <figure class="art-card" data-gallery-card data-gallery-kind="cats">
+            <img class="art-image" src="assets/cats/cat-paper-tunnel.jpg" alt="Schrodinger Cat viewed through a paper tunnel" loading="lazy" decoding="async" />
+            <figcaption><span>Schrodinger Cat</span><strong>Paper tunnel</strong></figcaption>
           </figure>
         </div>
       </section>
-
       <section class="movies-section" id="movies">
         <div class="section-heading">
           <p class="eyebrow">MOVIES</p>
           <h2>Favourite movies</h2>
           <p>
-            Custom same-size title cards avoid embedding copyrighted poster sources while
-            keeping this as a separate personal shelf.
+            This shelf now follows the supplied movie assets exactly, using same-ratio visual still cards rather than placeholder title tiles.
           </p>
         </div>
         <div class="movie-controls" aria-label="Movie filters">
@@ -309,19 +361,43 @@ sudo apt install apt</code></pre>
           <button class="movie-filter" type="button" data-movie-filter="music">Music</button>
           <button class="movie-filter" type="button" data-movie-filter="mind">Mind</button>
           <button class="movie-filter" type="button" data-movie-filter="myth">Myth</button>
+          <button class="movie-filter" type="button" data-movie-filter="velocity">Velocity</button>
         </div>
         <div class="movie-grid">
-          <article class="movie-card space"><span>1997</span><strong>Contact</strong><small>signal / faith / science</small></article>
-          <article class="movie-card music"><span>1998</span><strong>1900</strong><small>music / boundary</small></article>
-          <article class="movie-card mind"><span>2017</span><strong>Gifted</strong><small>math / childhood</small></article>
-          <article class="movie-card space"><span>2014</span><strong>Interstellar</strong><small>gravity / family</small></article>
-          <article class="movie-card mind"><span>2010</span><strong>The King's Speech</strong><small>voice / discipline</small></article>
-          <article class="movie-card myth"><span>2008</span><strong>Batman Dark Knight</strong><small>order / chaos</small></article>
-          <article class="movie-card myth"><span>2022</span><strong>Puss in Boots</strong><small>mortality / courage</small></article>
-          <article class="movie-card space"><span>2003</span><strong>Finding Nemo</strong><small>name coincidence</small></article>
+          <article class="movie-card music">
+            <img class="movie-still" src="assets/movies/1900.jpg" alt="1900 supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>1998</span><strong>1900</strong><small>music / boundary</small></div>
+          </article>
+          <article class="movie-card space">
+            <img class="movie-still" src="assets/movies/contact.jpg" alt="Contact supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>1997</span><strong>Contact</strong><small>signal / faith / science</small></div>
+          </article>
+          <article class="movie-card myth">
+            <img class="movie-still" src="assets/movies/dark-knight.jpg" alt="Batman Dark Knight supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>2008</span><strong>Batman Dark Knight</strong><small>order / chaos</small></div>
+          </article>
+          <article class="movie-card mind">
+            <img class="movie-still" src="assets/movies/fight-club.jpg" alt="Fight Club supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>1999</span><strong>Fight Club</strong><small>identity / fracture</small></div>
+          </article>
+          <article class="movie-card velocity">
+            <img class="movie-still" src="assets/movies/ford-v-ferrari.jpg" alt="Ford v. Ferrari supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>2019</span><strong>Ford v. Ferrari</strong><small>engineering / velocity</small></div>
+          </article>
+          <article class="movie-card mind">
+            <img class="movie-still" src="assets/movies/gifted.jpg" alt="Gifted supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>2017</span><strong>Gifted</strong><small>math / childhood</small></div>
+          </article>
+          <article class="movie-card space">
+            <img class="movie-still" src="assets/movies/interstellar.jpg" alt="Interstellar supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>2014</span><strong>Interstellar</strong><small>gravity / family</small></div>
+          </article>
+          <article class="movie-card myth">
+            <img class="movie-still" src="assets/movies/puss-in-boots.jpg" alt="Puss in Boots supplied movie still" loading="lazy" decoding="async" />
+            <div class="movie-copy"><span>2022</span><strong>Puss in Boots</strong><small>mortality / courage</small></div>
+          </article>
         </div>
       </section>
-
       <section class="notes-section" id="notes">
         <div class="section-heading">
           <p class="eyebrow">BLOG</p>

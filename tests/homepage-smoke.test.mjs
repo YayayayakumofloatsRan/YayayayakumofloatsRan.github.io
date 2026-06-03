@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -8,9 +8,44 @@ const indexPath = join(site, "index.html");
 const stylesPath = join(site, "styles.css");
 const scriptPath = join(site, "script.js");
 const moonPath = join(site, "assets", "moon-20240321-phase.jpg");
+const suppliedAssetPaths = [
+  "assets/astronomy/newtonian-front-cell.jpg",
+  "assets/astronomy/secondary-mirror-reflection.jpg",
+  "assets/astronomy/polar-scope-reticle.jpg",
+  "assets/astronomy/moon-wide-field.jpg",
+  "assets/astronomy/moon-close-field.jpg",
+  "assets/drawings/star-sea.jpg",
+  "assets/drawings/campus-linework.jpg",
+  "assets/drawings/lake-study.jpg",
+  "assets/drawings/web-geometry.jpg",
+  "assets/drawings/ridge-under-stars.jpg",
+  "assets/drawings/snow-mountain.jpg",
+  "assets/drawings/skyline-dusk.jpg",
+  "assets/drawings/watercolor-cat.jpg",
+  "assets/drawings/forest-road.jpg",
+  "assets/cats/cat-portrait.jpg",
+  "assets/cats/cat-blanket.jpg",
+  "assets/cats/cat-closeup.jpg",
+  "assets/cats/cat-resting.jpg",
+  "assets/cats/cat-plant.jpg",
+  "assets/cats/cat-drum.jpg",
+  "assets/cats/cat-paper-tunnel.jpg",
+  "assets/movies/1900.jpg",
+  "assets/movies/contact.jpg",
+  "assets/movies/dark-knight.jpg",
+  "assets/movies/fight-club.jpg",
+  "assets/movies/ford-v-ferrari.jpg",
+  "assets/movies/gifted.jpg",
+  "assets/movies/interstellar.jpg",
+  "assets/movies/puss-in-boots.jpg",
+];
 
 for (const file of [indexPath, stylesPath, scriptPath, moonPath]) {
   assert.equal(existsSync(file), true, `${file} should exist`);
+}
+
+for (const assetPath of suppliedAssetPaths) {
+  assert.equal(existsSync(join(site, assetPath)), true, `${assetPath} should exist as a site-local optimized asset`);
 }
 
 const html = readFileSync(indexPath, "utf8");
@@ -35,6 +70,10 @@ assert.match(html, /ProjectH/, "ProjectH should be present");
 assert.match(html, /laser_extraction/, "secondary public project should be present");
 
 assert.match(html, /assets\/moon-20240321-phase\.jpg/, "Moon image asset should be used");
+assert.match(html, /assets\/astronomy\/newtonian-front-cell\.jpg/, "astronomy should use supplied Newtonian photo");
+assert.match(html, /assets\/astronomy\/secondary-mirror-reflection\.jpg/, "astronomy should use supplied mirror reflection photo");
+assert.match(html, /assets\/astronomy\/polar-scope-reticle\.jpg/, "astronomy should use supplied polar scope photo");
+assert.match(html, /assets\/astronomy\/moon-wide-field\.jpg|assets\/astronomy\/moon-close-field\.jpg/, "astronomy should include supplied Moon photos");
 assert.match(html, /EQ6|deep-sky|planetary/i, "astronomy interests should be present");
 assert.match(html, /大黑200mmF5/, "requested telescope label should be exact");
 assert.match(html, /Polar scope|极轴镜/i, "polar scope field note should be present");
@@ -42,7 +81,10 @@ assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope cap
 
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
-assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size/i, "gallery size should be interactive and persisted");
+assert.match(html, /gallery-filter|data-gallery-filter|Schrodinger/i, "GALLERY should expose supplied drawing/cat categories");
+assert.match(html, /assets\/drawings\/star-sea\.jpg/, "GALLERY should use supplied drawing images");
+assert.match(html, /assets\/cats\/cat-portrait\.jpg/, "GALLERY should use supplied cat images");
+assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size|setGalleryFilter/i, "gallery size and categories should be interactive and persisted");
 assert.match(html, /stellar-deck|deck-panel|deck-edge-button|vertical-flow/i, "homepage should mix a 3D deck with normal vertical flow");
 assert.match(css, /perspective:\s*\d+px|transform-style:\s*preserve-3d|rotateY|translate3d/i, "deck should use 3D transform language");
 assert.match(css, /scroll-snap-type:\s*y\s+proximity/i, "vertical content should keep traditional scroll behavior");
@@ -62,19 +104,27 @@ assert.match(js, /networkFrameMs|lastNetworkFrame/i, "starfield rendering should
 assert.match(css, /will-change:\s*transform|backface-visibility:\s*hidden|contain:\s*layout paint/i, "deck panels should be optimized for composited transforms");
 assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
 
-for (const movie of [
+const suppliedMovies = [
   "Contact",
   "1900",
   "Gifted",
   "Interstellar",
-  "The King's Speech",
   "Batman Dark Knight",
+  "Fight Club",
+  "Ford v. Ferrari",
   "Puss in Boots",
-  "Finding Nemo",
-]) {
+];
+
+for (const movie of suppliedMovies) {
   assert.match(html, new RegExp(movie.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), `${movie} should be listed`);
 }
-assert.match(html, /movie-filter|movie-card/, "movie shelf should be interactive");
+
+for (const staleMovie of ["The King's Speech", "Finding Nemo"]) {
+  assert.doesNotMatch(html, new RegExp(staleMovie.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), `${staleMovie} should not be listed without supplied assets`);
+}
+
+assert.match(html, /assets\/movies\/contact\.jpg|assets\/movies\/ford-v-ferrari\.jpg/, "movie shelf should render supplied movie stills");
+assert.match(html, /movie-filter|movie-card|movie-still/, "movie shelf should be interactive and visual");
 
 assert.match(html, /apt not found|deadlock/i, "apt/deadlock easter egg should be present");
 assert.match(js, /themeToggle|localStorage|data-theme/, "theme toggle should persist state");
