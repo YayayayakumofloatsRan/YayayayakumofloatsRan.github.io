@@ -74,6 +74,9 @@
   already-masked full-name areas are locally deblocked with soft edges. The surname
   `祁` remains visible where it was already public, while no hidden name information is
   reconstructed or exposed.
+- Optimized the astronomy background orbit layer by caching static orbit rings on an
+  offscreen canvas, reducing starfield node count and pair-distance cost, and increasing
+  the contrast of both the page background orbit and the in-card solar-system widget.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

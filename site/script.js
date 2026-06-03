@@ -45,8 +45,11 @@ let maxDeckContentHeight = 0;
 let deckHeightDirty = true;
 let lightboxRequestId = 0;
 let ignoreNextBackdropClick = false;
+let orbitBackdrop = null;
 
-const networkFrameMs = 1000 / 24;
+const networkFrameMs = 1000 / 20;
+const networkLinkDistance = 116;
+const networkLinkDistanceSq = networkLinkDistance * networkLinkDistance;
 const planetProfiles = {
   mercury: { name: "Mercury", angle: 18, fact: "Fast inner orbit: small radius, high angular urgency." },
   venus: { name: "Venus", angle: 62, fact: "Bright phase logic: visually calm, physically hostile." },
@@ -61,6 +64,10 @@ const planetProfiles = {
 function setTheme(theme) {
   root.dataset.theme = theme;
   localStorage.setItem("nemo-theme-v3", theme);
+  orbitBackdrop = null;
+  if (canvas?.width) {
+    buildOrbitBackdrop();
+  }
   if (themeLabel) {
     themeLabel.textContent = theme === "dark" ? "Light" : "Dark";
   }
@@ -428,12 +435,14 @@ function resizeCanvas() {
   canvas.style.height = `${window.innerHeight}px`;
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-  nodes = Array.from({ length: Math.min(48, Math.floor(window.innerWidth / 30)) }, () => ({
+  nodes = Array.from({ length: Math.max(18, Math.min(36, Math.floor(window.innerWidth / 42))) }, () => ({
     x: Math.random() * window.innerWidth,
     y: Math.random() * window.innerHeight,
-    vx: (Math.random() - 0.5) * 0.22,
-    vy: (Math.random() - 0.5) * 0.22,
+    vx: (Math.random() - 0.5) * 0.18,
+    vy: (Math.random() - 0.5) * 0.18,
   }));
+
+  buildOrbitBackdrop(ratio);
 }
 
 function effectiveFrameMs() {
@@ -443,9 +452,65 @@ function effectiveFrameMs() {
 function palette() {
   const dark = root.dataset.theme === "dark";
   return {
-    dot: dark ? "rgba(241, 199, 108, 0.42)" : "rgba(154, 107, 31, 0.34)",
-    line: dark ? "rgba(128, 215, 208," : "rgba(37, 122, 121,",
+    dot: dark ? "rgba(241, 199, 108, 0.68)" : "rgba(5, 93, 103, 0.58)",
+    line: dark ? "rgba(128, 215, 208," : "rgba(7, 93, 107,",
+    orbit: dark ? "rgba(128, 215, 208, 0.36)" : "rgba(7, 93, 107, 0.28)",
+    orbitAccent: dark ? "rgba(241, 199, 108, 0.58)" : "rgba(184, 135, 42, 0.48)",
+    orbitGlow: dark ? "rgba(128, 215, 208, 0.12)" : "rgba(15, 127, 134, 0.10)",
   };
+}
+
+function buildOrbitBackdrop(ratio = Math.min(window.devicePixelRatio || 1, 1.5)) {
+  if (!canvas) return;
+
+  const backdrop = document.createElement("canvas");
+  const backdropContext = backdrop.getContext("2d");
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  if (!backdropContext || width <= 0 || height <= 0) return;
+
+  const colors = palette();
+  backdrop.width = canvas.width;
+  backdrop.height = canvas.height;
+  backdropContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+  backdropContext.clearRect(0, 0, width, height);
+  backdropContext.lineCap = "round";
+
+  const centerX = width * 0.58;
+  const centerY = height * 0.52;
+  const maxRadius = Math.max(width, height);
+  const rings = [0.22, 0.34, 0.48, 0.64, 0.82];
+
+  backdropContext.save();
+  backdropContext.translate(centerX, centerY);
+  backdropContext.rotate(-0.31);
+  rings.forEach((scale, index) => {
+    backdropContext.beginPath();
+    backdropContext.setLineDash(index % 2 === 0 ? [] : [10, 18]);
+    backdropContext.lineWidth = index === 2 ? 1.5 : 1;
+    backdropContext.strokeStyle = index === 2 ? colors.orbitAccent : colors.orbit;
+    backdropContext.ellipse(0, 0, maxRadius * scale, maxRadius * scale * 0.34, 0, 0, Math.PI * 2);
+    backdropContext.stroke();
+  });
+  backdropContext.restore();
+
+  backdropContext.setLineDash([]);
+  backdropContext.beginPath();
+  backdropContext.strokeStyle = colors.orbitGlow;
+  backdropContext.lineWidth = 28;
+  backdropContext.ellipse(centerX, centerY, maxRadius * 0.48, maxRadius * 0.16, -0.31, 0, Math.PI * 2);
+  backdropContext.stroke();
+
+  backdropContext.beginPath();
+  backdropContext.strokeStyle = colors.orbitAccent;
+  backdropContext.lineWidth = 1.2;
+  backdropContext.setLineDash([2, 14]);
+  backdropContext.ellipse(width * 0.18, height * 0.22, maxRadius * 0.18, maxRadius * 0.052, 0.42, 0, Math.PI * 1.62);
+  backdropContext.stroke();
+  backdropContext.setLineDash([]);
+
+  orbitBackdrop = backdrop;
 }
 
 function drawNetwork(timestamp = 0) {
@@ -457,7 +522,11 @@ function drawNetwork(timestamp = 0) {
 
   const colors = palette();
   context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  if (orbitBackdrop) {
+    context.drawImage(orbitBackdrop, 0, 0, window.innerWidth, window.innerHeight);
+  }
   context.lineWidth = 1;
+  context.setLineDash([]);
 
   nodes.forEach((node, index) => {
     node.x += node.vx;
@@ -471,10 +540,12 @@ function drawNetwork(timestamp = 0) {
 
     for (let next = index + 1; next < nodes.length; next += 1) {
       const other = nodes[next];
-      const distance = Math.hypot(node.x - other.x, node.y - other.y);
+      const dx = node.x - other.x;
+      const dy = node.y - other.y;
+      const distanceSq = dx * dx + dy * dy;
 
-      if (distance < 104) {
-        context.strokeStyle = `${colors.line} ${0.12 * (1 - distance / 104)})`;
+      if (distanceSq < networkLinkDistanceSq) {
+        context.strokeStyle = `${colors.line} ${0.2 * (1 - distanceSq / networkLinkDistanceSq)})`;
         context.beginPath();
         context.moveTo(node.x, node.y);
         context.lineTo(other.x, other.y);

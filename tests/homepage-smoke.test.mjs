@@ -116,7 +116,10 @@ assert.match(js, /deckContentHeight[\s\S]*reduce/i, "deck height should be measu
 assert.match(js, /networkFrameMs|lastNetworkFrame/i, "starfield rendering should be frame-throttled");
 assert.match(css, /will-change:\s*transform|backface-visibility:\s*hidden|contain:\s*layout paint/i, "deck panels should be optimized for composited transforms");
 assert.match(html + css + js, /orbit|constellation|starfield/i, "astronomy theme should drive visible interactions");
-assert.match(js, /effectiveFrameMs|is-deck-moving|Math\.min\(48/i, "starfield rendering should reduce work during deck motion");
+assert.match(js, /effectiveFrameMs|is-deck-moving|Math\.min\(36/i, "starfield rendering should reduce work during deck motion");
+assert.match(js, /buildOrbitBackdrop|orbitBackdrop|drawImage\(orbitBackdrop/i, "background orbit rings should be cached instead of redrawn from scratch each frame");
+assert.match(js, /networkLinkDistanceSq|distanceSq|dx \* dx \+ dy \* dy/i, "network link distance checks should avoid per-pair square roots");
+assert.match(css + js, /orbitAccent|orbitGlow|network-canvas[\s\S]*opacity:\s*0\.[57]/i, "background orbit rendering should use a higher-contrast palette");
 assert.match(css, /animation-play-state:\s*paused[\s\S]*body\[data-deck="astronomy"\][\s\S]*animation-play-state:\s*running/i, "solar-system animation should pause outside the astronomy deck");
 assert.match(css, /\.deck-panel\.is-far[\s\S]*visibility:\s*hidden/i, "far deck panels should be hidden from rendering");
 assert.match(html + css + js, /imageLightbox|lightboxImage|openLightbox|image-lightbox/i, "site images should open in a lightbox preview");
