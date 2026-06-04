@@ -211,14 +211,15 @@ main > section,
   min-height: calc(100dvh - 72px);
   display: grid;
   align-items: center;
+  padding: clamp(0.75rem, 1.6vw, 1.25rem) 5vw;
   scroll-snap-align: start;
 }
 
 .deck-viewport {
   position: relative;
   width: min(1480px, 100%);
-  height: var(--deck-height, min(860px, calc(100dvh - 72px)));
-  min-height: var(--deck-height, min(860px, calc(100dvh - 72px)));
+  height: var(--deck-height, calc(100dvh - 124px));
+  min-height: var(--deck-height, calc(100dvh - 124px));
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -246,7 +247,7 @@ main > section,
   position: absolute;
   inset: 0;
   min-width: 0;
-  padding: clamp(2rem, 5vw, 4.5rem);
+  padding: clamp(1.35rem, 3.4vw, 3rem);
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
@@ -369,6 +370,7 @@ body.is-deck-moving .deck-panel {
 .deck-panel > .movie-controls,
 .deck-panel > .movie-grid,
 .deck-panel > .astro-media-grid,
+.deck-panel > .astro-visual-panel,
 .deck-panel > .astro-copy,
 .deck-panel > .about-layout,
 .deck-panel > .profile-facts,
@@ -666,27 +668,27 @@ h3 {
 
 .astronomy-section {
   align-items: center;
-  padding-top: clamp(4rem, 8vw, 7rem);
+  padding-top: clamp(1.3rem, 3.2vw, 2.25rem);
   border-top: 1px solid var(--line-soft);
 }
 
 .astro-visual-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.56fr);
-  gap: clamp(0.85rem, 1.8vw, 1.25rem);
+  grid-template-columns: minmax(0, 1fr) minmax(10.5rem, 0.48fr);
+  gap: clamp(0.65rem, 1.25vw, 0.95rem);
   align-items: stretch;
 }
 
 .astro-media-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.7rem, 1.5vw, 1rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1vw, 0.72rem);
 }
 
 .astro-card {
   position: relative;
   min-width: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -819,9 +821,9 @@ h3 {
   min-width: 0;
   display: grid;
   align-content: start;
-  gap: 0.7rem;
+  gap: 0.5rem;
   min-height: 100%;
-  padding: clamp(0.95rem, 1.7vw, 1.25rem);
+  padding: clamp(0.72rem, 1.2vw, 1rem);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
@@ -837,30 +839,42 @@ h3 {
 .astro-inspector p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.42;
 }
 
 .astro-inspector-hint {
-  padding-top: 0.75rem;
+  padding-top: 0.55rem;
   border-top: 1px solid var(--line-soft);
   font-size: 0.86rem;
+}
+
+.astronomy-section.deck-panel h2 {
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1;
+}
+
+.astronomy-section.deck-panel .astro-copy p {
+  margin-bottom: 0;
+  font-size: 0.94rem;
+  line-height: 1.38;
 }
 
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.36rem;
   padding: 0;
-  margin: 1.5rem 0 0;
+  margin: 0.8rem 0 0;
   list-style: none;
 }
 
 .tag-list li {
-  min-height: 2.35rem;
-  padding: 0.55rem 0.85rem;
+  min-height: 1.86rem;
+  padding: 0.35rem 0.58rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: color-mix(in srgb, var(--panel-solid) 78%, transparent);
+  font-size: 0.82rem;
   font-weight: 850;
 }
 
@@ -905,6 +919,51 @@ h3 {
   gap: clamp(0.55rem, 1.2vw, 0.85rem);
 }
 
+.media-browse-layout {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.28fr) minmax(0, 1fr);
+  gap: clamp(0.8rem, 1.8vw, 1.25rem);
+  align-items: start;
+}
+
+.media-inspector {
+  position: sticky;
+  top: 92px;
+  min-width: 0;
+  display: grid;
+  gap: 0.48rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--panel-solid) 88%, transparent), color-mix(in srgb, var(--cyan) 7%, var(--panel-solid))),
+    var(--panel-solid);
+  box-shadow: var(--shadow);
+}
+
+.media-inspector span {
+  color: var(--gold);
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.media-inspector h3 {
+  font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+}
+
+.media-inspector p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
+.media-inspector-hint {
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.86rem;
+}
+
 .art-card {
   position: relative;
   min-width: 0;
@@ -929,6 +988,17 @@ h3 {
 .art-card:focus-within .art-image {
   transform: scale(1.035);
   filter: saturate(1.08) contrast(1.03);
+}
+
+.art-card.active,
+.art-card:hover,
+.art-card:focus-visible,
+.art-card:focus-within,
+.movie-card.active,
+.movie-card:hover,
+.movie-card:focus-visible,
+.movie-card:focus-within {
+  border-color: color-mix(in srgb, var(--gold) 72%, var(--cyan));
 }
 
 .art-card.is-hidden {
@@ -1012,9 +1082,8 @@ h3 {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background:
-    linear-gradient(180deg, transparent 22%, rgba(0, 0, 0, 0.72)),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.44), transparent 58%);
+  display: none;
+  background: none;
   pointer-events: none;
 }
 
@@ -1050,6 +1119,19 @@ h3 {
 .movie-card small {
   color: rgba(248, 241, 223, 0.78);
   font-weight: 800;
+}
+
+.art-card figcaption,
+.movie-copy {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .movie-card.is-hidden {
@@ -1118,11 +1200,11 @@ h3 {
 
 .solar-system-widget {
   display: grid;
-  grid-template-columns: minmax(12rem, 0.88fr) minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(13rem, 0.62fr) minmax(0, 1fr);
+  gap: 0.55rem;
   align-items: center;
-  margin-top: 1.3rem;
-  padding: 0.85rem;
+  margin-top: 0.72rem;
+  padding: 0.58rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--panel-solid) 72%, transparent);
@@ -1133,7 +1215,7 @@ h3 {
   --earth-year-duration: 24s;
   --selected-angle: 108deg;
   position: relative;
-  width: min(20rem, 100%);
+  width: min(13.8rem, calc(100% - 1.2rem));
   aspect-ratio: 1 / 1;
   margin: 0 auto;
   border: 1px solid color-mix(in srgb, var(--cyan) 58%, transparent);
@@ -1145,8 +1227,8 @@ h3 {
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--gold) 18%, transparent),
     inset 0 0 2.4rem color-mix(in srgb, var(--cyan) 18%, transparent);
-  overflow: hidden;
-  contain: layout paint;
+  overflow: visible;
+  contain: layout;
 }
 
 .solar-system::after {
@@ -1215,14 +1297,14 @@ h3 {
   outline-offset: 3px;
 }
 
-.planet-button.mercury { --planet-size: 0.42rem; --orbit-radius: 1.75rem; --planet-angle: 18deg; --planet-color: #b9bec6; }
-.planet-button.venus { --planet-size: 0.5rem; --orbit-radius: 2.75rem; --planet-angle: 62deg; --planet-color: #d8b45d; }
-.planet-button.earth { --planet-size: 0.56rem; --orbit-radius: 3.78rem; --planet-angle: 108deg; --planet-color: #4fb7dd; }
-.planet-button.mars { --planet-size: 0.5rem; --orbit-radius: 4.75rem; --planet-angle: 148deg; --planet-color: #c96b4a; }
-.planet-button.jupiter { --planet-size: 0.82rem; --orbit-radius: 5.85rem; --planet-angle: 204deg; --planet-color: #d5a06c; }
-.planet-button.saturn { --planet-size: 0.76rem; --orbit-radius: 6.85rem; --planet-angle: 248deg; --planet-color: #d7c28b; }
-.planet-button.uranus { --planet-size: 0.62rem; --orbit-radius: 7.65rem; --planet-angle: 294deg; --planet-color: #80d7d0; }
-.planet-button.neptune { --planet-size: 0.62rem; --orbit-radius: 8.4rem; --planet-angle: 334deg; --planet-color: #5878d9; }
+.planet-button.mercury { --planet-size: 0.36rem; --orbit-radius: 1.2rem; --planet-angle: 18deg; --planet-color: #b9bec6; }
+.planet-button.venus { --planet-size: 0.42rem; --orbit-radius: 1.85rem; --planet-angle: 62deg; --planet-color: #d8b45d; }
+.planet-button.earth { --planet-size: 0.48rem; --orbit-radius: 2.46rem; --planet-angle: 108deg; --planet-color: #4fb7dd; }
+.planet-button.mars { --planet-size: 0.42rem; --orbit-radius: 3.05rem; --planet-angle: 148deg; --planet-color: #c96b4a; }
+.planet-button.jupiter { --planet-size: 0.72rem; --orbit-radius: 3.62rem; --planet-angle: 204deg; --planet-color: #d5a06c; }
+.planet-button.saturn { --planet-size: 0.66rem; --orbit-radius: 4.18rem; --planet-angle: 248deg; --planet-color: #d7c28b; }
+.planet-button.uranus { --planet-size: 0.54rem; --orbit-radius: 4.72rem; --planet-angle: 294deg; --planet-color: #80d7d0; }
+.planet-button.neptune { --planet-size: 0.54rem; --orbit-radius: 5.18rem; --planet-angle: 334deg; --planet-color: #5878d9; }
 
 body[data-deck="astronomy"] .planet-button,
 .solar-system:hover .planet-button,
@@ -1243,14 +1325,14 @@ body.is-deck-moving .planet-button {
 .solar-controls {
   display: grid;
   grid-template-columns: auto minmax(7rem, 1fr) auto;
-  gap: 0.6rem 0.7rem;
+  gap: 0.34rem 0.5rem;
   align-items: center;
 }
 
 .solar-controls label,
 .solar-controls output {
   color: var(--muted);
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 900;
 }
 
@@ -1262,8 +1344,8 @@ body.is-deck-moving .planet-button {
 .planet-readout {
   grid-column: 1 / -1;
   display: grid;
-  gap: 0.2rem;
-  min-height: 4.1rem;
+  gap: 0.16rem;
+  min-height: 3.05rem;
   margin: 0.25rem 0 0;
 }
 
@@ -1273,7 +1355,8 @@ body.is-deck-moving .planet-button {
 
 .planet-readout span {
   color: var(--muted);
-  line-height: 1.45;
+  font-size: 0.84rem;
+  line-height: 1.34;
 }
 
 .image-lightbox[hidden] {
@@ -1407,13 +1490,29 @@ body.is-lightbox-open {
   .profile-strip,
   .profile-facts,
   .about-layout,
-  .astronomy-section,
   .contact-section {
     grid-template-columns: 1fr;
   }
 
+  .astronomy-section {
+    grid-template-columns: minmax(0, 1.05fr) minmax(15.5rem, 0.78fr);
+    gap: clamp(1rem, 2.8vw, 2rem);
+  }
+
   .astro-visual-panel {
-    grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.58fr);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .astro-inspector {
+    min-height: auto;
+  }
+
+  .media-browse-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .media-inspector {
+    position: static;
   }
 
   .profile-facts article {
@@ -1444,6 +1543,10 @@ body.is-lightbox-open {
     grid-template-columns: 1fr;
   }
 
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--gallery-min)), 1fr));
+  }
+
   .apt-panel {
     grid-template-columns: 1fr;
   }
@@ -1465,6 +1568,7 @@ body.is-lightbox-open {
 
   .astronomy-section.deck-panel {
     display: grid;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     gap: 1rem;
     align-content: start;
@@ -1509,6 +1613,15 @@ body.is-lightbox-open {
 
   .astronomy-section.deck-panel .astro-copy p {
     display: none;
+  }
+
+  .solar-system-widget {
+    grid-template-columns: 1fr;
+    margin-top: 0.75rem;
+  }
+
+  .solar-system {
+    width: min(14rem, calc(100% - 1.2rem));
   }
 
   .art-card figcaption {

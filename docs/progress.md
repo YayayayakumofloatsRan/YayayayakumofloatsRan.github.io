@@ -101,6 +101,12 @@
   period ratios.
 - Unified GALLERY and Movies around the same 4:3 visual-card rhythm and further reduced
   deck/background rendering work during page transitions.
+- Extended the no-overlay image-note pattern to GALLERY and Movies with side inspectors,
+  then tightened the Astronomy deck height so the active card fits inside one browser
+  viewport without internal scrollbars.
+- Fixed the solar-system edge clipping by removing paint containment from the orbit
+  container and compressing the visual orbit radii so outer planets stay inside the
+  visible widget while keeping the period-ratio animation model.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

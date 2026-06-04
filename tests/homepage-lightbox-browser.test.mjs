@@ -20,6 +20,7 @@ await mkdir(userDataDir, { recursive: true });
 
 const edge = spawn(edgePath, [
   "--headless=new",
+  "--window-size=1440,900",
   "--disable-gpu",
   "--disable-background-networking",
   "--no-first-run",
@@ -129,7 +130,10 @@ try {
   const failures = results.filter((row) => !row.opened || row.actual !== row.expected || !row.caption);
   assert.equal(failures.length, 0, JSON.stringify(failures, null, 2));
 
-  const interactionState = await evaluate(`(() => {
+  const interactionState = await evaluate(`(async () => {
+    document.querySelector('[data-focus="astronomy"]').click();
+    await new Promise((resolve) => setTimeout(resolve, 760));
+
     const skywatcher = document.querySelector('[data-astro-kicker="SKYWATCHER 200mmF5"]');
     skywatcher.dispatchEvent(new PointerEvent("pointerenter", { bubbles: false, pointerType: "mouse" }));
 
@@ -137,25 +141,74 @@ try {
     const earth = document.querySelector('[data-planet="earth"]');
     const firstArt = document.querySelector(".art-card");
     const firstMovie = document.querySelector(".movie-card");
+    const catCard = document.querySelector('[data-gallery-kind="cats"]');
+    const velocityMovie = document.querySelector(".movie-card.velocity");
+    catCard.dispatchEvent(new PointerEvent("pointerenter", { bubbles: false, pointerType: "mouse" }));
+    velocityMovie.dispatchEvent(new PointerEvent("pointerenter", { bubbles: false, pointerType: "mouse" }));
+
     const astroCaption = document.querySelector(".astro-card figcaption");
+    const artCaption = firstArt.querySelector("figcaption");
+    const movieCopy = firstMovie.querySelector(".movie-copy");
     const artRect = firstArt.getBoundingClientRect();
     const movieRect = firstMovie.getBoundingClientRect();
     const captionStyle = getComputedStyle(astroCaption);
+    const artCaptionStyle = getComputedStyle(artCaption);
+    const movieCopyStyle = getComputedStyle(movieCopy);
+    const solar = document.querySelector(".solar-system");
+    const solarWidget = document.querySelector(".solar-system-widget");
+    const deck = document.querySelector("#stellarDeck");
+    const topbar = document.querySelector(".topbar");
+    const astronomyPanel = document.querySelector("#astronomy");
+    const deckRect = deck.getBoundingClientRect();
+    const topbarRect = topbar.getBoundingClientRect();
+    const widgetRect = solarWidget.getBoundingClientRect();
+    const clippedPlanets = Array.from(document.querySelectorAll("[data-planet]")).map((planet) => {
+      const rect = planet.getBoundingClientRect();
+      return {
+        planet: planet.dataset.planet,
+        left: rect.left,
+        right: rect.right,
+        top: rect.top,
+        bottom: rect.bottom,
+        clipped:
+          rect.left < widgetRect.left - 6 ||
+          rect.right > widgetRect.right + 6 ||
+          rect.top < widgetRect.top - 6 ||
+          rect.bottom > widgetRect.bottom + 6,
+      };
+    }).filter((planet) => planet.clipped);
 
     return {
       inspectorKicker: document.querySelector("#astroInspectorKicker").textContent.trim(),
       inspectorTitle: document.querySelector("#astroInspectorTitle").textContent.trim(),
+      galleryInspectorKicker: document.querySelector("#galleryInspectorKicker").textContent.trim(),
+      galleryInspectorTitle: document.querySelector("#galleryInspectorTitle").textContent.trim(),
+      movieInspectorTitle: document.querySelector("#movieInspectorTitle").textContent.trim(),
       mercuryDuration: Number.parseFloat(getComputedStyle(mercury).animationDuration),
       earthDuration: Number.parseFloat(getComputedStyle(earth).animationDuration),
       artRatio: artRect.width / artRect.height,
       movieRatio: movieRect.width / movieRect.height,
       astroCaptionWidth: Number.parseFloat(captionStyle.width),
       astroCaptionHeight: Number.parseFloat(captionStyle.height),
+      artCaptionWidth: Number.parseFloat(artCaptionStyle.width),
+      artCaptionHeight: Number.parseFloat(artCaptionStyle.height),
+      movieCopyWidth: Number.parseFloat(movieCopyStyle.width),
+      movieCopyHeight: Number.parseFloat(movieCopyStyle.height),
+      solarOverflow: getComputedStyle(solar).overflow,
+      clippedPlanets,
+      viewportHeight: window.innerHeight,
+      deckHeight: deckRect.height,
+      topbarHeight: topbarRect.height,
+      astronomyClientHeight: astronomyPanel.clientHeight,
+      astronomyScrollHeight: astronomyPanel.scrollHeight,
     };
   })()`);
 
   assert.equal(interactionState.inspectorKicker, "SKYWATCHER 200mmF5");
   assert.match(interactionState.inspectorTitle, /Newtonian reflector/i);
+  assert.equal(interactionState.galleryInspectorKicker, "Schrödinger The Cat");
+  assert.match(interactionState.galleryInspectorTitle, /Wide-eyed portrait|portrait/i);
+  assert.equal(interactionState.movieInspectorTitle, "Ford v. Ferrari");
   assert.ok(
     Math.abs(interactionState.mercuryDuration / interactionState.earthDuration - 0.2408) < 0.03,
     `Mercury/Earth duration ratio should follow orbital periods: ${JSON.stringify(interactionState)}`,
@@ -167,6 +220,24 @@ try {
   assert.ok(
     interactionState.astroCaptionWidth <= 2 && interactionState.astroCaptionHeight <= 2,
     `Astronomy captions should not overlay images: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    interactionState.artCaptionWidth <= 2 && interactionState.artCaptionHeight <= 2,
+    `Gallery captions should not overlay images: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    interactionState.movieCopyWidth <= 2 && interactionState.movieCopyHeight <= 2,
+    `Movie text should not overlay images: ${JSON.stringify(interactionState)}`,
+  );
+  assert.equal(interactionState.solarOverflow, "visible");
+  assert.deepEqual(interactionState.clippedPlanets, []);
+  assert.ok(
+    interactionState.deckHeight + interactionState.topbarHeight <= interactionState.viewportHeight + 6,
+    `Deck plus topbar should fit within one viewport: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    interactionState.astronomyScrollHeight <= interactionState.astronomyClientHeight + 20,
+    `Astronomy panel content should fit its deck card: ${JSON.stringify(interactionState)}`,
   );
 } finally {
   socket.close();

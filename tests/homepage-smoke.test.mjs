@@ -96,6 +96,8 @@ assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope cap
 assert.match(html + css + js, /solar-system|data-planet|planetReadout|orbitSpeed|planetProfiles|setPlanet/i, "orbit toy should be expanded into an interactive solar system");
 assert.match(html + js, /Earth-year duration|periodDays|periodRatio|Earth days per orbit/i, "solar-system toy should use realistic orbital period ratios");
 assert.doesNotMatch(css, /constellation-screen::before/i, "old decorative astronomy orbit pseudo-element should be removed");
+assert.match(css, /\.solar-system[\s\S]*overflow:\s*visible[\s\S]*\.planet-button\.neptune/i, "solar-system planets should not be clipped at the orbit edge");
+assert.doesNotMatch(css, /\.solar-system[\s\S]*contain:\s*[^;]*paint/i, "solar-system should not use paint containment because it clips visible outer planets");
 
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
@@ -104,6 +106,9 @@ assert.doesNotMatch(html, /Schrodinger Cat/i, "cat gallery label should not use 
 assert.match(html, /assets\/drawings\/star-sea\.jpg/, "GALLERY should use supplied drawing images");
 assert.match(html, /assets\/cats\/cat-portrait\.jpg/, "GALLERY should use supplied cat images");
 assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size|setGalleryFilter/i, "gallery size and categories should be interactive and persisted");
+assert.match(html + js, /galleryInspector|setGalleryInspector|media-browse-layout/i, "GALLERY should move image text into an inspector instead of an overlay");
+assert.match(html + js, /movieInspector|setMovieInspector|media-browse-layout/i, "Movies should move image text into an inspector instead of an overlay");
+assert.match(css, /art-card figcaption,[\s\S]*movie-copy[\s\S]*clip-path:\s*inset\(50%\)/i, "Gallery and movie captions should be visually hidden from the image surface");
 assert.match(html, /stellar-deck|deck-panel|deck-edge-button|vertical-flow/i, "homepage should mix a 3D deck with normal vertical flow");
 assert.match(css, /perspective:\s*\d+px|transform-style:\s*preserve-3d|rotateY|translate3d/i, "deck should use 3D transform language");
 assert.match(css, /scroll-snap-type:\s*y\s+proximity/i, "vertical content should keep traditional scroll behavior");
@@ -112,6 +117,7 @@ assert.doesNotMatch(js, /addEventListener\(\s*["']wheel|ArrowRight|ArrowLeft|Pag
 assert.doesNotMatch(html, /deck-controls|deckPrev|deckNext|deckDots/i, "global bottom deck controls should be removed");
 assert.match(css, /\.deck-edge-button[\s\S]*opacity:\s*0(?:\.0?\d+)?[\s\S]*\.deck-edge-button(?::hover|:focus-visible)/i, "edge strip buttons should be nearly invisible until touched or focused");
 assert.match(js, /syncDeckHeight|--deck-height|scrollHeight/i, "deck height should adapt to active panel content instead of using internal scrollbars");
+assert.match(js, /deckHeightLimit|Math\.min\(limit/i, "deck height should be clamped to the viewport instead of expanding past one screen");
 assert.match(css, /\.deck-panel[\s\S]*overflow:\s*hidden/i, "deck panels should not show internal scrollbars");
 assert.match(css, /scrollbar-width:\s*none|::-webkit-scrollbar[\s\S]*display:\s*none/i, "deck scrollbars should be suppressed");
 assert.match(css, /rotateX\(/i, "deck perspective should include subtle vertical pitch");

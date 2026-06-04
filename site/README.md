@@ -40,9 +40,11 @@ Current interaction notes:
   not cover the photos.
 - The solar-system control keeps a visible phase slider and uses rounded NASA/JPL
   orbital-period ratios for per-planet animation speeds. The visual orbit spacing is
-  intentionally compressed for readability.
-- GALLERY and Movies use the same 4:3 media-card rhythm to reduce visual mismatch between
-  supplied drawings, cat photos, and movie stills.
+  intentionally compressed for readability, with the outer planets kept inside the
+  visible widget area.
+- GALLERY and Movies use the same 4:3 media-card rhythm and side inspectors to reduce
+  visual mismatch between supplied drawings, cat photos, and movie stills without placing
+  captions over the images.
 - Content images open a captioned lightbox preview. The card images stay lightweight, and
   the preview overlay prefers high-resolution files under `assets/preview/`.
 - Public Moon images hide the location line while preserving the date, phase, and

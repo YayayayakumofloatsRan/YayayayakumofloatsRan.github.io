@@ -27,6 +27,12 @@ const astroCards = document.querySelectorAll("[data-astro-card]");
 const astroInspectorKicker = document.querySelector("#astroInspectorKicker");
 const astroInspectorTitle = document.querySelector("#astroInspectorTitle");
 const astroInspectorNote = document.querySelector("#astroInspectorNote");
+const galleryInspectorKicker = document.querySelector("#galleryInspectorKicker");
+const galleryInspectorTitle = document.querySelector("#galleryInspectorTitle");
+const galleryInspectorNote = document.querySelector("#galleryInspectorNote");
+const movieInspectorKicker = document.querySelector("#movieInspectorKicker");
+const movieInspectorTitle = document.querySelector("#movieInspectorTitle");
+const movieInspectorNote = document.querySelector("#movieInspectorNote");
 const imageLightbox = document.querySelector("#imageLightbox");
 const lightboxImage = document.querySelector("#lightboxImage");
 const lightboxCaption = document.querySelector("#lightboxCaption");
@@ -45,7 +51,6 @@ let deckMotionTimer = 0;
 let resizeFrame = 0;
 let lastNetworkFrame = 0;
 let activeDeck = 0;
-let maxDeckContentHeight = 0;
 let deckHeightDirty = true;
 let lightboxRequestId = 0;
 let ignoreNextBackdropClick = false;
@@ -147,7 +152,12 @@ function deckIndexFromTarget(target) {
 
 function deckBaselineHeight() {
   const mobile = window.matchMedia("(max-width: 560px)").matches;
-  return Math.max(mobile ? 640 : 720, window.innerHeight - (mobile ? 160 : 72));
+  return Math.max(mobile ? 500 : 560, window.innerHeight - (mobile ? 150 : 124));
+}
+
+function deckHeightLimit() {
+  const mobile = window.matchMedia("(max-width: 560px)").matches;
+  return Math.max(mobile ? 500 : 560, window.innerHeight - (mobile ? 150 : 124));
 }
 
 function deckContentHeight(panel) {
@@ -172,16 +182,12 @@ function syncDeckHeight(index = activeDeck) {
 
   window.cancelAnimationFrame(deckHeightFrame);
   deckHeightFrame = window.requestAnimationFrame(() => {
-    if (deckHeightDirty || maxDeckContentHeight === 0) {
-      maxDeckContentHeight = deckPanels.reduce((height, panel) => {
-        return Math.max(height, deckContentHeight(panel) + 32);
-      }, baseline);
-      deckHeightDirty = false;
-    }
-    const maxContentHeight = Math.max(baseline, maxDeckContentHeight);
+    deckHeightDirty = false;
+    const maxContentHeight = Math.max(baseline, deckContentHeight(activePanel) + 24);
+    const limit = deckHeightLimit();
     const activeScrollHeight = activePanel?.scrollHeight || 0;
     const cappedScrollHeight = Math.min(activeScrollHeight, maxContentHeight + 64);
-    const nextHeight = Math.ceil(Math.max(baseline, maxContentHeight, cappedScrollHeight));
+    const nextHeight = Math.ceil(Math.min(limit, Math.max(baseline, maxContentHeight, cappedScrollHeight)));
     deckViewport.style.setProperty("--deck-height", `${nextHeight}px`);
   });
 }
@@ -255,6 +261,9 @@ function setMovieFilter(filter) {
   movieCards.forEach((card) => {
     card.classList.toggle("is-hidden", filter !== "all" && !card.classList.contains(filter));
   });
+
+  const visibleCard = Array.from(movieCards).find((card) => !card.classList.contains("is-hidden"));
+  setMovieInspector(visibleCard);
 }
 
 function setGalleryFilter(filter) {
@@ -266,6 +275,9 @@ function setGalleryFilter(filter) {
     const kind = card.dataset.galleryKind || "";
     card.classList.toggle("is-hidden", filter !== "all" && kind !== filter);
   });
+
+  const visibleCard = Array.from(galleryCards).find((card) => !card.classList.contains("is-hidden"));
+  setGalleryInspector(visibleCard);
 }
 
 function setGallerySize(size) {
@@ -368,6 +380,38 @@ function setAstroInspector(card) {
   if (astroInspectorNote) {
     astroInspectorNote.textContent = card.dataset.astroNote || "";
   }
+}
+
+function setGalleryInspector(card) {
+  if (!card) return;
+
+  galleryCards.forEach((item) => {
+    item.classList.toggle("active", item === card);
+  });
+
+  const kicker = card.querySelector("figcaption span")?.textContent || "";
+  const title = card.querySelector("figcaption strong")?.textContent || "";
+  const note = card.querySelector("img")?.alt || "";
+
+  if (galleryInspectorKicker) galleryInspectorKicker.textContent = kicker;
+  if (galleryInspectorTitle) galleryInspectorTitle.textContent = title;
+  if (galleryInspectorNote) galleryInspectorNote.textContent = note;
+}
+
+function setMovieInspector(card) {
+  if (!card) return;
+
+  movieCards.forEach((item) => {
+    item.classList.toggle("active", item === card);
+  });
+
+  const kicker = card.querySelector(".movie-copy span")?.textContent || "";
+  const title = card.querySelector(".movie-copy strong")?.textContent || "";
+  const note = card.querySelector(".movie-copy small")?.textContent || card.querySelector("img")?.alt || "";
+
+  if (movieInspectorKicker) movieInspectorKicker.textContent = kicker;
+  if (movieInspectorTitle) movieInspectorTitle.textContent = title;
+  if (movieInspectorNote) movieInspectorNote.textContent = note;
 }
 
 function lightboxTextFor(image) {
@@ -648,6 +692,16 @@ astroCards.forEach((card) => {
   card.addEventListener("focusin", () => setAstroInspector(card));
 });
 
+galleryCards.forEach((card) => {
+  card.addEventListener("pointerenter", () => setGalleryInspector(card));
+  card.addEventListener("focusin", () => setGalleryInspector(card));
+});
+
+movieCards.forEach((card) => {
+  card.addEventListener("pointerenter", () => setMovieInspector(card));
+  card.addEventListener("focusin", () => setMovieInspector(card));
+});
+
 preparePreviewSurfaces();
 
 document.addEventListener("pointerdown", (event) => {
@@ -727,6 +781,8 @@ setOrbitAngle(orbitRange?.value || 42);
 setOrbitSpeed(orbitSpeed?.value || 24);
 setPlanet("earth");
 setAstroInspector(astroCards[0]);
+setGalleryInspector(galleryCards[0]);
+setMovieInspector(movieCards[0]);
 updateDeckState(0);
 if (initialHash) {
   navigateToHash(initialHash);
