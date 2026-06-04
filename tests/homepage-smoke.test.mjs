@@ -105,6 +105,8 @@ assert.match(html, /gallery-filter|data-gallery-filter|Schrödinger The Cat/i, "
 assert.doesNotMatch(html, /Schrodinger Cat/i, "cat gallery label should not use the unaccented spelling");
 assert.match(html, /assets\/drawings\/star-sea\.jpg/, "GALLERY should use supplied drawing images");
 assert.match(html, /assets\/cats\/cat-portrait\.jpg/, "GALLERY should use supplied cat images");
+assert.match(html, /NGC 3324/, "the former ridge-under-stars drawing should be labeled as NGC 3324");
+assert.doesNotMatch(html, /<strong>Ridge under stars<\/strong>/i, "old ridge-under-stars visible label should not remain");
 assert.match(css + js, /--gallery-min|gallerySize|nemo-gallery-size|setGalleryFilter/i, "gallery size and categories should be interactive and persisted");
 assert.match(html + js, /galleryInspector|setGalleryInspector|media-browse-layout/i, "GALLERY should move image text into an inspector instead of an overlay");
 assert.match(html + js, /movieInspector|setMovieInspector|media-browse-layout/i, "Movies should move image text into an inspector instead of an overlay");
@@ -115,7 +117,9 @@ assert.match(css, /\.media-inspector[\s\S]*position:\s*sticky/i, "GALLERY and Mo
 assert.match(css, /art-card figcaption,[\s\S]*movie-copy[\s\S]*clip-path:\s*inset\(50%\)/i, "Gallery and movie captions should be visually hidden from the image surface");
 assert.match(html, /stellar-deck|deck-panel|deck-edge-button|vertical-flow/i, "homepage should mix a 3D deck with normal vertical flow");
 assert.match(css, /perspective:\s*\d+px|transform-style:\s*preserve-3d|rotateY|translate3d/i, "deck should use 3D transform language");
-assert.match(css, /scroll-snap-type:\s*y\s+proximity/i, "vertical content should keep traditional scroll behavior");
+assert.doesNotMatch(css, /scroll-snap-type:\s*y\s+(?:proximity|mandatory)/i, "vertical scroll snap should not magnetically lock the deck");
+assert.doesNotMatch(css, /scroll-snap-align:\s*start/i, "major sections should not force scroll-snap alignment");
+assert.match(js, /stellar-deck-section[\s\S]*scrollIntoView\(\{\s*behavior:\s*["']smooth["'],\s*block:\s*["']center["']\s*\}/i, "deck navigation should center the deck instead of snapping it to the viewport top");
 assert.match(js, /navigateDeck|deckEdgeButtons|data-deck-action/i, "script should wire only in-card edge buttons for deck navigation");
 assert.doesNotMatch(js, /addEventListener\(\s*["']wheel|ArrowRight|ArrowLeft|PageDown|PageUp/i, "mouse wheel and keyboard should not turn deck pages");
 assert.doesNotMatch(html, /deck-controls|deckPrev|deckNext|deckDots/i, "global bottom deck controls should be removed");

@@ -45,7 +45,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
   background: var(--bg);
 }
 
@@ -212,7 +211,6 @@ main > section,
   display: grid;
   align-items: center;
   padding: clamp(0.75rem, 1.6vw, 1.25rem) 5vw;
-  scroll-snap-align: start;
 }
 
 .deck-viewport {
@@ -380,12 +378,7 @@ body.is-deck-moving .deck-panel {
   margin-left: auto;
 }
 
-.vertical-flow {
-  scroll-snap-align: start;
-}
-
 .vertical-flow > section {
-  scroll-snap-align: start;
   content-visibility: auto;
   contain-intrinsic-size: 900px;
 }

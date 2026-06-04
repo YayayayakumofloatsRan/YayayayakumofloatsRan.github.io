@@ -117,6 +117,14 @@
   squeezed.
 - Made the GALLERY and Movies inspector strips sticky at the top of the viewport, so
   notes remain visible when browsing or focusing later image rows.
+- Removed the remaining page-level vertical scroll snap and changed deck navigation to
+  center the horizontal card group, so mouse-wheel scrolling can place the deck naturally
+  instead of magnetically locking it to the top of the browser.
+- Tightened public copy across the hero, About, Projects, Astronomy, GALLERY, Movies,
+  Blog lanes, and Contact into shorter personal-blog language while preserving the public
+  profile and project signals.
+- Corrected the former `Ridge under stars` drawing label to `NGC 3324` in the visible
+  GALLERY caption and inspector text contract.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

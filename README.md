@@ -46,8 +46,9 @@ hide the location line while keeping the date, phase, and `Nemo Qi` credit.
 - The homepage now mixes a 3D horizontal astronomy deck for Intro/About/Projects/Astronomy
   with a traditional vertical content flow for GALLERY, Movies, Notes, and Contact.
 - Deck controls use invisible left/right edge buttons on each card and loop from the
-  last card back to the first. Mouse wheel page-turning is intentionally disabled so
-  normal vertical scrolling stays predictable.
+  last card back to the first. Mouse wheel page-turning and page-level vertical scroll
+  snap are intentionally disabled, and deck navigation centers the deck instead of
+  locking it to the top of the viewport.
 - The default palette is pale cyan / ice blue instead of beige; dark mode keeps the
   astronomy-facing indigo, cyan, and gold accent direction.
 - Focus chips jump between systems, astronomy, and GALLERY screens.

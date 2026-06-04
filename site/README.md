@@ -33,7 +33,9 @@ as primary colors with gold line accents.
 Current interaction notes:
 - The horizontal deck loops through its four cards and is controlled only through the
   invisible left/right edge buttons on each card.
-- Mouse wheel input stays reserved for normal vertical page scrolling.
+- Mouse wheel input stays reserved for normal vertical page scrolling. The page no
+  longer uses vertical scroll snapping, and deck navigation scrolls the active card group
+  toward the viewport center instead of forcing a top lock.
 - Astronomy includes six image cards arranged as three rows by two columns plus a
   lightweight solar-system control.
 - Astronomy now follows the selected `素材/astronomy` labels, uses `SKYWATCHER 200mmF5`

@@ -207,7 +207,7 @@ function navigateDeck(target, options = {}) {
   syncDeckHeight(nextIndex);
 
   if (options.scrollIntoView !== false) {
-    document.querySelector(".stellar-deck-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector(".stellar-deck-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   const id = deckId(panel);
