@@ -128,6 +128,10 @@
 - Added a GitHub Pages Actions deployment workflow for
   `YayayayakumofloatsRan/YayayayakumofloatsRan.github.io`, publishing the static `site/`
   folder from the `main` branch to the expected root Pages URL.
+- Diagnosed the live image-loading failure: GitHub Pages was still serving the branch
+  root through README/Jekyll, so `/assets/...` images 404ed even though the repository
+  contained `site/assets/...`. Added a root `index.html` redirect to `site/` plus
+  `.nojekyll` as a branch-root fallback while the Actions source setting propagates.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

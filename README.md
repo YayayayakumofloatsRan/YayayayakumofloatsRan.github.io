@@ -40,6 +40,11 @@ For Cloudflare Pages:
 For GitHub Pages, this repo uses `.github/workflows/pages.yml` to upload `site/` as the
 Pages artifact. In repository settings, set Pages source to GitHub Actions.
 
+If GitHub Pages is temporarily still set to deploy from the branch root, `index.html`
+redirects visitors to `site/` and `.nojekyll` prevents GitHub from rendering `README.md`
+as the homepage. This fallback exists because the real asset paths live under `site/`;
+serving the README page at the root makes `/assets/...` image URLs fail.
+
 ## Rebuild Notes
 
 This workspace was rebuilt after the previous local folder was no longer available. The

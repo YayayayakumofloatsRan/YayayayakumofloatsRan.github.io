@@ -23,6 +23,8 @@ GitHub Pages:
 - Source: GitHub Actions.
 - Workflow: `.github/workflows/pages.yml` uploads this `site/` folder as the Pages
   artifact.
+- Root fallback: `../index.html` redirects branch-root Pages traffic to `site/`, and
+  `../.nojekyll` prevents GitHub from using README/Jekyll output as the homepage.
 
 The current site is structured as a mixed personal blog homepage: Intro/About/Projects/
 Astronomy live in a 3D horizontal astronomy deck, while GALLERY visual notes, favourite

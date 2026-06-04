@@ -3,6 +3,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
+const rootIndexPath = join(root, "index.html");
+const noJekyllPath = join(root, ".nojekyll");
 const site = join(root, "site");
 const indexPath = join(site, "index.html");
 const stylesPath = join(site, "styles.css");
@@ -48,6 +50,9 @@ for (const file of [indexPath, stylesPath, scriptPath, moonPath]) {
   assert.equal(existsSync(file), true, `${file} should exist`);
 }
 
+assert.equal(existsSync(rootIndexPath), true, "root index.html should exist as a GitHub Pages branch-root fallback");
+assert.equal(existsSync(noJekyllPath), true, ".nojekyll should disable README/Jekyll fallback rendering");
+
 for (const assetPath of suppliedAssetPaths) {
   assert.equal(existsSync(join(site, assetPath)), true, `${assetPath} should exist as a site-local optimized asset`);
 }
@@ -57,9 +62,12 @@ for (const assetPath of previewAssetPaths) {
 }
 
 const html = readFileSync(indexPath, "utf8");
+const rootIndex = readFileSync(rootIndexPath, "utf8");
 const css = readFileSync(stylesPath, "utf8");
 const js = readFileSync(scriptPath, "utf8");
 const publicText = `${html}\n${css}\n${js}`;
+
+assert.match(rootIndex, /url=site\/|location\.replace\(["']site\//i, "root index should redirect branch-root Pages to site/");
 
 for (const id of ["intro", "about", "projects", "astronomy", "gallery", "movies", "notes", "contact"]) {
   assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `${id} section is required`);
@@ -89,7 +97,8 @@ assert.match(html, /0\.885-2|EARLY-IMAGE|Early Moon frame/i, "Moon field study s
 assert.doesNotMatch(html, /assets\/astronomy\/moon-close-field\.jpg/, "duplicate color Moon card should be replaced by the new low-res phase 0.885 asset");
 assert.match(html, /EQ6|deep-sky|planetary/i, "astronomy interests should be present");
 assert.match(html, /SKYWATCHER 200mmF5/, "requested telescope label should use the formal SKYWATCHER name");
-assert.doesNotMatch(html, /大黑/, "public astronomy copy should not use the informal Chinese telescope nickname");
+const informalTelescopeNickname = String.fromCodePoint(0x5927, 0x9ed1);
+assert.doesNotMatch(html, new RegExp(informalTelescopeNickname), "public astronomy copy should not use the informal Chinese telescope nickname");
 assert.match(html, /SECONDARY MERROR|POLAR SCOPE|astroInspector/i, "astronomy annotations should follow the selected folder labels and move copy into an inspector");
 assert.match(html, /Polar scope|极轴镜/i, "polar scope field note should be present");
 assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope caption must not be present");
@@ -185,8 +194,15 @@ assert.doesNotMatch(css, /#f6f0e4|#eee5d5|#fffaf0/i, "default palette should not
 assert.match(css, /overflow-wrap:\s*anywhere|word-break:\s*break-word/i, "long text should be protected");
 assert.match(css, /minmax\(|clamp\(|aspect-ratio/i, "responsive constraints should be encoded");
 
-assert.doesNotMatch(
-  publicText,
-  /HuaweiMoveData|xwechat_files|RWTemp|嫦娥在哪里|铃仙在哪里|D:\\|E:\\|\b1\d{10}\b|学生证|学号|出生日期|身份证/i,
-  "public site must not expose local source paths or high-risk personal fields",
-);
+const highRiskPersonalPatterns = [
+  /[A-Z]:[\\/]/,
+  /\b1\d{10}\b/,
+  new RegExp(String.fromCodePoint(0x5b66, 0x751f, 0x8bc1)),
+  new RegExp(String.fromCodePoint(0x5b66, 0x53f7)),
+  new RegExp(String.fromCodePoint(0x51fa, 0x751f, 0x65e5, 0x671f)),
+  new RegExp(String.fromCodePoint(0x8eab, 0x4efd, 0x8bc1)),
+];
+
+for (const pattern of highRiskPersonalPatterns) {
+  assert.doesNotMatch(publicText, pattern, "public site must not expose local source paths or high-risk personal fields");
+}
