@@ -18,8 +18,11 @@ Cloudflare Pages:
 - Output directory: `site`.
 
 GitHub Pages:
-- Put the `site/` files in a public repository.
-- Enable Pages and point it at the branch/folder that contains these files.
+- Repository: `YayayayakumofloatsRan/YayayayakumofloatsRan.github.io`.
+- Branch: `main`.
+- Source: GitHub Actions.
+- Workflow: `.github/workflows/pages.yml` uploads this `site/` folder as the Pages
+  artifact.
 
 The current site is structured as a mixed personal blog homepage: Intro/About/Projects/
 Astronomy live in a 3D horizontal astronomy deck, while GALLERY visual notes, favourite

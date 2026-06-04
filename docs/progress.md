@@ -125,6 +125,9 @@
   profile and project signals.
 - Corrected the former `Ridge under stars` drawing label to `NGC 3324` in the visible
   GALLERY caption and inspector text contract.
+- Added a GitHub Pages Actions deployment workflow for
+  `YayayayakumofloatsRan/YayayayakumofloatsRan.github.io`, publishing the static `site/`
+  folder from the `main` branch to the expected root Pages URL.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

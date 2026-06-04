@@ -24,13 +24,21 @@ Open `site/index.html` directly in a browser. No build step is required.
 
 ## Deployment
 
+For this repository on GitHub Pages:
+
+- Repository: `YayayayakumofloatsRan/YayayayakumofloatsRan.github.io`
+- Branch: `main`
+- Pages source: GitHub Actions
+- Deploy path: `site/`
+- Expected public URL: `https://yayayayakumofloatsran.github.io/`
+
 For Cloudflare Pages:
 
 - Build command: empty
 - Output directory: `site`
 
-For GitHub Pages, publish the files under `site/` in a repository and enable Pages from
-repository settings.
+For GitHub Pages, this repo uses `.github/workflows/pages.yml` to upload `site/` as the
+Pages artifact. In repository settings, set Pages source to GitHub Actions.
 
 ## Rebuild Notes
 
