@@ -673,8 +673,8 @@ h3 {
 }
 
 .astronomy-section.deck-panel {
-  grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.72fr);
-  gap: clamp(1rem, 2.3vw, 2.35rem);
+  grid-template-columns: minmax(0, 1.08fr) minmax(24rem, 0.92fr);
+  gap: clamp(0.95rem, 2vw, 1.75rem);
 }
 
 .astro-visual-panel {
@@ -686,14 +686,14 @@ h3 {
 
 .astro-media-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.5rem, 1vw, 0.72rem);
 }
 
 .astro-card {
   position: relative;
   min-width: 0;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 2 / 1;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -931,7 +931,9 @@ h3 {
 }
 
 .media-inspector {
-  position: static;
+  position: sticky;
+  top: calc(72px + 0.75rem);
+  z-index: 6;
   min-width: 0;
   display: grid;
   grid-template-columns: auto minmax(10rem, 0.32fr) minmax(0, 1fr);
@@ -944,6 +946,7 @@ h3 {
     linear-gradient(160deg, color-mix(in srgb, var(--panel-solid) 88%, transparent), color-mix(in srgb, var(--cyan) 7%, var(--panel-solid))),
     var(--panel-solid);
   box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
 }
 
 .media-inspector span {
@@ -1528,8 +1531,8 @@ body.is-lightbox-open {
   }
 
   .astronomy-section {
-    grid-template-columns: minmax(0, 1.05fr) minmax(15.5rem, 0.78fr);
-    gap: clamp(1rem, 2.8vw, 2rem);
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1rem, 2.8vw, 1.6rem);
   }
 
   .astro-visual-panel {
@@ -1611,7 +1614,7 @@ body.is-lightbox-open {
   }
 
   .astronomy-section.deck-panel .astro-media-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.45rem;
   }
 

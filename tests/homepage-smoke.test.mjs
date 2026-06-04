@@ -110,6 +110,8 @@ assert.match(html + js, /galleryInspector|setGalleryInspector|media-browse-layou
 assert.match(html + js, /movieInspector|setMovieInspector|media-browse-layout/i, "Movies should move image text into an inspector instead of an overlay");
 assert.match(css, /\.media-browse-layout[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)/i, "GALLERY and Movies inspectors should sit above or below media, not in a side column");
 assert.match(css, /\.astro-visual-panel[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\)/i, "Astronomy image notes should sit above or below the image grid, not in a side column");
+assert.match(css, /\.astro-media-grid[\s\S]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/i, "Astronomy should arrange six images as a 3-row by 2-column grid");
+assert.match(css, /\.media-inspector[\s\S]*position:\s*sticky/i, "GALLERY and Movies inspectors should remain visible while browsing later image rows");
 assert.match(css, /art-card figcaption,[\s\S]*movie-copy[\s\S]*clip-path:\s*inset\(50%\)/i, "Gallery and movie captions should be visually hidden from the image surface");
 assert.match(html, /stellar-deck|deck-panel|deck-edge-button|vertical-flow/i, "homepage should mix a 3D deck with normal vertical flow");
 assert.match(css, /perspective:\s*\d+px|transform-style:\s*preserve-3d|rotateY|translate3d/i, "deck should use 3D transform language");

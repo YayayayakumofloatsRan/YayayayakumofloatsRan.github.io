@@ -112,6 +112,11 @@
   inside one browser viewport. The About card no longer overflows its public-notebook
   heading, and Astronomy image cards regained width after replacing side notes with a
   lower inspector strip.
+- Reworked the Astronomy media grid from three columns into a three-row / two-column
+  layout and widened the right-side copy column so the solar-system widget is no longer
+  squeezed.
+- Made the GALLERY and Movies inspector strips sticky at the top of the viewport, so
+  notes remain visible when browsing or focusing later image rows.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

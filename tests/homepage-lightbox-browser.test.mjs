@@ -131,6 +131,10 @@ try {
   assert.equal(failures.length, 0, JSON.stringify(failures, null, 2));
 
   const interactionState = await evaluate(`(async () => {
+    document.querySelector("#imageLightbox").hidden = true;
+    document.body.classList.remove("is-lightbox-open");
+    document.querySelector("#lightboxImage").removeAttribute("src");
+
     const deckPanelFits = [];
     for (const id of ["intro", "about", "projects", "astronomy"]) {
       document.querySelector(\`.nav a[href="#\${id}"]\`)?.click();
@@ -169,14 +173,22 @@ try {
     const solar = document.querySelector(".solar-system");
     const solarWidget = document.querySelector(".solar-system-widget");
     const astroVisual = document.querySelector(".astro-visual-panel");
+    const astroGrid = document.querySelector(".astro-media-grid");
     const firstAstroCard = document.querySelector("#astronomy .astro-card");
     const galleryBrowse = document.querySelector(".gallery-browse");
+    const galleryInspector = document.querySelector("#galleryInspector");
     const movieBrowse = document.querySelector(".movie-browse");
     const deck = document.querySelector("#stellarDeck");
     const topbar = document.querySelector(".topbar");
     const astronomyPanel = document.querySelector("#astronomy");
     const deckRect = deck.getBoundingClientRect();
     const topbarRect = topbar.getBoundingClientRect();
+    const lateGalleryCard = document.querySelector(".gallery-grid .art-card:last-child");
+    const lateGalleryTargetY = lateGalleryCard.getBoundingClientRect().top + window.scrollY - Math.round(window.innerHeight * 0.58);
+    window.scrollTo({ top: lateGalleryTargetY, behavior: "auto" });
+    await new Promise((resolve) => setTimeout(resolve, 420));
+    lateGalleryCard.dispatchEvent(new PointerEvent("pointerenter", { bubbles: false, pointerType: "mouse" }));
+    const galleryInspectorRect = galleryInspector.getBoundingClientRect();
     const widgetRect = solarWidget.getBoundingClientRect();
     const clippedPlanets = Array.from(document.querySelectorAll("[data-planet]")).map((planet) => {
       const rect = planet.getBoundingClientRect();
@@ -214,9 +226,14 @@ try {
       clippedPlanets,
       deckPanelFits,
       astroVisualColumnCount: getComputedStyle(astroVisual).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
+      astroGridColumnCount: getComputedStyle(astroGrid).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
       galleryBrowseColumnCount: getComputedStyle(galleryBrowse).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
       movieBrowseColumnCount: getComputedStyle(movieBrowse).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
+      galleryInspectorPosition: getComputedStyle(galleryInspector).position,
+      galleryInspectorTop: galleryInspectorRect.top,
+      galleryInspectorBottom: galleryInspectorRect.bottom,
       firstAstroCardWidth: firstAstroCard.getBoundingClientRect().width,
+      solarSystemWidth: solar.getBoundingClientRect().width,
       viewportHeight: window.innerHeight,
       deckHeight: deckRect.height,
       topbarHeight: topbarRect.height,
@@ -228,7 +245,7 @@ try {
   assert.equal(interactionState.inspectorKicker, "SKYWATCHER 200mmF5");
   assert.match(interactionState.inspectorTitle, /Newtonian reflector/i);
   assert.equal(interactionState.galleryInspectorKicker, "Schrödinger The Cat");
-  assert.match(interactionState.galleryInspectorTitle, /Wide-eyed portrait|portrait/i);
+  assert.match(interactionState.galleryInspectorTitle, /Paper tunnel|Wide-eyed portrait|portrait/i);
   assert.equal(interactionState.movieInspectorTitle, "Ford v. Ferrari");
   assert.ok(
     Math.abs(interactionState.mercuryDuration / interactionState.earthDuration - 0.2408) < 0.03,
@@ -258,11 +275,22 @@ try {
     `Every horizontal deck panel should fit without internal scrolling: ${JSON.stringify(interactionState)}`,
   );
   assert.equal(interactionState.astroVisualColumnCount, 1);
+  assert.equal(interactionState.astroGridColumnCount, 2);
   assert.equal(interactionState.galleryBrowseColumnCount, 1);
   assert.equal(interactionState.movieBrowseColumnCount, 1);
+  assert.equal(interactionState.galleryInspectorPosition, "sticky");
   assert.ok(
-    interactionState.firstAstroCardWidth >= 210,
+    interactionState.galleryInspectorTop >= interactionState.topbarHeight - 2 &&
+      interactionState.galleryInspectorBottom <= interactionState.viewportHeight + 2,
+    `Gallery inspector should remain visible while browsing later rows: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    interactionState.firstAstroCardWidth >= 280,
     `Astronomy image cards should remain large enough after moving the inspector: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    interactionState.solarSystemWidth >= 190,
+    `Solar system widget should not be squeezed in the right column: ${JSON.stringify(interactionState)}`,
   );
   assert.ok(
     interactionState.deckHeight + interactionState.topbarHeight <= interactionState.viewportHeight + 6,

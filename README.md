@@ -51,14 +51,15 @@ hide the location line while keeping the date, phase, and `Nemo Qi` credit.
 - The default palette is pale cyan / ice blue instead of beige; dark mode keeps the
   astronomy-facing indigo, cyan, and gold accent direction.
 - Focus chips jump between systems, astronomy, and GALLERY screens.
-- GALLERY uses a compact same-size grid with a persisted image-size slider and a
-  top inspector strip, so image notes do not cover the artwork.
+- GALLERY uses a compact same-size grid with a persisted image-size slider and a sticky
+  top inspector strip, so image notes stay visible while browsing later rows.
 - Astronomy includes a lightweight interactive solar-system widget with planet selection,
   orbit phase, and an Earth-year duration control. Individual planet animations use
   rounded NASA/JPL orbital-period ratios, while orbital radii remain compressed for a
   readable interface; the orbit container keeps enough visible margin for outer planets.
-- Astronomy image captions now use a compact inspector strip below the image grid instead
-  of covering the photos, and the public equipment label uses `SKYWATCHER 200mmF5`.
+- Astronomy image captions now use a compact inspector strip below a 3-row / 2-column
+  image grid instead of covering the photos, and the public equipment label uses
+  `SKYWATCHER 200mmF5`.
 - GALLERY and Movies use a shared 4:3 card format so supplied stills and drawings read
   as one visual system, with top/bottom hover/focus inspectors instead of text overlays.
 - Every content image opens a larger captioned preview lightbox on click or keyboard open;
