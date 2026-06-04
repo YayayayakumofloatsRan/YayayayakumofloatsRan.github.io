@@ -562,7 +562,8 @@ h3 {
 .note-grid span,
 .movie-card span,
 .art-card span,
-.astro-card span {
+.astro-card span,
+.astro-inspector span {
   color: var(--gold);
   font-size: 0.78rem;
   font-weight: 950;
@@ -612,7 +613,7 @@ h3 {
 .astronomy-section,
 .contact-section {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(0, 1.16fr) minmax(18rem, 0.84fr);
   gap: clamp(2rem, 5vw, 5rem);
   align-items: start;
 }
@@ -669,6 +670,13 @@ h3 {
   border-top: 1px solid var(--line-soft);
 }
 
+.astro-visual-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.56fr);
+  gap: clamp(0.85rem, 1.8vw, 1.25rem);
+  align-items: stretch;
+}
+
 .astro-media-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -678,13 +686,14 @@ h3 {
 .astro-card {
   position: relative;
   min-width: 0;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #000;
   box-shadow: var(--shadow);
+  transition: border-color 160ms ease, transform 180ms ease, filter 180ms ease;
 }
 
 .astro-card img,
@@ -696,6 +705,15 @@ h3 {
 
 .astro-card img {
   object-fit: cover;
+}
+
+.astro-card.active,
+.astro-card:hover,
+.astro-card:focus-visible,
+.astro-card:focus-within {
+  border-color: color-mix(in srgb, var(--gold) 72%, var(--cyan));
+  filter: saturate(1.06) contrast(1.04);
+  transform: translateY(-1px);
 }
 
 .generated-card {
@@ -765,7 +783,6 @@ h3 {
   border-radius: 50%;
 }
 
-.astro-card figcaption,
 .art-card figcaption {
   position: absolute;
   right: 0.58rem;
@@ -781,10 +798,52 @@ h3 {
   color: #f8f1df;
 }
 
-.astro-card strong,
 .art-card strong {
   font-size: clamp(0.9rem, 1.45vw, 1.25rem);
   line-height: 1.12;
+}
+
+.astro-card figcaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.astro-inspector {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+  min-height: 100%;
+  padding: clamp(0.95rem, 1.7vw, 1.25rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--panel-solid) 88%, transparent), color-mix(in srgb, var(--cyan) 8%, var(--panel-solid))),
+    var(--panel-solid);
+  box-shadow: var(--shadow);
+}
+
+.astro-inspector h3 {
+  font-size: clamp(1.08rem, 1.8vw, 1.45rem);
+}
+
+.astro-inspector p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.astro-inspector-hint {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.86rem;
 }
 
 .tag-list {
@@ -849,7 +908,7 @@ h3 {
 .art-card {
   position: relative;
   min-width: 0;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -932,14 +991,14 @@ h3 {
 
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
   gap: clamp(0.65rem, 1.35vw, 1rem);
 }
 
 .movie-card {
   position: relative;
   min-width: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -1071,7 +1130,7 @@ h3 {
 
 .solar-system {
   --orbit-angle: 42deg;
-  --orbit-speed: 24s;
+  --earth-year-duration: 24s;
   --selected-angle: 108deg;
   position: relative;
   width: min(20rem, 100%);
@@ -1121,6 +1180,7 @@ h3 {
   --planet-angle: 0deg;
   --orbit-radius: 3rem;
   --planet-color: var(--cyan);
+  --planet-duration: 24s;
   position: absolute;
   top: calc(50% - var(--planet-size) / 2);
   left: calc(50% - var(--planet-size) / 2);
@@ -1137,7 +1197,7 @@ h3 {
   cursor: pointer;
   transform: rotate(calc(var(--orbit-angle) + var(--planet-angle))) translateX(var(--orbit-radius));
   transform-origin: center;
-  animation: planet-orbit var(--orbit-speed) linear infinite;
+  animation: planet-orbit var(--planet-duration) linear infinite;
   animation-play-state: paused;
   will-change: transform;
 }
@@ -1214,24 +1274,6 @@ body.is-deck-moving .planet-button {
 .planet-readout span {
   color: var(--muted);
   line-height: 1.45;
-}
-
-.constellation-screen::before {
-  content: "";
-  position: absolute;
-  inset: 5rem 5vw auto auto;
-  width: min(36vw, 28rem);
-  aspect-ratio: 1 / 1;
-  border: 1px solid color-mix(in srgb, var(--cyan) 32%, transparent);
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 6%, var(--gold-soft) 0 0.18rem, transparent 0.22rem),
-    radial-gradient(circle at 86% 50%, var(--cyan) 0 0.18rem, transparent 0.22rem),
-    radial-gradient(circle at 50% 94%, var(--gold-soft) 0 0.18rem, transparent 0.22rem),
-    radial-gradient(circle at 14% 50%, var(--cyan) 0 0.18rem, transparent 0.22rem);
-  opacity: 0.42;
-  pointer-events: none;
-  transform: rotate(var(--orbit-angle, 42deg));
 }
 
 .image-lightbox[hidden] {
@@ -1370,6 +1412,10 @@ body.is-lightbox-open {
     grid-template-columns: 1fr;
   }
 
+  .astro-visual-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.58fr);
+  }
+
   .profile-facts article {
     border-bottom: 0;
   }
@@ -1424,14 +1470,36 @@ body.is-lightbox-open {
     align-content: start;
   }
 
-  .astronomy-section.deck-panel .astro-media-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.45rem;
+  .astronomy-section.deck-panel .astro-visual-panel {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
     order: 2;
+  }
+
+  .astronomy-section.deck-panel .astro-media-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
   }
 
   .astronomy-section.deck-panel .astro-copy {
     order: 1;
+  }
+
+  .astronomy-section.deck-panel .astro-inspector {
+    padding: 0.65rem;
+  }
+
+  .astronomy-section.deck-panel .astro-inspector h3 {
+    font-size: 1rem;
+  }
+
+  .astronomy-section.deck-panel .astro-inspector p {
+    font-size: 0.82rem;
+    line-height: 1.42;
+  }
+
+  .astronomy-section.deck-panel .astro-inspector-hint {
+    display: none;
   }
 
   .astronomy-section.deck-panel h2 {
@@ -1443,7 +1511,6 @@ body.is-lightbox-open {
     display: none;
   }
 
-  .astro-card figcaption,
   .art-card figcaption {
     right: 0.4rem;
     bottom: 0.4rem;
@@ -1451,16 +1518,10 @@ body.is-lightbox-open {
     padding: 0.45rem 0.5rem;
   }
 
-  .astro-card strong,
   .art-card strong {
     font-size: 0.78rem;
   }
 
-  .astronomy-section.deck-panel .astro-card figcaption {
-    display: none;
-  }
-
-  .astro-card span,
   .art-card span {
     font-size: 0.62rem;
   }

@@ -12,7 +12,8 @@
 - The previous WeChat temporary source images for paintings, telescope photos, and the
   apt meme were already unavailable, so those areas now use local CSS-generated visual
   cards rather than pretending to be the missing original photos.
-- Preserved the last requested naming: `大黑200mmF5` for the Newtonian reflector note.
+- Preserved the telescope note, later normalized to the public `SKYWATCHER 200mmF5`
+  equipment label.
 - Added a smoke test to guard public content, privacy boundaries, theme support,
   GALLERY sizing, movie entries, and required sections.
 - Reworked the homepage architecture again into a mixed model: a 3D horizontal astronomy
@@ -90,6 +91,16 @@
   profile facts, project cards, Astronomy, GALLERY, Movies, Blog notes, and Contact now
   read more like a personal blog notebook while preserving the protected public-info,
   privacy, asset, and interaction contracts.
+- Replaced the deployable Astronomy instrument and Moon comparison assets from the
+  selected `素材/astronomy` files, preserving the privacy-masked public Moon log and using
+  `SKYWATCHER 200mmF5` instead of the informal telescope nickname.
+- Reworked Astronomy image notes into an interactive side inspector so captions no longer
+  cover the photos; hover/focus updates the note while click still opens the lightbox.
+- Removed the leftover decorative Astronomy orbit pseudo-element and changed the visible
+  solar-system control to per-planet animation durations based on rounded NASA/JPL orbital
+  period ratios.
+- Unified GALLERY and Movies around the same 4:3 visual-card rhythm and further reduced
+  deck/background rendering work during page transitions.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

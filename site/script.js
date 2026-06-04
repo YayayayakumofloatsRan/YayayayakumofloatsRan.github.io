@@ -23,6 +23,10 @@ const orbitSpeedReadout = document.querySelector("#orbitSpeedReadout");
 const solarSystem = document.querySelector("#solarSystem");
 const planetButtons = document.querySelectorAll("[data-planet]");
 const planetReadout = document.querySelector("#planetReadout");
+const astroCards = document.querySelectorAll("[data-astro-card]");
+const astroInspectorKicker = document.querySelector("#astroInspectorKicker");
+const astroInspectorTitle = document.querySelector("#astroInspectorTitle");
+const astroInspectorNote = document.querySelector("#astroInspectorNote");
 const imageLightbox = document.querySelector("#imageLightbox");
 const lightboxImage = document.querySelector("#lightboxImage");
 const lightboxCaption = document.querySelector("#lightboxCaption");
@@ -47,19 +51,25 @@ let lightboxRequestId = 0;
 let ignoreNextBackdropClick = false;
 let orbitBackdrop = null;
 
-const networkFrameMs = 1000 / 20;
+const networkFrameMs = 1000 / 18;
 const networkLinkDistance = 116;
 const networkLinkDistanceSq = networkLinkDistance * networkLinkDistance;
+const earthPeriodDays = 365.26;
 const planetProfiles = {
-  mercury: { name: "Mercury", angle: 18, fact: "Fast inner orbit: small radius, high angular urgency." },
-  venus: { name: "Venus", angle: 62, fact: "Bright phase logic: visually calm, physically hostile." },
-  earth: { name: "Earth", angle: 108, fact: "Home orbit: stable enough for field notes, unstable enough for research." },
-  mars: { name: "Mars", angle: 148, fact: "Thin atmosphere, strong myth, useful engineering target." },
-  jupiter: { name: "Jupiter", angle: 204, fact: "Mass dominates the room; gravity becomes system architecture." },
-  saturn: { name: "Saturn", angle: 248, fact: "Rings make orbital mechanics visible without a lecture." },
-  uranus: { name: "Uranus", angle: 294, fact: "Tilted axis: the reminder that initial conditions matter." },
-  neptune: { name: "Neptune", angle: 334, fact: "Distant, blue, and found by math before direct familiarity." },
+  // Rounded NASA/JPL orbital periods in Earth days; radii are compressed for UI readability.
+  mercury: { name: "Mercury", angle: 18, periodDays: 87.97, fact: "Fast inner orbit: small radius, high angular urgency." },
+  venus: { name: "Venus", angle: 62, periodDays: 224.7, fact: "Bright phase logic: visually calm, physically hostile." },
+  earth: { name: "Earth", angle: 108, periodDays: earthPeriodDays, fact: "Home orbit: stable enough for field notes, unstable enough for research." },
+  mars: { name: "Mars", angle: 148, periodDays: 686.98, fact: "Thin atmosphere, strong myth, useful engineering target." },
+  jupiter: { name: "Jupiter", angle: 204, periodDays: 4332.59, fact: "Mass dominates the room; gravity becomes system architecture." },
+  saturn: { name: "Saturn", angle: 248, periodDays: 10759.22, fact: "Rings make orbital mechanics visible without a lecture." },
+  uranus: { name: "Uranus", angle: 294, periodDays: 30688.5, fact: "Tilted axis: the reminder that initial conditions matter." },
+  neptune: { name: "Neptune", angle: 334, periodDays: 60182, fact: "Distant, blue, and found by math before direct familiarity." },
 };
+
+Object.values(planetProfiles).forEach((profile) => {
+  profile.periodRatio = profile.periodDays / earthPeriodDays;
+});
 
 function setTheme(theme) {
   root.dataset.theme = theme;
@@ -275,7 +285,6 @@ function setGallerySize(size) {
 
 function setOrbitAngle(value) {
   const angle = Math.max(0, Math.min(360, Number(value) || 0));
-  document.querySelector(".constellation-screen")?.style.setProperty("--orbit-angle", `${angle}deg`);
   solarSystem?.style.setProperty("--orbit-angle", `${angle}deg`);
 
   if (orbitRange) {
@@ -287,21 +296,45 @@ function setOrbitAngle(value) {
   }
 }
 
+function currentEarthYearDuration() {
+  return Math.max(8, Math.min(48, Number(orbitSpeed?.value) || 24));
+}
+
+function formatDuration(seconds) {
+  if (seconds < 60) return `${seconds.toFixed(seconds < 10 ? 1 : 0)}s`;
+  const minutes = seconds / 60;
+  if (minutes < 60) return `${minutes.toFixed(minutes < 10 ? 1 : 0)}min`;
+  const hours = minutes / 60;
+  return `${hours.toFixed(hours < 10 ? 1 : 0)}h`;
+}
+
+function setPlanetDurations(earthYearSeconds) {
+  planetButtons.forEach((button) => {
+    const profile = planetProfiles[button.dataset.planet];
+    if (!profile) return;
+    button.style.animationDuration = `${earthYearSeconds * profile.periodRatio}s`;
+  });
+}
+
 function setOrbitSpeed(value) {
   const speed = Math.max(8, Math.min(48, Number(value) || 24));
-  solarSystem?.style.setProperty("--orbit-speed", `${speed}s`);
+  solarSystem?.style.setProperty("--earth-year-duration", `${speed}s`);
+  setPlanetDurations(speed);
 
   if (orbitSpeed) {
     orbitSpeed.value = String(speed);
   }
 
   if (orbitSpeedReadout) {
-    orbitSpeedReadout.textContent = `${speed}s`;
+    orbitSpeedReadout.textContent = `Earth ${speed}s`;
   }
+
+  setPlanet(solarSystem?.dataset.activePlanet || "earth");
 }
 
 function setPlanet(planet) {
   const profile = planetProfiles[planet] || planetProfiles.earth;
+  const duration = currentEarthYearDuration() * profile.periodRatio;
 
   planetButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.planet === planet);
@@ -313,7 +346,27 @@ function setPlanet(planet) {
   }
 
   if (planetReadout) {
-    planetReadout.innerHTML = `<strong>${profile.name}</strong><span>${profile.fact}</span>`;
+    planetReadout.innerHTML = `<strong>${profile.name}</strong><span>${profile.periodDays.toLocaleString("en-US", { maximumFractionDigits: 2 })} Earth days per orbit · ${profile.periodRatio.toFixed(2)}x Earth year · ${formatDuration(duration)} at this scale. ${profile.fact}</span>`;
+  }
+}
+
+function setAstroInspector(card) {
+  if (!card) return;
+
+  astroCards.forEach((item) => {
+    item.classList.toggle("active", item === card);
+  });
+
+  if (astroInspectorKicker) {
+    astroInspectorKicker.textContent = card.dataset.astroKicker || "";
+  }
+
+  if (astroInspectorTitle) {
+    astroInspectorTitle.textContent = card.dataset.astroTitle || card.querySelector("strong")?.textContent || "";
+  }
+
+  if (astroInspectorNote) {
+    astroInspectorNote.textContent = card.dataset.astroNote || "";
   }
 }
 
@@ -446,7 +499,7 @@ function resizeCanvas() {
 }
 
 function effectiveFrameMs() {
-  return document.body.classList.contains("is-deck-moving") ? 1000 / 12 : networkFrameMs;
+  return document.body.classList.contains("is-deck-moving") ? 1000 / 8 : networkFrameMs;
 }
 
 function palette() {
@@ -590,6 +643,11 @@ planetButtons.forEach((button) => {
   button.addEventListener("click", () => setPlanet(button.dataset.planet));
 });
 
+astroCards.forEach((card) => {
+  card.addEventListener("pointerenter", () => setAstroInspector(card));
+  card.addEventListener("focusin", () => setAstroInspector(card));
+});
+
 preparePreviewSurfaces();
 
 document.addEventListener("pointerdown", (event) => {
@@ -668,6 +726,7 @@ setGallerySize(storedGallerySize || gallerySize?.value || 210);
 setOrbitAngle(orbitRange?.value || 42);
 setOrbitSpeed(orbitSpeed?.value || 24);
 setPlanet("earth");
+setAstroInspector(astroCards[0]);
 updateDeckState(0);
 if (initialHash) {
   navigateToHash(initialHash);

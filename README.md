@@ -53,7 +53,13 @@ hide the location line while keeping the date, phase, and `Nemo Qi` credit.
 - Focus chips jump between systems, astronomy, and GALLERY screens.
 - GALLERY uses a compact same-size grid with a persisted image-size slider.
 - Astronomy includes a lightweight interactive solar-system widget with planet selection,
-  orbit phase, and orbit speed controls.
+  orbit phase, and an Earth-year duration control. Individual planet animations use
+  rounded NASA/JPL orbital-period ratios, while orbital radii remain compressed for a
+  readable interface.
+- Astronomy image captions now use a side inspector instead of covering the photos, and
+  the public equipment label uses `SKYWATCHER 200mmF5`.
+- GALLERY and Movies use a shared 4:3 card format so supplied stills and drawings read
+  as one visual system.
 - Every content image opens a larger captioned preview lightbox on click or keyboard open;
   card images use lightweight display assets and high-resolution `site/assets/preview/`
   files for the enlarged view.

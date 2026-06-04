@@ -85,13 +85,17 @@ assert.match(html, /assets\/astronomy\/newtonian-front-cell\.jpg/, "astronomy sh
 assert.match(html, /assets\/astronomy\/secondary-mirror-reflection\.jpg/, "astronomy should use supplied mirror reflection photo");
 assert.match(html, /assets\/astronomy\/polar-scope-reticle\.jpg/, "astronomy should use supplied polar scope photo");
 assert.match(html, /assets\/astronomy\/moon-wide-field\.jpg|assets\/astronomy\/moon-phase-0885-lowres\.jpg/, "astronomy should include supplied Moon photos");
-assert.match(html, /Monochrome unrendered Moon field image|Lunar \/ monochrome/i, "Moon field study should use the monochrome unrendered Moon asset");
+assert.match(html, /0\.885-2|EARLY-IMAGE|Early Moon frame/i, "Moon field study should follow the selected astronomy-folder annotations");
 assert.doesNotMatch(html, /assets\/astronomy\/moon-close-field\.jpg/, "duplicate color Moon card should be replaced by the new low-res phase 0.885 asset");
 assert.match(html, /EQ6|deep-sky|planetary/i, "astronomy interests should be present");
-assert.match(html, /大黑200mmF5/, "requested telescope label should be exact");
+assert.match(html, /SKYWATCHER 200mmF5/, "requested telescope label should use the formal SKYWATCHER name");
+assert.doesNotMatch(html, /大黑/, "public astronomy copy should not use the informal Chinese telescope nickname");
+assert.match(html, /SECONDARY MERROR|POLAR SCOPE|astroInspector/i, "astronomy annotations should follow the selected folder labels and move copy into an inspector");
 assert.match(html, /Polar scope|极轴镜/i, "polar scope field note should be present");
 assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope caption must not be present");
 assert.match(html + css + js, /solar-system|data-planet|planetReadout|orbitSpeed|planetProfiles|setPlanet/i, "orbit toy should be expanded into an interactive solar system");
+assert.match(html + js, /Earth-year duration|periodDays|periodRatio|Earth days per orbit/i, "solar-system toy should use realistic orbital period ratios");
+assert.doesNotMatch(css, /constellation-screen::before/i, "old decorative astronomy orbit pseudo-element should be removed");
 
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");

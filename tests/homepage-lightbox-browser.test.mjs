@@ -128,6 +128,46 @@ try {
 
   const failures = results.filter((row) => !row.opened || row.actual !== row.expected || !row.caption);
   assert.equal(failures.length, 0, JSON.stringify(failures, null, 2));
+
+  const interactionState = await evaluate(`(() => {
+    const skywatcher = document.querySelector('[data-astro-kicker="SKYWATCHER 200mmF5"]');
+    skywatcher.dispatchEvent(new PointerEvent("pointerenter", { bubbles: false, pointerType: "mouse" }));
+
+    const mercury = document.querySelector('[data-planet="mercury"]');
+    const earth = document.querySelector('[data-planet="earth"]');
+    const firstArt = document.querySelector(".art-card");
+    const firstMovie = document.querySelector(".movie-card");
+    const astroCaption = document.querySelector(".astro-card figcaption");
+    const artRect = firstArt.getBoundingClientRect();
+    const movieRect = firstMovie.getBoundingClientRect();
+    const captionStyle = getComputedStyle(astroCaption);
+
+    return {
+      inspectorKicker: document.querySelector("#astroInspectorKicker").textContent.trim(),
+      inspectorTitle: document.querySelector("#astroInspectorTitle").textContent.trim(),
+      mercuryDuration: Number.parseFloat(getComputedStyle(mercury).animationDuration),
+      earthDuration: Number.parseFloat(getComputedStyle(earth).animationDuration),
+      artRatio: artRect.width / artRect.height,
+      movieRatio: movieRect.width / movieRect.height,
+      astroCaptionWidth: Number.parseFloat(captionStyle.width),
+      astroCaptionHeight: Number.parseFloat(captionStyle.height),
+    };
+  })()`);
+
+  assert.equal(interactionState.inspectorKicker, "SKYWATCHER 200mmF5");
+  assert.match(interactionState.inspectorTitle, /Newtonian reflector/i);
+  assert.ok(
+    Math.abs(interactionState.mercuryDuration / interactionState.earthDuration - 0.2408) < 0.03,
+    `Mercury/Earth duration ratio should follow orbital periods: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    Math.abs(interactionState.artRatio - interactionState.movieRatio) < 0.08,
+    `Gallery and movie cards should use matching media ratios: ${JSON.stringify(interactionState)}`,
+  );
+  assert.ok(
+    interactionState.astroCaptionWidth <= 2 && interactionState.astroCaptionHeight <= 2,
+    `Astronomy captions should not overlay images: ${JSON.stringify(interactionState)}`,
+  );
 } finally {
   socket.close();
   edge.kill();
