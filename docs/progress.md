@@ -94,19 +94,24 @@
 - Replaced the deployable Astronomy instrument and Moon comparison assets from the
   selected `素材/astronomy` files, preserving the privacy-masked public Moon log and using
   `SKYWATCHER 200mmF5` instead of the informal telescope nickname.
-- Reworked Astronomy image notes into an interactive side inspector so captions no longer
-  cover the photos; hover/focus updates the note while click still opens the lightbox.
+- Reworked Astronomy image notes into an interactive inspector strip below the image grid
+  so captions no longer cover the photos; hover/focus updates the note while click still
+  opens the lightbox.
 - Removed the leftover decorative Astronomy orbit pseudo-element and changed the visible
   solar-system control to per-planet animation durations based on rounded NASA/JPL orbital
   period ratios.
 - Unified GALLERY and Movies around the same 4:3 visual-card rhythm and further reduced
   deck/background rendering work during page transitions.
-- Extended the no-overlay image-note pattern to GALLERY and Movies with side inspectors,
-  then tightened the Astronomy deck height so the active card fits inside one browser
-  viewport without internal scrollbars.
+- Extended the no-overlay image-note pattern to GALLERY and Movies with top inspector
+  strips, then tightened the Astronomy deck height so the active card fits inside one
+  browser viewport without internal scrollbars.
 - Fixed the solar-system edge clipping by removing paint containment from the orbit
   container and compressing the visual orbit radii so outer planets stay inside the
   visible widget while keeping the period-ratio animation model.
+- Rebalanced the horizontal deck cards so Intro, About, Projects, and Astronomy all fit
+  inside one browser viewport. The About card no longer overflows its public-notebook
+  heading, and Astronomy image cards regained width after replacing side notes with a
+  lower inspector strip.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

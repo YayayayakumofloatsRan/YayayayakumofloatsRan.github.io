@@ -152,12 +152,12 @@ function deckIndexFromTarget(target) {
 
 function deckBaselineHeight() {
   const mobile = window.matchMedia("(max-width: 560px)").matches;
-  return Math.max(mobile ? 500 : 560, window.innerHeight - (mobile ? 150 : 124));
+  return Math.max(mobile ? 500 : 600, window.innerHeight - (mobile ? 150 : 96));
 }
 
 function deckHeightLimit() {
   const mobile = window.matchMedia("(max-width: 560px)").matches;
-  return Math.max(mobile ? 500 : 560, window.innerHeight - (mobile ? 150 : 124));
+  return Math.max(mobile ? 500 : 600, window.innerHeight - (mobile ? 150 : 96));
 }
 
 function deckContentHeight(panel) {

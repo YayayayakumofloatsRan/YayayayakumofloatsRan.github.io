@@ -131,6 +131,18 @@ try {
   assert.equal(failures.length, 0, JSON.stringify(failures, null, 2));
 
   const interactionState = await evaluate(`(async () => {
+    const deckPanelFits = [];
+    for (const id of ["intro", "about", "projects", "astronomy"]) {
+      document.querySelector(\`.nav a[href="#\${id}"]\`)?.click();
+      await new Promise((resolve) => setTimeout(resolve, 760));
+      const panel = document.querySelector(\`[data-deck-id="\${id}"]\`);
+      deckPanelFits.push({
+        id,
+        clientHeight: panel.clientHeight,
+        scrollHeight: panel.scrollHeight,
+      });
+    }
+
     document.querySelector('[data-focus="astronomy"]').click();
     await new Promise((resolve) => setTimeout(resolve, 760));
 
@@ -156,6 +168,10 @@ try {
     const movieCopyStyle = getComputedStyle(movieCopy);
     const solar = document.querySelector(".solar-system");
     const solarWidget = document.querySelector(".solar-system-widget");
+    const astroVisual = document.querySelector(".astro-visual-panel");
+    const firstAstroCard = document.querySelector("#astronomy .astro-card");
+    const galleryBrowse = document.querySelector(".gallery-browse");
+    const movieBrowse = document.querySelector(".movie-browse");
     const deck = document.querySelector("#stellarDeck");
     const topbar = document.querySelector(".topbar");
     const astronomyPanel = document.querySelector("#astronomy");
@@ -196,6 +212,11 @@ try {
       movieCopyHeight: Number.parseFloat(movieCopyStyle.height),
       solarOverflow: getComputedStyle(solar).overflow,
       clippedPlanets,
+      deckPanelFits,
+      astroVisualColumnCount: getComputedStyle(astroVisual).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
+      galleryBrowseColumnCount: getComputedStyle(galleryBrowse).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
+      movieBrowseColumnCount: getComputedStyle(movieBrowse).gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length,
+      firstAstroCardWidth: firstAstroCard.getBoundingClientRect().width,
       viewportHeight: window.innerHeight,
       deckHeight: deckRect.height,
       topbarHeight: topbarRect.height,
@@ -231,6 +252,18 @@ try {
   );
   assert.equal(interactionState.solarOverflow, "visible");
   assert.deepEqual(interactionState.clippedPlanets, []);
+  assert.deepEqual(
+    interactionState.deckPanelFits.filter((panel) => panel.scrollHeight > panel.clientHeight + 20),
+    [],
+    `Every horizontal deck panel should fit without internal scrolling: ${JSON.stringify(interactionState)}`,
+  );
+  assert.equal(interactionState.astroVisualColumnCount, 1);
+  assert.equal(interactionState.galleryBrowseColumnCount, 1);
+  assert.equal(interactionState.movieBrowseColumnCount, 1);
+  assert.ok(
+    interactionState.firstAstroCardWidth >= 210,
+    `Astronomy image cards should remain large enough after moving the inspector: ${JSON.stringify(interactionState)}`,
+  );
   assert.ok(
     interactionState.deckHeight + interactionState.topbarHeight <= interactionState.viewportHeight + 6,
     `Deck plus topbar should fit within one viewport: ${JSON.stringify(interactionState)}`,

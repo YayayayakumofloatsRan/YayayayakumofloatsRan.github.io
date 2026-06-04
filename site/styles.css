@@ -218,8 +218,8 @@ main > section,
 .deck-viewport {
   position: relative;
   width: min(1480px, 100%);
-  height: var(--deck-height, calc(100dvh - 124px));
-  min-height: var(--deck-height, calc(100dvh - 124px));
+  height: var(--deck-height, calc(100dvh - 96px));
+  min-height: var(--deck-height, calc(100dvh - 96px));
   margin: 0 auto;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -423,7 +423,7 @@ body.is-deck-moving .deck-panel {
 
 .hero-copy {
   width: min(980px, 100%);
-  padding-top: 3rem;
+  padding-top: clamp(0.8rem, 2vw, 2.2rem);
 }
 
 .eyebrow,
@@ -460,10 +460,10 @@ h3 {
 
 .lead {
   max-width: 760px;
-  margin: 1.5rem 0 0;
+  margin: 1rem 0 0;
   color: var(--muted);
-  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
-  line-height: 1.45;
+  font-size: clamp(1.08rem, 2vw, 1.45rem);
+  line-height: 1.4;
 }
 
 .hero-actions,
@@ -476,11 +476,11 @@ h3 {
 }
 
 .hero-actions {
-  margin-top: 2rem;
+  margin-top: 1.35rem;
 }
 
 .control-dock {
-  margin-top: 1.2rem;
+  margin-top: 0.85rem;
 }
 
 .primary-link,
@@ -541,8 +541,8 @@ h3 {
 .profile-strip {
   display: grid;
   align-content: start;
-  gap: clamp(1.25rem, 3vw, 2.5rem);
-  padding: clamp(2rem, 5vw, 4rem);
+  gap: clamp(0.85rem, 2vw, 1.6rem);
+  padding: clamp(1.15rem, 3vw, 2.4rem);
 }
 
 .profile-facts {
@@ -555,7 +555,7 @@ h3 {
 
 .profile-facts article {
   min-width: 0;
-  padding: 1.15rem;
+  padding: clamp(0.78rem, 1.2vw, 1rem);
   background: color-mix(in srgb, var(--panel-solid) 88%, transparent);
 }
 
@@ -574,8 +574,8 @@ h3 {
 
 .profile-facts strong {
   display: block;
-  margin-top: 0.7rem;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  margin-top: 0.45rem;
+  font-size: clamp(0.95rem, 1.25vw, 1.15rem);
 }
 
 .profile-facts p,
@@ -622,7 +622,7 @@ h3 {
 
 .about-copy {
   display: grid;
-  gap: 1rem;
+  gap: 0.65rem;
 }
 
 .project-grid,
@@ -630,7 +630,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  margin-top: 2rem;
+  margin-top: 1.4rem;
   border: 1px solid var(--line);
   background: var(--line);
 }
@@ -672,11 +672,16 @@ h3 {
   border-top: 1px solid var(--line-soft);
 }
 
+.astronomy-section.deck-panel {
+  grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.72fr);
+  gap: clamp(1rem, 2.3vw, 2.35rem);
+}
+
 .astro-visual-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(10.5rem, 0.48fr);
-  gap: clamp(0.65rem, 1.25vw, 0.95rem);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(0.5rem, 1vw, 0.7rem);
+  align-items: start;
 }
 
 .astro-media-grid {
@@ -820,10 +825,11 @@ h3 {
 .astro-inspector {
   min-width: 0;
   display: grid;
-  align-content: start;
-  gap: 0.5rem;
-  min-height: 100%;
-  padding: clamp(0.72rem, 1.2vw, 1rem);
+  grid-template-columns: auto minmax(10rem, 0.36fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  min-height: 0;
+  padding: clamp(0.55rem, 1vw, 0.76rem);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
@@ -833,30 +839,28 @@ h3 {
 }
 
 .astro-inspector h3 {
-  font-size: clamp(1.08rem, 1.8vw, 1.45rem);
+  font-size: clamp(1rem, 1.45vw, 1.24rem);
 }
 
 .astro-inspector p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.42;
+  line-height: 1.35;
 }
 
 .astro-inspector-hint {
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--line-soft);
-  font-size: 0.86rem;
+  display: none;
 }
 
 .astronomy-section.deck-panel h2 {
-  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  font-size: clamp(1.5rem, 2.75vw, 2.18rem);
   line-height: 1;
 }
 
 .astronomy-section.deck-panel .astro-copy p {
   margin-bottom: 0;
-  font-size: 0.94rem;
-  line-height: 1.38;
+  font-size: 0.9rem;
+  line-height: 1.32;
 }
 
 .tag-list {
@@ -921,18 +925,19 @@ h3 {
 
 .media-browse-layout {
   display: grid;
-  grid-template-columns: minmax(13rem, 0.28fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(0.8rem, 1.8vw, 1.25rem);
   align-items: start;
 }
 
 .media-inspector {
-  position: sticky;
-  top: 92px;
+  position: static;
   min-width: 0;
   display: grid;
-  gap: 0.48rem;
-  padding: 1rem;
+  grid-template-columns: auto minmax(10rem, 0.32fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0.45rem 0.8rem;
+  padding: 0.8rem 0.95rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
@@ -949,19 +954,17 @@ h3 {
 }
 
 .media-inspector h3 {
-  font-size: clamp(1.05rem, 2.1vw, 1.55rem);
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
 }
 
 .media-inspector p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.48;
+  line-height: 1.36;
 }
 
 .media-inspector-hint {
-  padding-top: 0.7rem;
-  border-top: 1px solid var(--line-soft);
-  font-size: 0.86rem;
+  display: none;
 }
 
 .art-card {
@@ -1201,10 +1204,10 @@ h3 {
 .solar-system-widget {
   display: grid;
   grid-template-columns: minmax(13rem, 0.62fr) minmax(0, 1fr);
-  gap: 0.55rem;
+  gap: 0.45rem;
   align-items: center;
-  margin-top: 0.72rem;
-  padding: 0.58rem;
+  margin-top: 0.52rem;
+  padding: 0.46rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--panel-solid) 72%, transparent);
@@ -1215,7 +1218,7 @@ h3 {
   --earth-year-duration: 24s;
   --selected-angle: 108deg;
   position: relative;
-  width: min(13.8rem, calc(100% - 1.2rem));
+  width: min(12.8rem, calc(100% - 1.1rem));
   aspect-ratio: 1 / 1;
   margin: 0 auto;
   border: 1px solid color-mix(in srgb, var(--cyan) 58%, transparent);
@@ -1345,8 +1348,8 @@ body.is-deck-moving .planet-button {
   grid-column: 1 / -1;
   display: grid;
   gap: 0.16rem;
-  min-height: 3.05rem;
-  margin: 0.25rem 0 0;
+  min-height: 2.55rem;
+  margin: 0.15rem 0 0;
 }
 
 .planet-readout strong {
@@ -1355,8 +1358,8 @@ body.is-deck-moving .planet-button {
 
 .planet-readout span {
   color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.34;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
 .image-lightbox[hidden] {
@@ -1438,12 +1441,28 @@ body.is-lightbox-open {
 .projects-section.deck-panel h2,
 .movies-section h2,
 .notes-section h2 {
-  font-size: clamp(2.35rem, 5.6vw, 4.35rem);
+  font-size: clamp(2rem, 4.6vw, 3.65rem);
   max-width: 980px;
 }
 
+.profile-strip h2 {
+  font-size: clamp(2rem, 5.3vw, 4.1rem);
+}
+
+.profile-strip .about-copy p,
+.profile-strip .profile-facts p,
+.deck-panel .project-card p {
+  font-size: clamp(0.9rem, 1vw, 0.98rem);
+  line-height: 1.48;
+}
+
+.deck-panel .project-grid {
+  margin-top: 1rem;
+}
+
 .deck-panel .project-card {
-  min-height: 16rem;
+  min-height: 13.75rem;
+  padding: clamp(0.9rem, 1.3vw, 1.15rem);
 }
 
 .deck-panel .note-grid article {
@@ -1467,6 +1486,20 @@ body.is-lightbox-open {
 
   .movie-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .astro-inspector,
+  .media-inspector {
+    grid-template-columns: auto minmax(0, 0.65fr) minmax(0, 1fr);
+  }
+
+  .astro-inspector-hint,
+  .media-inspector-hint {
+    grid-column: 1 / -1;
+    padding-left: 0;
+    padding-top: 0.45rem;
+    border-left: 0;
+    border-top: 1px solid var(--line-soft);
   }
 }
 
@@ -1505,14 +1538,6 @@ body.is-lightbox-open {
 
   .astro-inspector {
     min-height: auto;
-  }
-
-  .media-browse-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .media-inspector {
-    position: static;
   }
 
   .profile-facts article {
@@ -1566,6 +1591,11 @@ body.is-lightbox-open {
     padding: 1.15rem;
   }
 
+  .profile-strip {
+    padding: 1.15rem;
+    gap: 0.8rem;
+  }
+
   .astronomy-section.deck-panel {
     display: grid;
     grid-template-columns: 1fr;
@@ -1590,6 +1620,7 @@ body.is-lightbox-open {
   }
 
   .astronomy-section.deck-panel .astro-inspector {
+    grid-template-columns: 1fr;
     padding: 0.65rem;
   }
 
@@ -1622,6 +1653,14 @@ body.is-lightbox-open {
 
   .solar-system {
     width: min(14rem, calc(100% - 1.2rem));
+  }
+
+  .media-inspector {
+    grid-template-columns: 1fr;
+  }
+
+  .media-inspector-hint {
+    display: none;
   }
 
   .art-card figcaption {

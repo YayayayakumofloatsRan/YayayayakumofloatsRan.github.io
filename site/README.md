@@ -36,15 +36,15 @@ Current interaction notes:
 - Mouse wheel input stays reserved for normal vertical page scrolling.
 - Astronomy includes six image cards plus a lightweight solar-system control.
 - Astronomy now follows the selected `素材/astronomy` labels, uses `SKYWATCHER 200mmF5`
-  for the Newtonian reflector, and moves image notes into a side inspector so captions do
-  not cover the photos.
+  for the Newtonian reflector, and moves image notes into a compact inspector strip below
+  the image grid so captions do not cover the photos.
 - The solar-system control keeps a visible phase slider and uses rounded NASA/JPL
   orbital-period ratios for per-planet animation speeds. The visual orbit spacing is
   intentionally compressed for readability, with the outer planets kept inside the
   visible widget area.
-- GALLERY and Movies use the same 4:3 media-card rhythm and side inspectors to reduce
-  visual mismatch between supplied drawings, cat photos, and movie stills without placing
-  captions over the images.
+- GALLERY and Movies use the same 4:3 media-card rhythm and top inspector strips to
+  reduce visual mismatch between supplied drawings, cat photos, and movie stills without
+  placing captions over the images.
 - Content images open a captioned lightbox preview. The card images stay lightweight, and
   the preview overlay prefers high-resolution files under `assets/preview/`.
 - Public Moon images hide the location line while preserving the date, phase, and
