@@ -99,8 +99,10 @@ assert.match(html, /EQ6|deep-sky|planetary/i, "astronomy interests should be pre
 assert.match(html, /SKYWATCHER 200mmF5/, "requested telescope label should use the formal SKYWATCHER name");
 const informalTelescopeNickname = String.fromCodePoint(0x5927, 0x9ed1);
 assert.doesNotMatch(html, new RegExp(informalTelescopeNickname), "public astronomy copy should not use the informal Chinese telescope nickname");
-assert.match(html, /SECONDARY MERROR|POLAR SCOPE|astroInspector/i, "astronomy annotations should follow the selected folder labels and move copy into an inspector");
-assert.match(html, /Polar scope|极轴镜/i, "polar scope field note should be present");
+assert.doesNotMatch(html, /MERROR/i, "public site should not contain the MERROR typo");
+assert.match(html, /SECONDARY MIRROR/, "secondary mirror astronomy label should be spelled correctly");
+assert.match(html, /POLAR SCOPE|astroInspector/i, "astronomy annotations should use the selected folder labels and move copy into an inspector");
+assert.match(html, new RegExp("Polar scope|" + String.fromCodePoint(0x6781, 0x8f74, 0x955c), "i"), "polar scope field note should be present");
 assert.doesNotMatch(html, /Schmidt-Cassegrain front cell/i, "wrong telescope caption must not be present");
 assert.match(html + css + js, /solar-system|data-planet|planetReadout|orbitSpeed|planetProfiles|setPlanet/i, "orbit toy should be expanded into an interactive solar system");
 assert.match(html + js, /Earth-year duration|periodDays|periodRatio|Earth days per orbit/i, "solar-system toy should use realistic orbital period ratios");
@@ -110,7 +112,7 @@ assert.doesNotMatch(css, /\.solar-system[\s\S]*contain:\s*[^;]*paint/i, "solar-s
 
 assert.match(html, /GALLERY/, "GALLERY heading should be uppercase");
 assert.match(html, /gallerySize|Image size/i, "GALLERY should have an image-size control");
-assert.match(html, /gallery-filter|data-gallery-filter|Schrödinger The Cat/i, "GALLERY should expose supplied drawing/cat categories with the requested spelling");
+assert.match(html, new RegExp("gallery-filter|data-gallery-filter|Schr" + String.fromCodePoint(0x00f6) + "dinger The Cat", "i"), "GALLERY should expose supplied drawing/cat categories with the requested spelling");
 assert.doesNotMatch(html, /Schrodinger Cat/i, "cat gallery label should not use the unaccented spelling");
 assert.match(html, /assets\/drawings\/star-sea\.jpg/, "GALLERY should use supplied drawing images");
 assert.match(html, /assets\/cats\/cat-portrait\.jpg/, "GALLERY should use supplied cat images");

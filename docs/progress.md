@@ -1,4 +1,4 @@
-﻿# Progress Log
+# Progress Log
 
 ## 2026-05-29
 
@@ -161,3 +161,8 @@
 - Repaired the Movies report screenshot with the supplied local movie images so the page preview shows the real visual state instead of blank rendered blocks.
 - Regenerated the paper-style PDF and TeX outputs with denser parallel figures, bold abstract and keywords labels, 12pt body text, 18pt leading, and Times New Roman for Latin text.
 - Rebuilt the submission zip after the report update and reran smoke, PDF text/font, zip, and visual preview checks.
+
+## 2026-06-15 Typo Fix
+
+- Corrected the astronomy card label to `SECONDARY MIRROR`.
+- Added a smoke-test regression guard for the secondary mirror spelling.
