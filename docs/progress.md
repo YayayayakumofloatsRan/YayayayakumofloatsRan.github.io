@@ -166,3 +166,8 @@
 
 - Corrected the astronomy card label to `SECONDARY MIRROR`.
 - Added a smoke-test regression guard for the secondary mirror spelling.
+
+## 2026-06-15 Movie Still Centering
+
+- Changed movie still cards from cropped cover rendering to centered contain rendering so supplied widescreen screenshots keep their composition.
+- Rebuilt the Movies report screenshot with centered stills and regenerated the assignment PDF.

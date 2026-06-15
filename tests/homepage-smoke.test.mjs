@@ -182,6 +182,9 @@ for (const staleMovie of ["The King's Speech", "Finding Nemo"]) {
 
 assert.match(html, /assets\/movies\/contact\.jpg|assets\/movies\/ford-v-ferrari\.jpg/, "movie shelf should render supplied movie stills");
 assert.match(html, /movie-filter|movie-card|movie-still/, "movie shelf should be interactive and visual");
+const movieStillRule = css.match(/\.movie-still\s*\{(?<body>[\s\S]*?)\n\}/)?.groups?.body || "";
+assert.match(movieStillRule, /object-fit:\s*contain/i, "movie stills should preserve supplied screenshots instead of cropping them");
+assert.match(movieStillRule, /object-position:\s*center/i, "movie stills should be centered inside their cards");
 assert.match(html + css, /movie-data-viz|Favourite movie motif counts|small data/i, "movie section should include a real small-data visualization for the assignment");
 
 assert.match(html, /Notes worth keeping|Kernel v3 notes|Research logs|Observing logs/i, "blog section should use concise selective note lanes");
