@@ -191,7 +191,7 @@ assert.match(js, /focus|movie|gallerySize|apt/i, "interactive controls should be
 assert.match(css, /\.contact-section[\s\S]*grid-template-columns:\s*minmax\(0,\s*max-content\)\s+minmax\(22rem,\s*1fr\)/i, "Contact heading and links should use non-overlapping grid tracks");
 assert.match(css, /\.contact-links[\s\S]*min-width:\s*0[\s\S]*overflow-wrap:\s*anywhere/i, "Contact links should be allowed to wrap inside their track");
 
-assert.match(html, /<html[^>]+data-theme="light"/, "default theme should be light");
+assert.match(html, /<html[^>]+data-theme="dark"/, "default theme should be dark");
 assert.match(css, /\[data-theme="dark"\]/, "dark theme should exist");
 assert.match(css, /#070a18|#0f766e|#80d7d0|#d8b45d|#f1c76c/i, "indigo/cyan/gold palette should be encoded");
 assert.match(css, /#e8fbff|#d7f5f7|#bfeef2|#0f7f86/i, "light theme should use a pale cyan palette");

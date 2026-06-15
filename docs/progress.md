@@ -1,4 +1,4 @@
-# Progress Log
+﻿# Progress Log
 
 ## 2026-05-29
 
@@ -33,12 +33,12 @@
 
 ## 2026-06-03
 
-- Imported the supplied categorized materials from `素材` into site-local deployable assets
+- Imported the supplied categorized materials from `绱犳潗` into site-local deployable assets
   under `site/assets/astronomy`, `site/assets/drawings`, `site/assets/cats`, and
   `site/assets/movies`, using stable public filenames instead of source WeChat filenames.
 - Replaced the Astronomy CSS placeholder cards with the supplied Newtonian, secondary
   mirror, polar-scope, and Moon field images while keeping the existing Moon hero.
-- Rebuilt GALLERY around real supplied drawing and Schrödinger The Cat images, with category
+- Rebuilt GALLERY around real supplied drawing and Schr枚dinger The Cat images, with category
   filters plus the existing persistent image-size slider.
 - Rebuilt Movies to follow the supplied movie assets exactly: 1900, Contact, Batman Dark
   Knight, Fight Club, Ford v. Ferrari, Gifted, Interstellar, and Puss in Boots. Removed
@@ -73,15 +73,15 @@
   Astronomy card opens its matching high-resolution preview image.
 - Reworked the public drawing assets and high-resolution drawing previews so the
   already-masked full-name areas are locally deblocked with soft edges. The surname
-  `祁` remains visible where it was already public, while no hidden name information is
+  `绁乣 remains visible where it was already public, while no hidden name information is
   reconstructed or exposed.
 - Optimized the astronomy background orbit layer by caching static orbit rings on an
   offscreen canvas, reducing starfield node count and pair-distance cost, and increasing
   the contrast of both the page background orbit and the in-card solar-system widget.
 - Replaced the duplicate colored `Moon field study` astronomy card with the supplied
   monochrome unrendered Moon frame while keeping the high-resolution preview path in sync.
-- Set the cat gallery label to `Schrödinger The Cat`, using the requested Austrian
-  spelling with `ö`.
+- Set the cat gallery label to `Schr枚dinger The Cat`, using the requested Austrian
+  spelling with `枚`.
 - Shortened the apt easter-egg trigger and terminal copy from `apt not found` to `apt`
   as a compact terminal-style easter egg.
 
@@ -92,7 +92,7 @@
   read more like a personal blog notebook while preserving the protected public-info,
   privacy, asset, and interaction contracts.
 - Replaced the deployable Astronomy instrument and Moon comparison assets from the
-  selected `素材/astronomy` files, preserving the privacy-masked public Moon log and using
+  selected `绱犳潗/astronomy` files, preserving the privacy-masked public Moon log and using
   `SKYWATCHER 200mmF5` instead of the informal telescope nickname.
 - Reworked Astronomy image notes into an interactive inspector strip below the image grid
   so captions no longer cover the photos; hover/focus updates the note while click still
@@ -145,9 +145,19 @@
 - Removed the explanatory apt sentence, replaced the footer deployment line with a personal-blog tagline, and tightened Contact grid tracks so `Public routes only.` no longer overlaps the link cards.
 - Revised the assignment report copy to remove contrast-sentence phrasing and reduce noun-pile phrasing, then regenerated the PDF from the HTML source.
 - Rewrote the assignment report into a paper-style format after reviewing the prior course report LaTeX/PDF structure under the provided reports directory.
-- Strengthened the paper-style report for top-rubric alignment by adding explicit scoring evidence, richer Prompt engineering analysis, and implementation verification details.
+- Strengthened the paper-style report for top-rubric alignment by adding explicit scoring evidence, clearer rubric alignment and implementation verification details.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
 - Any final public wording for Holo and ProjectH before deployment.
 - Rebuilt the assignment report from the course TeX template: white A4 layout, Songti body text, Heiti headings, 2em first-line indentation, no prose tables, and five updated screenshots.
+- Updated the assignment report image layout: dark-mode screenshots are primary, one light-mode comparison is retained, Gallery/Movies are shown in parallel, and image-preview interaction is documented.
+
+
+## 2026-06-15 Report Screenshot Pass
+
+- Switched the homepage default screenshot state to dark mode while keeping one light-mode comparison image for the report.
+- Rebuilt report assets with loaded local rendering: Home, About, Projects, Astronomy, GALLERY, Movies, image preview, and light-mode comparison.
+- Repaired the Movies report screenshot with the supplied local movie images so the page preview shows the real visual state instead of blank rendered blocks.
+- Regenerated the paper-style PDF and TeX outputs with denser parallel figures, bold abstract and keywords labels, 12pt body text, 18pt leading, and Times New Roman for Latin text.
+- Rebuilt the submission zip after the report update and reran smoke, PDF text/font, zip, and visual preview checks.

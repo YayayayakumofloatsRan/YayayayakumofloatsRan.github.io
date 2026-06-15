@@ -772,7 +772,7 @@ window.addEventListener("pagehide", () => {
   window.cancelAnimationFrame(resizeFrame);
 });
 
-setTheme(storedTheme || "light");
+setTheme(storedTheme || "dark");
 setFocus("all", false);
 setMovieFilter("all");
 setGalleryFilter("all");
