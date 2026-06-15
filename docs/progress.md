@@ -138,6 +138,10 @@
   selective note lanes.
 - Generated assignment handoff files: `README.txt`, `docs/assignment_report.html`,
   `docs/assignment_report.pdf`, and `docs/report_assets/homepage-screenshot.png`.
+- Revisited the public Holo repository README and simplified the About/Projects copy:
+  removed the generic personal-site sentence and reframed Holo as a bounded,
+  inspectable AI runtime kernel with kernel v3 focused on local state, processors,
+  transports, action selection, and runtime contracts.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
