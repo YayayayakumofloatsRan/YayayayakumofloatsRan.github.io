@@ -150,3 +150,4 @@
 
 - Final blog post titles and any real article URLs.
 - Any final public wording for Holo and ProjectH before deployment.
+- Rebuilt the assignment report from the course TeX template: white A4 layout, Songti body text, Heiti headings, 2em first-line indentation, no prose tables, and five updated screenshots.

@@ -2,157 +2,63 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>基于 Vibe Coding 的个人数据小馆主页设计与实现</title>
+  <title>基于 Vibe Coding 的个人主页设计与实现</title>
   <style>
-    @page { size: A4; margin: 21mm 18mm 20mm; }
-    :root {
-      color: #151a24;
-      background: #eef8fb;
-      font-family: "Microsoft YaHei", "SimSun", "Songti SC", "Segoe UI", sans-serif;
-      font-size: 10.5pt;
-    }
-    body { margin: 0; background: #eef8fb; line-height: 1.72; }
-    main {
-      max-width: 178mm;
-      margin: 0 auto;
-      padding: 18mm 18mm 16mm;
-      background: #fff;
-      box-shadow: 0 10px 38px rgba(17, 24, 40, 0.10);
-    }
-    .paper-title { text-align: center; margin-bottom: 1.15em; }
-    h1 { margin: 0 0 0.8em; font-size: 18pt; line-height: 1.35; font-weight: 700; }
-    .author { margin: 0.2em 0; font-size: 12pt; }
-    .affiliation { margin: 0.2em 0; color: #3f5260; font-size: 10.5pt; }
-    .abstract, .keywords { margin: 0.9em 0; text-align: justify; }
-    .label { font-weight: 700; }
-    h2 {
-      margin: 1.5em 0 0.55em;
-      font-size: 13.5pt;
-      line-height: 1.35;
-      font-weight: 700;
-      color: #0f6871;
-      border-bottom: 1px solid #d8b45d;
-      padding-bottom: 0.18em;
-    }
-    h3 { margin: 1.05em 0 0.35em; font-size: 11.2pt; color: #17202a; }
-    p { margin: 0.55em 0; text-align: justify; }
-    a { color: #0f6871; font-weight: 700; text-decoration: none; }
-    figure { margin: 1.1em 0; text-align: center; break-inside: avoid; }
-    figure img { max-width: 100%; border: 1px solid #cce8ec; }
-    figcaption { margin-top: 0.35em; color: #4b5d68; font-size: 9.5pt; }
-    table { width: 100%; border-collapse: collapse; margin: 0.9em 0 1.1em; font-size: 9.4pt; break-inside: avoid; }
-    caption { caption-side: top; text-align: center; font-weight: 700; margin-bottom: 0.4em; }
-    th, td { border: 1px solid #d2e8ec; padding: 0.42em 0.52em; vertical-align: top; }
-    th { background: #e8fbff; color: #0f6871; font-weight: 700; }
-    .small { color: #536672; font-size: 9.2pt; }
-    .codeish { font-family: Consolas, "Courier New", monospace; font-size: 9.4pt; }
-    .tight td { padding-top: 0.35em; padding-bottom: 0.35em; }
-    @media screen { main { margin-top: 28px; margin-bottom: 28px; } }
+    @page { size: A4; margin: 2.54cm; }
+    body { margin: 0; background: #fff; color: #000; font-family: SimSun, 'Songti SC', serif; font-size: 12pt; line-height: 1.5; }
+    main { max-width: 42rem; margin: 0 auto; padding: 2.54cm 0; background: #fff; }
+    h1 { text-align: center; font-family: SimHei, 'Heiti SC', sans-serif; font-size: 16pt; line-height: 24pt; margin: 0 0 1em; font-weight: 700; }
+    .author { text-align: center; font-size: 14pt; line-height: 21pt; margin: 0 0 .5em; }
+    .affil { text-align: center; font-size: 12pt; line-height: 18pt; margin: 0 0 1em; }
+    h2 { font-family: SimHei, 'Heiti SC', sans-serif; font-size: 14pt; line-height: 21pt; margin: 1.2em 0 .6em; }
+    p { margin: 0 0 .55em; text-indent: 2em; text-align: justify; }
+    .abstract, .keywords { text-indent: 0; }
+    .label { font-family: SimHei, 'Heiti SC', sans-serif; font-weight: 700; }
+    figure { margin: 1em 0; text-align: center; break-inside: avoid; }
+    img { max-width: 92%; border: 0; }
+    figcaption { margin-top: .35em; font-size: 10pt; text-align: center; }
+    a { color: #000; text-decoration: none; }
   </style>
 </head>
-<body>
-<main>
-  <header class="paper-title">
-    <h1>基于 Vibe Coding 的个人数据小馆主页设计与实现</h1>
-    <p class="author">Nemo Qi</p>
-    <p class="affiliation">上海交通大学 智能感知工程；公开邮箱：enhancednemoqi@outlook.com</p>
-  </header>
-
-  <p class="abstract"><span class="label">摘要：</span>本文记录一次使用 Codex 完成个人数据小馆主页的 Vibe Coding 实践。作品以公开 blog 为页面形态，以 Holo 项目为技术主线，以天文观测和电影偏好形成个人记忆点。作业要求中的自我介绍区由 About 卡片承担，真实小数据由 favourite movies 主题计数承担，交互彩蛋由主题切换承担一部分，apt 终端彩蛋和太阳系控件承担另一部分，图片预览负责素材互动。实现采用静态 HTML/CSS/JS，首屏使用横向 3D deck，后续内容回到纵向阅读流。报告按论文格式说明需求分析和总体设计，也说明实现方法和数据可视化，最后讨论 Prompt 工程，再给出验证结果和复盘结论。</p>
-  <p class="keywords"><span class="label">关键词：</span>Vibe Coding；个人主页；数据小馆；Prompt 工程；GitHub Pages</p>
-
-  <h2>1 引言</h2>
-  <p>课程作业要求制作一个体现个人特征的数据小馆。作品需要能打开，能说明页面主人，能展示一份真实个人小数据，并提供可触发的交互彩蛋。评分标准进一步强调个性化与视觉创意，也强调 Prompt 工程和复盘深度。</p>
-  <p>本项目选择个人 blog 作为最终形态。页面内容以 Holo 这一公开项目为中心，同时放入天文观测和量化研究。绘画素材与电影偏好作为兴趣记录。隐私边界经过多轮收敛，只展示公开身份 Nemo Qi。学校信息和专业方向会显示，邮箱与 GitHub 链接也作为公共信息展示。成品站点部署在 GitHub Pages，访问地址为 <a href="https://yayayayakumofloatsran.github.io/">https://yayayayakumofloatsran.github.io/</a>。</p>
-
-  <figure>
-    <img src="report_assets/homepage-screenshot.png" alt="Nemo Qi personal homepage screenshot" />
-    <figcaption>图 1 个人主页首屏效果</figcaption>
-  </figure>
-
-  <h2>2 作业要求与评分点对照</h2>
-  <p>为避免页面只停留在视觉层面，设计前先把课程要求拆成可检查项目。表 1 对照作业要求和页面实现，也说明对应的评分意图。这个对照表也作为后续实现和验证的检查清单。</p>
-
-  <table>
-    <caption>表 1 作业要求与页面实现对应关系</caption>
-    <tr><th>评分维度</th><th>实现证据</th><th>设计意图</th></tr>
-    <tr><td>完整性</td><td>页面包含 About 与 Movies，也包含交互控件。README 链接和 PDF 报告用于提交。</td><td>确保三个必备区域齐全，并能直接打开。</td></tr>
-    <tr><td>个性化</td><td>About 写明 Nemo Qi 与上海交通大学。智能感知工程与 Holo 作为个人特征出现。天文观测和 ProjectH 也放在同一条主线中。</td><td>让访问者能记住页面主人，避免模板感。</td></tr>
-    <tr><td>视觉与创意</td><td>首屏使用月球图像和 3D deck。深色主题采用靛蓝与青色，金线只作点缀。</td><td>把天文兴趣转化为页面气质。</td></tr>
-    <tr><td>真实小数据</td><td>Movies 区记录八部 favourite movies，并按主题计数。</td><td>用小规模真实数据完成可解释可视化。</td></tr>
-    <tr><td>Prompt 工程</td><td>保留关键 Prompt 阶段，说明 AI 初稿问题和人工修订。</td><td>证明作品来自多轮主导式协作。</td></tr>
-    <tr><td>公网加分</td><td>GitHub Pages 已发布，根路径可访问。</td><td>让成品具备可展示性。</td></tr>
-  </table>
-
-  <h2>3 总体设计</h2>
-  <h3>3.1 信息架构</h3>
-  <p>页面被组织成两段。第一段是横向 3D deck，包含 Intro 到 Astronomy 四张卡片。它们分别承担身份说明和项目说明，也负责完成视觉定调。第二段从 Gallery 到 Contact 保持纵向阅读，用于展示素材和数据，并提供公共联系入口。这样处理后，交互集中在首屏附近，后续阅读保持稳定。</p>
-
-  <h3>3.2 视觉策略</h3>
-  <p>默认主题使用浅青色，保证阅读时亮度充足。深色主题使用靛蓝与青色，金线只承担边框和强调作用。月球图像提供主视觉。天文设备照片和太阳系控件共同形成夜空语境。页面未使用头像，以降低私人信息暴露。</p>
-
-  <h3>3.3 交互策略</h3>
-  <p>滚轮保留给纵向阅读，横向 deck 只使用边缘按钮翻页。这个选择来自实际测试：滚轮翻页会让用户难以把卡片停在屏幕中央。边缘按钮默认近乎隐形，悬停和聚焦时再显示，既降低视觉噪声，也保留可发现性。</p>
-
-  <h2>4 实现方法</h2>
-  <p>项目采用纯静态实现，核心文件位于 <span class="codeish">site/index.html</span> / <span class="codeish">site/styles.css</span> / <span class="codeish">site/script.js</span>。这种结构不依赖构建步骤，便于课程提交，也便于 GitHub Pages 直接发布。</p>
-  <p>交互部分由几个小模块组成。主题切换负责配色。focus chips 负责内容聚焦。apt 按钮提供彩蛋。lightbox 负责图片预览。媒体 inspector 承接图片说明。太阳系控件提供动态反馈。Astronomy / Gallery / Movies 的文字说明被放入 inspector。图片表面保持干净，悬停或聚焦时再更新说明。</p>
-
-  <table class="tight">
-    <caption>表 2 主要模块与实现方式</caption>
-    <tr><th>模块</th><th>实现方式</th><th>用户体验目标</th></tr>
-    <tr><td>3D deck</td><td>CSS perspective 与 JS 状态同步。</td><td>在首屏制造横向切页感。</td></tr>
-    <tr><td>Theme toggle</td><td>使用 data-theme 与 localStorage 保存状态。</td><td>浅色适合阅读，深色保留天文主题。</td></tr>
-    <tr><td>Media inspector</td><td>图片卡片通过 hover/focus 更新说明区。</td><td>避免文字遮挡图片。</td></tr>
-    <tr><td>Lightbox</td><td>点击图片后加载高分辨率 preview 资源。</td><td>让素材可细看。</td></tr>
-    <tr><td>Solar system</td><td>按行星周期比例控制动画速度。</td><td>让交互更贴近真实天文比例。</td></tr>
-  </table>
-
-  <h2>5 个人小数据与可视化</h2>
-  <p>小数据部分选用 favourite movies。电影偏好属于真实个人数据，规模较小，适合用可解释的主题计数展示。相比复杂图表，条形图更适合表达这个数据集的结构。</p>
-
-  <table>
-    <caption>表 3 Favourite movies 数据整理</caption>
-    <tr><th>电影</th><th>主题</th><th>说明</th></tr>
-    <tr><td>Contact</td><td>Space</td><td>科学信念和宇宙尺度。</td></tr>
-    <tr><td>Interstellar</td><td>Space</td><td>天文兴趣与叙事张力相连。</td></tr>
-    <tr><td>1900</td><td>Music</td><td>用音乐承载个人选择。</td></tr>
-    <tr><td>Gifted</td><td>Mind</td><td>数学天赋与生活秩序。</td></tr>
-    <tr><td>The King's Speech</td><td>Mind</td><td>表达训练和自我修正。</td></tr>
-    <tr><td>Batman Dark Knight</td><td>Myth</td><td>秩序感与城市叙事。</td></tr>
-    <tr><td>Puss in Boots</td><td>Myth</td><td>寓言气质和轻量幽默。</td></tr>
-    <tr><td>Ford v. Ferrari</td><td>Velocity</td><td>工程判断和速度感。</td></tr>
-  </table>
-
-  <p>可视化结果显示，Space 主题出现两次，Mind 主题出现两次，Myth 主题出现两次，Music 与 Velocity 各出现一次。这个分布与主页整体气质一致：一部分兴趣指向宇宙和数理，一部分兴趣指向叙事和工程判断。</p>
-
-  <h2>6 Prompt 工程与人工修订</h2>
-  <p>本项目的 Prompt 过程呈现出一个清晰规律：AI 适合快速生成可运行框架，但页面主次需要人工校准。隐私边界和视觉口味也需要反复判断。表 4 记录了对作品走向影响较大的几次指令。</p>
-
-  <table>
-    <caption>表 4 关键 Prompt 与修订结果</caption>
-    <tr><th>阶段</th><th>输入要点</th><th>AI 初稿倾向</th><th>人工修订</th></tr>
-    <tr><td>身份边界</td><td>不放头像，只写 Nemo Qi。</td><td>初稿容易加入头像位和过多私密信息。</td><td>删除头像位，保留公开身份和必要联系信息。</td></tr>
-    <tr><td>项目主线</td><td>把 Holo 放到主要项目位置，并补充天文经历和数理兴趣，同时放入 ProjectH。</td><td>初稿曾把次要项目放到更显眼位置。</td><td>把 Holo 设置为 Primary project，其他项目降为辅助说明。</td></tr>
-    <tr><td>页面结构</td><td>主页横向展开，部分内容保留上下滚动。</td><td>初稿更接近普通纵向落地页。</td><td>改为 3D deck 与纵向内容流的混合结构。</td></tr>
-    <tr><td>素材展示</td><td>加入 astronomy/gallery/movies 素材，并支持点击大图。</td><td>初稿把说明文字压在图片上。</td><td>把说明移入 inspector，并统一 Gallery 与 Movies 的图片比例。</td></tr>
-    <tr><td>报告收尾</td><td>对照作业三要求，整理报告。</td><td>初版报告像过程日志。</td><td>改写为论文式报告，并加入评分点证据。</td></tr>
-  </table>
-
-  <h2>7 结果与验证</h2>
-  <p>最终页面可以完成自我介绍和项目展示，也能呈现天文记录与素材画廊。电影数据占据独立区域，Blog 入口和联系区也各自独立。主题切换负责视觉状态，横向翻页负责首屏切换，图片预览负责素材查看；筛选控件和太阳系模拟提供额外操作，apt 按钮保留彩蛋。页面已部署到公网，报告 PDF 与提交压缩包也已同步生成。</p>
-  <p>验证工作包括两类。第一类是程序检查：使用 Node.js 运行主页 smoke test，检查页面结构和素材引用，再检查隐私字段与关键交互绑定。第二类是产物检查：重新导出 PDF 后抽取文本，确认报告页数和线上链接，再检查禁用句式与旧文案。提交包中的 PDF 也经过同样检查。</p>
-
-  <h2>8 问题复盘与改进</h2>
-  <p>第一次网页版本过于像工程说明书，文案缺少个人感。后续通过删减长句，让 About / Projects / Blog 回到个人主页语气。</p>
-  <p>图片说明最初覆盖在图面上，影响观感。后续改为 inspector 展示说明，图片只承担视觉内容。</p>
-  <p>GitHub Pages 曾出现图片加载失败。排查后发现站点发布目录与资源路径不一致。修复方式是用 GitHub Actions 发布 <span class="codeish">site/</span>，并保留根目录跳转文件。</p>
-  <p>隐私检查也是必要步骤。素材来自本地文件，容易带出本机路径和拍摄地点，签名信息也可能被误带入页面。最终用脚本扫描敏感字段，并对月球图和画作信息做了公开化处理。</p>
-  <p>如果重做，我会在第一轮 Prompt 中直接写出评分 rubrics，并把“真实小数据”“交互彩蛋”“报告结构”“部署方式”写成明确验收条件。这样可以减少后期返工。</p>
-
-  <h2>9 结论</h2>
-  <p>本次作业完成了一个可部署的个人数据小馆主页。页面用 Holo 项目建立技术主线，用天文素材建立视觉主线，用 favourite movies 完成真实小数据可视化。整个过程说明，Vibe Coding 的价值不只在于生成代码，更在于通过连续反馈把 AI 初稿修正为符合个人表达和作业约束的作品。</p>
-  <p class="small">说明：报告仅保留公开身份 Nemo Qi。提交平台要求的学号与姓名请在压缩包命名时按课程要求补充。</p>
-</main>
-</body>
-</html>
+<body><main>
+<h1>基于 Vibe Coding 的个人主页设计与实现</h1>
+<p class="author">Nemo Qi</p>
+<p class="affil">（上海交通大学    智能感知工程    enhancednemoqi@outlook.com）</p>
+<p class="abstract"><span class="label">摘要&nbsp;&nbsp;</span>本报告记录一次使用 Codex 完成个人主页的 Vibe Coding 实践。页面以 Holo 作为技术主线，以天文观测作为视觉主线，并用 favourite movies 完成真实小数据展示。实现采用静态 HTML/CSS/JS。首屏使用横向 3D 卡片，后续内容回到纵向阅读。报告重点说明需求拆解，页面实现，Prompt 修正过程和踩坑复盘。</p>
+<p class="keywords"><span class="label">关键词&nbsp;&nbsp;</span>Vibe Coding；个人主页；Holo；天文观测；Prompt 工程</p>
+<h2>1 引言</h2>
+<p>课程作业要求使用 Vibe Coding 完成一个能体现个人特征的主页。页面需要包含自我介绍，真实小数据展示和一个可以触发的交互彩蛋，还要提交成品截图，设计说明，关键 Prompt 记录和踩坑复盘。笔者将这个要求理解为一次小型前端作品实践：页面要能打开，内容要真实，交互要有自己的判断，最后还要能说明 AI 在哪里帮到了我，哪里需要我重新把方向拉回来。</p>
+<p>本项目以个人 blog 作为网页形态。页面主线放在 Holo，天文观测和数理兴趣上。Holo 是公开项目，天文图像和设备照片来自个人素材，电影偏好作为真实小数据。页面只使用公开身份 Nemo Qi，保留学校，专业方向，邮箱和 GitHub 指路，头像和过于私人的内容不进入页面。成品部署在 GitHub Pages，访问地址为 <a href="https://yayayayakumofloatsran.github.io/">https://yayayayakumofloatsran.github.io/</a>。</p>
+<figure><img src="report_assets/homepage-screenshot.png" alt="图 1 个人主页首屏效果。月球图像和横向 deck 建立天文主题。" /><figcaption>图 1 个人主页首屏效果。月球图像和横向 deck 建立天文主题。</figcaption></figure>
+<h2>2 需求拆解与设计边界</h2>
+<p>作业说明中最关键的三个区域是自我介绍，数据可视化和交互彩蛋。我的处理方式是让 About 承担身份说明，让 Movies 承担真实小数据展示，让主题切换，横向 deck，太阳系控件，图片预览和 apt 彩蛋共同承担交互。这样安排后，页面不会停留在静态简历层面，也不会把私人信息暴露到公网。</p>
+<p>视觉边界也在迭代中逐步收紧。用户头像被删除，月球图片中的地点信息经过公开化处理，画作中的个人签名也做了弱化。主页默认使用浅青色背景，深色模式使用靛蓝和青色，金色只用于细线和重点边框。这个选择既保留天文主题，又避免页面变成沉重的黑色展板。</p>
+<h2>3 页面结构与视觉方案</h2>
+<p>页面分为两段。第一段是横向 3D deck，包含 Intro，About，Projects 和 Astronomy 四张卡片。卡片使用显式边缘按钮翻页，鼠标滚轮留给纵向阅读。这个调整来自实际体验：滚轮翻页会破坏阅读节奏，也会让卡片难以停在屏幕中央。第二段从 Gallery 开始恢复传统纵向阅读，用于放置绘画素材，电影数据，Notes 和 Contact。</p>
+<p>首屏使用月球图像作为视觉锚点。Astronomy 区展示月面，SKYWATCHER 200mm F5 牛顿反射镜，极轴镜视角和太阳系控件。Gallery 和 Movies 使用同一套图片卡片与 inspector 说明区，文字不直接压在图片上。这样能保证图片本身干净，访问者停留或点击时再获得解释。</p>
+<figure><img src="report_assets/astronomy-screenshot.png" alt="图 2 Astronomy 区效果。图片说明移到下方 inspector，右侧保留太阳系控件。" /><figcaption>图 2 Astronomy 区效果。图片说明移到下方 inspector，右侧保留太阳系控件。</figcaption></figure>
+<h2>4 核心实现</h2>
+<p>项目采用纯静态实现，核心文件是 site/index.html，site/styles.css 和 site/script.js。这种结构不依赖构建工具，便于课程提交，也便于 GitHub Pages 直接发布。部署时曾出现图片加载失败，排查后发现发布目录和资源路径不一致，随后将 site 目录作为 Pages 输出源，并保留根目录跳转文件，图片路径才稳定下来。</p>
+<p>交互逻辑被拆成几个小模块。主题切换通过 data-theme 保存状态，横向 deck 只响应左右按钮，图片预览使用统一 lightbox，Movies 区根据电影主题统计生成条形图，Astronomy 区的太阳系控件按行星公转周期比例调整速度。这里没有追求复杂框架，重点放在可读，稳定和容易继续手工修改。</p>
+<figure><img src="report_assets/projects-screenshot.png" alt="图 3 Projects 区效果。Holo 被放在主要公开项目位置。" /><figcaption>图 3 Projects 区效果。Holo 被放在主要公开项目位置。</figcaption></figure>
+<h2>5 Holo 项目说明</h2>
+<p>Holo 是我的主要公开项目。公开 README 将它定义为一个 experimental subject-runtime host，用于围绕 durable local state，replaceable processors 和 transport shells 构建 bounded, inspectable conversational agent。公开仓库只保留 generic runtime kernel，测试和文档，不包含私人 profile，长期记忆，运行数据库，传输回执和 canary artifacts。</p>
+<p>主页中的 Holo 介绍保持简短。Projects 区只说明它是一个可检查的 AI runtime kernel，并点出 memory，processor，transport，action selection 和 acceptance gates 这些公开架构线索。README 里的 offline bionic kernel probe 已推进到 Stage35 到 Stage39，这说明 kernel v3 已经经历多轮迭代。页面因此把 Holo 放在 primary project 位置，laser_extraction 只作为次要公开项目保留。</p>
+<h2>6 真实小数据：Favourite Movies</h2>
+<p>作业要求一份真实属于自己的小数据。这里选用 favourite movies，因为它既真实，又能解释个人趣味。数据包括 Contact，1900，Gifted，Interstellar，The King&#x27;s Speech，Batman Dark Knight，Puss in Boots 和 Ford v. Ferrari。页面没有调用外部海报接口，优先使用本地素材中已经整理好的电影图片，保证提交包离线打开时仍能显示。</p>
+<p>可视化采用主题计数。Space 覆盖 Contact 和 Interstellar，Mind 覆盖 Gifted 和 The King&#x27;s Speech，Myth 覆盖 Batman Dark Knight 和 Puss in Boots，Music 对应 1900，Velocity 对应 Ford v. Ferrari。这个结果和主页整体气质一致：一部分兴趣指向宇宙和数理，一部分兴趣指向叙事，表达和工程判断。</p>
+<figure><img src="report_assets/movies-screenshot.png" alt="图 4 Movies 区效果。电影偏好被整理为卡片墙和主题计数。" /><figcaption>图 4 Movies 区效果。电影偏好被整理为卡片墙和主题计数。</figcaption></figure>
+<h2>7 Prompt 工程过程</h2>
+<p>第一轮 Prompt 只要求制作个人主页，并参考附件。AI 很快生成了可运行框架，但页面像普通作品集，缺少个人主题。随后我补充了 GitHub 链接，深浅主题，blog 定位和 Holo 的优先级。AI 的输出开始转向个人 blog，Projects 区也从 laser_extraction 调整到 Holo。</p>
+<p>第二轮 Prompt 主要解决视觉。加入月球图，天文设备，绘画素材，电影素材后，AI 先把文字压在图片上，观感比较粗糙。后续我要求说明移动到侧栏或上下方，图片点击后弹出大图，并统一 Gallery 和 Movies 的比例。AI 最终把说明区改成 inspector，图片展示变得干净。</p>
+<p>第三轮 Prompt 主要解决交互和性能。横向 deck 起初可以被滚轮触发，浏览时容易卡住。根据反馈，AI 将 deck 改为只由边缘按钮控制，并降低透明层和动画负担。太阳系控件一开始像装饰性小游戏，后来按真实公转周期比例重写速度关系，同时把边缘行星遮挡问题修正。</p>
+<p>报告阶段也经历了一次明显修正。早期报告更像网页说明和表格汇总，缺少论文格式。根据用户提供的往期 TeX 模板，最终报告改为 A4 页面，2.54cm 边距，宋体正文，黑体标题，首行缩进 2em，并删除表格，把说明改成连续论述。</p>
+<figure><img src="report_assets/gallery-screenshot.png" alt="图 5 Gallery 区效果。绘画素材使用统一比例和下方说明区。" /><figcaption>图 5 Gallery 区效果。绘画素材使用统一比例和下方说明区。</figcaption></figure>
+<h2>8 踩坑复盘</h2>
+<p>第一类问题是隐私边界。AI 倾向于把个人主页写得更完整，也容易保留头像占位，地点标注和签名信息。后续通过明确指令删除头像，限制公开身份，并对图片做像素处理，页面才适合放到公网。这个问题说明，公开页面的素材选择不能只看好不好看，还要检查图像里是否带有额外信息。</p>
+<p>第二类问题是交互节奏。横向 deck 的视觉效果很好，但滚轮触发后会干扰纵向浏览。解决方法是把卡片翻页改为显式按钮，并让按钮在未触碰时近似隐形。这样保留了横向切页的立体感，也让传统阅读不受影响。</p>
+<p>第三类问题是报告格式。AI 生成网页和 PDF 时容易走向彩色化和组件化，这与课程论文模板不一致。最后的处理方式是回到参考 TeX，逐项对齐字体，字号，行距，页边距和首行缩进。若重新开始，我会在第一轮 Prompt 中直接写入评分标准，公开边界，提交文件格式和报告模板，减少后期返工。</p>
+<h2>9 总结</h2>
+<p>本次作业完成了一个可部署的个人主页。页面用 Holo 建立技术主线，用天文素材建立视觉主线，用 favourite movies 完成真实小数据展示，并用主题切换，横向 deck，太阳系控件，图片预览和 apt 彩蛋补足交互。</p>
+<p>这次实践也让我更清楚地看到 Vibe Coding 的分工。AI 适合快速搭建结构，补齐样式和实现交互；人的工作是不断收紧边界，判断审美，检查隐私，并把作品重新拉回作业要求。最终版本仍然保留可继续手工修改的空间，后续可以把 Notes 扩展成真正的 blog 内容。</p>
+</main></body></html>
