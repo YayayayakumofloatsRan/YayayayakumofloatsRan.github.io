@@ -1,6 +1,6 @@
 # Nemo Qi Personal Blog
 
-This is a rebuilt static personal blog homepage for Nemo Qi. It is deployable without a
+This is a rebuilt personal blog homepage for Nemo Qi. It is deployable without a
 build step and is designed around Holo, astronomy, AI systems, quantitative research,
 and technical notes.
 
@@ -91,4 +91,4 @@ hide the location line while keeping the date, phase, and `Nemo Qi` credit.
   card images use lightweight display assets and high-resolution `site/assets/preview/`
   files for the enlarged view.
 - The movie shelf uses the supplied movie materials as same-size visual cards.
-- The `apt` button reveals a small terminal/deadlock easter egg.
+- The `apt` button reveals a small terminal-style easter egg.

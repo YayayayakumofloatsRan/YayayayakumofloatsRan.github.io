@@ -206,6 +206,12 @@ try {
       };
     }).filter((planet) => planet.clipped);
 
+    const contact = document.querySelector("#contact");
+    contact.scrollIntoView({ block: "center" });
+    await new Promise((resolve) => setTimeout(resolve, 240));
+    const contactTitleRect = contact.querySelector("h2").getBoundingClientRect();
+    const contactLinksRect = contact.querySelector(".contact-links").getBoundingClientRect();
+
     return {
       inspectorKicker: document.querySelector("#astroInspectorKicker").textContent.trim(),
       inspectorTitle: document.querySelector("#astroInspectorTitle").textContent.trim(),
@@ -239,6 +245,10 @@ try {
       topbarHeight: topbarRect.height,
       astronomyClientHeight: astronomyPanel.clientHeight,
       astronomyScrollHeight: astronomyPanel.scrollHeight,
+      contactTitleRight: contactTitleRect.right,
+      contactLinksLeft: contactLinksRect.left,
+      contactTitleBottom: contactTitleRect.bottom,
+      contactLinksTop: contactLinksRect.top,
     };
   })()`);
 
@@ -247,6 +257,11 @@ try {
   assert.equal(interactionState.galleryInspectorKicker, "Schrödinger The Cat");
   assert.match(interactionState.galleryInspectorTitle, /Paper tunnel|Wide-eyed portrait|portrait/i);
   assert.equal(interactionState.movieInspectorTitle, "Ford v. Ferrari");
+  assert.ok(
+    interactionState.contactTitleRight <= interactionState.contactLinksLeft - 12 ||
+      interactionState.contactLinksTop >= interactionState.contactTitleBottom - 2,
+    `Contact heading should not overlap contact links: ${JSON.stringify(interactionState)}`,
+  );
   assert.ok(
     Math.abs(interactionState.mercuryDuration / interactionState.earthDuration - 0.2408) < 0.03,
     `Mercury/Earth duration ratio should follow orbital periods: ${JSON.stringify(interactionState)}`,

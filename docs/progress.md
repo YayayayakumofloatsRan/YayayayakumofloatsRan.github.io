@@ -5,7 +5,7 @@
 - Confirmed the old homepage workspace path no longer existed and was not found in the
   ordinary Recycle Bin query or quick root-directory checks.
 - Rebuilt the homepage workspace as requested.
-- Recreated the static personal blog with sections for About, Projects, Astronomy,
+- Recreated the personal blog with sections for About, Projects, Astronomy,
   GALLERY, Favourite movies, Blog notes, and Contact.
 - Restored the real Moon visual from the available public copy source and saved an
   optimized asset at `site/assets/moon-20240321-phase.jpg`.
@@ -83,7 +83,7 @@
 - Set the cat gallery label to `Schrödinger The Cat`, using the requested Austrian
   spelling with `ö`.
 - Shortened the apt easter-egg trigger and terminal copy from `apt not found` to `apt`
-  while keeping the deadlock joke behavior.
+  as a compact terminal-style easter egg.
 
 ## 2026-06-04
 
@@ -142,6 +142,7 @@
   removed the generic personal-site sentence and reframed Holo as a bounded,
   inspectable AI runtime kernel with kernel v3 focused on local state, processors,
   transports, action selection, and runtime contracts.
+- Removed the explanatory apt sentence, replaced the footer deployment line with a personal-blog tagline, and tightened Contact grid tracks so `Public routes only.` no longer overlaps the link cards.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

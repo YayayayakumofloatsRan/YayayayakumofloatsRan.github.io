@@ -183,10 +183,13 @@ assert.match(html, /movie-filter|movie-card|movie-still/, "movie shelf should be
 assert.match(html + css, /movie-data-viz|Favourite movie motif counts|small data/i, "movie section should include a real small-data visualization for the assignment");
 
 assert.match(html, /Notes worth keeping|Kernel v3 notes|Research logs|Observing logs/i, "blog section should use concise selective note lanes");
-assert.match(html, />apt<\/button>|deadlock/i, "apt/deadlock easter egg should be present");
+assert.match(html, />apt<\/button>|sudo apt install apt/i, "apt easter egg should be present");
+assert.doesNotMatch(html, /apt waits for apt/i, "apt easter egg should not include explanatory apt copy");
 assert.doesNotMatch(html + js, /apt not found/i, "apt easter egg should not use the not-found label");
 assert.match(js, /themeToggle|localStorage|data-theme/, "theme toggle should persist state");
 assert.match(js, /focus|movie|gallerySize|apt/i, "interactive controls should be wired");
+assert.match(css, /\.contact-section[\s\S]*grid-template-columns:\s*minmax\(0,\s*max-content\)\s+minmax\(22rem,\s*1fr\)/i, "Contact heading and links should use non-overlapping grid tracks");
+assert.match(css, /\.contact-links[\s\S]*min-width:\s*0[\s\S]*overflow-wrap:\s*anywhere/i, "Contact links should be allowed to wrap inside their track");
 
 assert.match(html, /<html[^>]+data-theme="light"/, "default theme should be light");
 assert.match(css, /\[data-theme="dark"\]/, "dark theme should exist");
