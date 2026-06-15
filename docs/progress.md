@@ -143,6 +143,7 @@
   inspectable AI runtime kernel with kernel v3 focused on local state, processors,
   transports, action selection, and runtime contracts.
 - Removed the explanatory apt sentence, replaced the footer deployment line with a personal-blog tagline, and tightened Contact grid tracks so `Public routes only.` no longer overlaps the link cards.
+- Revised the assignment report copy to remove contrast-sentence phrasing and reduce noun-pile phrasing, then regenerated the PDF from the HTML source.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
