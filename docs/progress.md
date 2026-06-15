@@ -1,4 +1,4 @@
-﻿# Progress Log
+# Progress Log
 
 ## 2026-05-29
 
@@ -132,6 +132,12 @@
   root through README/Jekyll, so `/assets/...` images 404ed even though the repository
   contained `site/assets/...`. Added a root `index.html` redirect to `site/` plus
   `.nojekyll` as a branch-root fallback while the Actions source setting propagates.
+- Finalized the assignment-oriented copy pass: About now briefly introduces Holo and the
+  kernel v3 line, Projects frames Holo as the primary public AI runtime, Movies includes
+  a real small-data visualization from the supplied favourite-movie list, and Blog uses
+  selective note lanes.
+- Generated assignment handoff files: `README.txt`, `docs/assignment_report.html`,
+  `docs/assignment_report.pdf`, and `docs/report_assets/homepage-screenshot.png`.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.

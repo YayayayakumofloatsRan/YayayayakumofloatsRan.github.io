@@ -22,6 +22,17 @@ full-name regions are softened for presentation and are not reconstructed.
 
 Open `site/index.html` directly in a browser. No build step is required.
 
+## Assignment Deliverables
+
+- Public link note: `README.txt`
+- Report HTML: `docs/assignment_report.html`
+- Report PDF: `docs/assignment_report.pdf`
+- Report screenshot asset: `docs/report_assets/homepage-screenshot.png`
+
+The report maps the homepage to the assignment requirements: self-introduction, a real
+small personal dataset visualization, interactive easter eggs, public deployment, prompt
+records, and a pitfall review.
+
 ## Deployment
 
 For this repository on GitHub Pages:

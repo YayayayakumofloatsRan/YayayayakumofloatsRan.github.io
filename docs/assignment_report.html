@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>作业三 Vibe Coding 个人主页报告</title>
+  <style>
+    :root { color: #17202a; background: #f4fbfd; font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+    body { margin: 0; padding: 36px; line-height: 1.68; }
+    main { max-width: 920px; margin: 0 auto; padding: 36px 42px; background: #ffffff; border: 1px solid #cce8ec; }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    h2 { margin: 30px 0 10px; font-size: 21px; color: #0f6871; border-bottom: 2px solid #d8b45d; padding-bottom: 5px; }
+    h3 { margin: 18px 0 6px; font-size: 16px; color: #17202a; }
+    p { margin: 8px 0; }
+    a { color: #0f6871; font-weight: 700; }
+    img { max-width: 100%; border: 1px solid #cce8ec; margin: 12px 0 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+    th, td { border: 1px solid #d7ecef; padding: 8px 10px; vertical-align: top; }
+    th { background: #e8fbff; color: #0f6871; }
+    ul { margin: 8px 0 8px 20px; padding: 0; }
+    .meta { color: #5c7177; }
+    .shot-note { color: #5c7177; font-size: 13px; }
+    .prompt { background: #f2f8fa; border-left: 4px solid #0f7f86; padding: 10px 12px; margin: 10px 0; }
+    .small { color: #5c7177; font-size: 13px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>作业三：Vibe Coding 个人主页报告</h1>
+  <p class="meta">作品：Nemo Qi Personal Blog / 数据小馆</p>
+  <p class="meta">线上链接：<a href="https://yayayayakumofloatsran.github.io/">https://yayayayakumofloatsran.github.io/</a></p>
+
+  <h2>一、成品截图</h2>
+  <img src="report_assets/homepage-screenshot.png" alt="Nemo Qi personal homepage screenshot" />
+  <p class="shot-note">截图为本地最新版本首页首屏。页面已部署到 GitHub Pages，根路径会直接打开成品站点。</p>
+
+  <h2>二、设计说明</h2>
+  <p>我想呈现的是一个偏“个人实验室”的主页，而不是模板化简历页。页面围绕 Holo、天文观测、量化研究、绘画素材和电影偏好展开，用浅青色默认主题配合深色天文主题，强调“系统、观测、小数据”的个人特征。</p>
+  <p>首页采用横向 3D 卡片展示 Intro、About、Projects、Astronomy，后续 Gallery、Movies、Blog、Contact 保持传统纵向浏览。这样能保留一点交互感，同时不影响普通阅读。</p>
+
+  <h2>三、作业要求对照</h2>
+  <table>
+    <tr><th>要求</th><th>实现方式</th></tr>
+    <tr><td>自我介绍区</td><td>About 卡片写明 Nemo Qi、学校、专业、方向、公开邮箱，并用月球图像和天文主题代表个人兴趣。</td></tr>
+    <tr><td>真实小数据可视化</td><td>Movies 区使用我给出的 8 部 favourite movies，按 Space / Music / Mind / Myth / Velocity 分类计数，做成轻量条形分布图和卡片墙。</td></tr>
+    <tr><td>交互彩蛋</td><td>包括明暗主题切换、apt 死锁彩蛋、太阳系 orbit 控件、图片大图预览、电影和画廊筛选。</td></tr>
+    <tr><td>公网部署</td><td>已推送到 GitHub Pages 仓库，并通过 GitHub Actions 发布 site/ 目录。</td></tr>
+  </table>
+
+  <h2>四、关键 Prompt 记录与修改思路</h2>
+  <div class="prompt"><strong>Prompt 1：</strong>“做一个个人主页，深色系或靛蓝+金线，不要头像，不要过于 private，写 Nemo Qi。”<br />作用：确定隐私边界和最初视觉方向。后续我要求默认浅色，深色保留靛蓝、青和金线。</div>
+  <div class="prompt"><strong>Prompt 2：</strong>“主要项目是 Holo，不是 laser_extraction；加入天文、Fermi/Feynman、数理兴趣、ProjectH。”<br />作用：把项目主次改正确，避免主页像普通项目列表。Holo 被设置成 Primary project。</div>
+  <div class="prompt"><strong>Prompt 3：</strong>“主页横向展开、像 Apple 切换屏幕；一部分横向，一部分传统上下滑动。”<br />作用：形成当前的横向 3D deck + 纵向内容流结构。后续我又要求取消滚轮翻页，只保留边缘按钮，解决浏览体验问题。</div>
+  <div class="prompt"><strong>Prompt 4：</strong>“素材文件夹里有 astronomy、gallery、movies；图片点击要大图预览；orbit 做得更真实。”<br />作用：把真实素材导入 site/assets，统一 Gallery 和 Movies 的图片比例，加入太阳系周期比例和 lightbox。</div>
+  <div class="prompt"><strong>Prompt 5：</strong>“对照作业三要求，文案微调，报告收工。”<br />作用：最后把 Movies 明确改成真实小数据可视化，简化 Holo 文案，补齐报告结构。</div>
+
+  <h2>五、踩坑复盘</h2>
+  <h3>1. 一开始内容太像技术说明书</h3>
+  <p>AI 容易把个人主页写成工程文档，句子长且机械。我通过不断要求“简短、个人特色、宁缺毋滥”把 About、Projects、Blog 改成更像个人主页的表达。</p>
+  <h3>2. 图片注释曾经遮挡图片</h3>
+  <p>最初 Gallery、Movies、Astronomy 把文字压在图上，观感差。后来改成 inspector 区域，图片保持干净，悬停/聚焦时更新文字说明。</p>
+  <h3>3. GitHub Pages 图片一度加载失败</h3>
+  <p>根因不是图片缺失，而是 Pages 还在用仓库根目录渲染 README，导致 /assets 路径 404。解决方法是 GitHub Actions 发布 site/，并加 root index 和 .nojekyll 作为兜底。</p>
+  <h3>4. 隐私边界需要反复检查</h3>
+  <p>素材来自本地路径，容易把来源路径、地点或过于私人的信息带进页面。最后用脚本扫描敏感路径和字段，并对月球图、画作信息做了公开化处理。</p>
+
+  <h2>六、如果重做会怎么改 Prompt</h2>
+  <p>我会在第一轮就把作业 rubrics 写进 Prompt：必须有自我介绍、真实个人小数据、交互彩蛋、报告结构和部署方式。这样能更早约束页面结构，减少后期返工。</p>
+  <p class="small">本报告只保留公开身份 Nemo Qi；提交平台要求的个人信息请在最终压缩包命名时自行补充。</p>
+</main>
+</body>
+</html>

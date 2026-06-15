@@ -1,4 +1,4 @@
-﻿import assert from "node:assert/strict";
+import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -84,7 +84,7 @@ assert.match(html, /https:\/\/github\.com\/YayayayakumofloatsRan\/Holo/, "Holo s
 assert.match(html, /Primary project|flagship/i, "Holo should be framed as the main project");
 assert.match(html, /ProjectH/, "ProjectH should be present");
 assert.match(html, /laser_extraction/, "secondary public project should be present");
-assert.match(html, /runtime contract|Holo lab/i, "Holo project copy should be updated with clearer runtime language");
+assert.match(html, /kernel v3|AI runtime|agent loops/i, "Holo project copy should mention the current kernel v3 runtime direction");
 assert.match(html, /quant research lab|walk-forward/i, "ProjectH copy should be updated with clearer research language");
 assert.match(html, /measurement archive|calibration/i, "laser_extraction copy should be reframed as a measurement archive");
 
@@ -180,7 +180,9 @@ for (const staleMovie of ["The King's Speech", "Finding Nemo"]) {
 
 assert.match(html, /assets\/movies\/contact\.jpg|assets\/movies\/ford-v-ferrari\.jpg/, "movie shelf should render supplied movie stills");
 assert.match(html, /movie-filter|movie-card|movie-still/, "movie shelf should be interactive and visual");
+assert.match(html + css, /movie-data-viz|Favourite movie motif counts|small data/i, "movie section should include a real small-data visualization for the assignment");
 
+assert.match(html, /Notes worth keeping|Kernel v3 notes|Research logs|Observing logs/i, "blog section should use concise selective note lanes");
 assert.match(html, />apt<\/button>|deadlock/i, "apt/deadlock easter egg should be present");
 assert.doesNotMatch(html + js, /apt not found/i, "apt easter egg should not use the not-found label");
 assert.match(js, /themeToggle|localStorage|data-theme/, "theme toggle should persist state");
