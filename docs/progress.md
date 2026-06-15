@@ -144,6 +144,8 @@
   transports, action selection, and runtime contracts.
 - Removed the explanatory apt sentence, replaced the footer deployment line with a personal-blog tagline, and tightened Contact grid tracks so `Public routes only.` no longer overlaps the link cards.
 - Revised the assignment report copy to remove contrast-sentence phrasing and reduce noun-pile phrasing, then regenerated the PDF from the HTML source.
+- Rewrote the assignment report into a paper-style format after reviewing the prior course report LaTeX/PDF structure under the provided reports directory.
+- Strengthened the paper-style report for top-rubric alignment by adding explicit scoring evidence, richer Prompt engineering analysis, and implementation verification details.
 ## Next Data Needed
 
 - Final blog post titles and any real article URLs.
