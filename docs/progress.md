@@ -183,3 +183,10 @@
 - Removed the awkward extra movie-section wording from the visible page copy and refreshed report screenshots.
 - Rewrote `docs/assignment_report.tex` from `\section{核心实现}` onward into one `Vibe 调试` section while preserving the user's earlier edits.
 - Cleaned the tracked smoke-test guard so the rejected movie wording no longer appears as a literal phrase in repository text.
+
+## 2026-06-17 Report Compile And Publish
+
+- Installed a user-level MiKTeX toolchain through winget after the previous PATH entry pointed to a missing TeX Live directory.
+- Compiled `docs/assignment_report.tex` with XeLaTeX into an 8-page `docs/assignment_report.pdf` and rendered a contact sheet for visual review.
+- Rebuilt `submission/NemoQi_作业三.zip` so the submission package includes the latest PDF and TeX files.
+- Verified the homepage smoke test, zip manifest, and basic PDF page/text checks before publishing.
