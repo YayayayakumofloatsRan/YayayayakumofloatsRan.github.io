@@ -196,3 +196,14 @@
 - Converted the existing prompt list into a booktabs-style three-line table without rewriting the report body paragraphs.
 - Standardized report screenshot placement with a fixed-height TeX image macro and refreshed Notes/Contact screenshots onto equal-size canvases.
 - Recompiled the XeLaTeX report PDF after visual contact-sheet review.
+
+## 2026-06-17 Summary Section Formatting
+
+- Promoted the final inline summary label to an independent `\section{总结}` heading while preserving the summary paragraph text.
+- Recompiled the XeLaTeX report PDF and rendered the last page for visual verification.
+
+## 2026-06-17 Final Course Package
+
+- Replaced the light-mode report screenshot with a clean full-viewport capture that keeps the navigation bar at the top.
+- Moved Figures 2, 3, and 4 into the `设计理念与视觉方案` section and recompiled the report.
+- Copied the final PDF to `docs/主页编写报告.pdf` and built `submission/200240_祁宇昂_作业三.zip` with the report PDF at the archive root.

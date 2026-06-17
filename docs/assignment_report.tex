@@ -99,7 +99,7 @@
 \begin{center}
 {\titlefont Vibe Coding 个人主页设计与实现\par}
 \vspace{1.0em}
-{\authorfont Nemo Qi\par}
+{\authorfont 祁宇昂\par}
 \vspace{0.5em}
 {\affilfont （上海交通大学\quad 自动化与感知学院\quad 200240）\par}
 \end{center}
@@ -134,7 +134,7 @@
 \Needspace{6\baselineskip}
 \section{设计理念与视觉方案}
 
-笔者的核心视觉追求是网页的表现力，避免使用纯色或过于繁琐的图案设计，Nemo Qi 为笔者英文名。本网页的视觉呈现是在迭代中不断产生的。用户头像被删除，月球图片中的地点信息经过公开化处理，画作中的个人签名也做了弱化。主页默认使用深色模式，指定深色以靛蓝和青色为主，金色只用于细线和重点边框。浅青色模式保留为可切换状态。
+笔者的核心视觉追求是网页的表现力，避免使用纯色或过于繁琐的图案设计，Nemo Qi 为笔者英文名。本网页的视觉呈现是在迭代中不断产生的。主页默认使用深色模式，指定深色以靛蓝和青色为主，金色只用于细线和重点边框。浅青色模式保留为可切换状态。
 
 页面分为两段。第一段是横向 3D deck，包含 Intro，About，Projects 和 Astronomy 四张卡片。卡片使用显式边缘按钮翻页，鼠标滚轮留给纵向阅读。这个调整来自实际体验，滚轮翻页会破坏阅读节奏，也会让卡片难以停在屏幕中央。第二段从 Gallery 开始恢复传统纵向阅读，用于放置绘画素材，电影数据，Notes 和 Contact。
 
@@ -169,16 +169,6 @@
     \caption{页面主要模块截图。四张图分别展示公开身份、项目入口、天文交互与绘画素材展示。}
 \end{figure}
 
-
-\Needspace{6\baselineskip}
-\section{Vibe 调试}
-主页要先具备个人 blog 雏形，而后再承载项目、素材和更多设计要求。公开页面只放可以承担公开风险的信息，头像、精确地点、完整签名和本地路径均不进入页面。
-
-Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.com/YayayayakumofloatsRan/Holo}{https://github.com/YayayayakumofloatsRan/Holo}。
-
-网页最终采用两段式结构。第一段为横向 3D 卡片组，包含 Intro、About、Projects 和 Astronomy。第二段回到纵向阅读，放置 Gallery、Movies、Notes 和 Contact。横向卡片只使用边缘按钮翻页，滚轮保留给正常阅读。这个决定来自反复试用后的修正，倘若使用滚轮翻页会打断纵向浏览，也会让卡片难以停在屏幕中央。
-
-
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
@@ -194,6 +184,32 @@ Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.co
     \end{subfigure}
     \caption{电影偏好统计与图片大图预览。两张图展示数据展示区和 lightbox 交互状态。}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\linewidth}
+        \centering
+        \reportshot{notes-dark.png}
+        \caption{Notes}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\linewidth}
+        \centering
+        \reportshot{contact-dark.png}
+        \caption{Contact}
+    \end{subfigure}
+    \caption{博客记录与公开联系入口。页面末段保留后续扩展和公网联系路径。}
+\end{figure}
+
+
+\Needspace{6\baselineskip}
+\section{Vibe 调试}
+主页要先具备个人 blog 雏形，而后再承载项目、素材和更多设计要求。公开页面只放可以承担公开风险的信息，头像、精确地点、完整签名和本地路径均不进入页面。
+
+Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.com/YayayayakumofloatsRan/Holo}{https://github.com/YayayayakumofloatsRan/Holo}。
+
+网页最终采用两段式结构。第一段为横向 3D 卡片组，包含 Intro、About、Projects 和 Astronomy。第二段回到纵向阅读，放置 Gallery、Movies、Notes 和 Contact。横向卡片只使用边缘按钮翻页，滚轮保留给正常阅读。这个决定来自反复试用后的修正，倘若使用滚轮翻页会打断纵向浏览，也会让卡片难以停在屏幕中央。
+
 
 \textbf{网页制作阶段的部分输入输出调试} 以下记录保留网页制作、素材处理、交互调整和部署的最重要的提示词内容，部分细碎的细节，如字体调整、渲染优化、图片布局调整没有在此尽数展示，且由于 Codex 回复较长，亦无法进行全面的原文记录，此处仅以实际效果的重点迭代节点作为展示部分。
 
@@ -230,23 +246,8 @@ Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.co
 \endgroup
 
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[t]{0.48\linewidth}
-        \centering
-        \reportshot{notes-dark.png}
-        \caption{Notes}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.48\linewidth}
-        \centering
-        \reportshot{contact-dark.png}
-        \caption{Contact}
-    \end{subfigure}
-    \caption{博客记录与公开联系入口。页面末段保留后续扩展和公网联系路径。}
-\end{figure}
-
-\textbf{踩坑复盘} 1.第一类问题是隐私问题，一旦给它提供了简历参考，个人主页容易被写成完整简历副本，这对于公共网站而已越界明显，如默认头像、地点和签名等（包括后来添加的摄影、绘画素材）都有必要及时剔除，在参考阶段就不应该向 codex 提供。笔者在多轮反馈中删除头像，只保留 Nemo Qi 这个公开称呼，并把月球图中的地点与画作中的签名做马赛克处理，最后部署前同样人工核验了信息发布的去隐私化。
+\section{踩坑复盘} 
+1.第一类问题是隐私问题，一旦给它提供了简历参考，个人主页容易被写成完整简历副本，这对于公共网站而已越界明显，如默认头像、地点和签名等（包括后来添加的摄影、绘画素材）都有必要及时剔除，在参考阶段就不应该向 codex 提供。笔者在多轮反馈中删除头像，只保留 Nemo Qi 这个公开称呼，并把月球图中的地点与画作中的签名做马赛克处理，最后部署前同样人工核验了信息发布的去隐私化。
 
 2.早期迭代阶段，同样遇到主次关系分布把握不到位的问题，在起初要求尚不完整的情况下，codex 擅自加入了大量空洞的说明性文字，没有很好执行笔者对其“留空”的要求，同样，codex 添加的项目同样与笔者的真实重心不匹配，这属于笔者早期心理预期尚不明确时的疏忽，没有提供项目示例。后续调整为 Holo 主项目，ProjectH 只作为研究方向出现，公开页面不展开私人仓库细节。项目介绍也因此变短，保留链接和位置即可。
 
@@ -262,7 +263,11 @@ Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.co
 
 
 
-\textbf{总结。} 本次网页制作从一个个人主页框架开始，逐步收敛为以天文视觉、公开项目、绘画素材和电影偏好组成的个人 blog。笔者的主要工作是不断指出真实偏好、隐私边界和视觉问题；模型的主要作用是快速实现页面结构、交互逻辑、素材接入和部署修复。最终页面可以公网访问，也保留了继续手工改正文案和扩展 Notes 的空间。
+\section{总结}
+
+本次网页制作从一个个人主页框架开始，逐步收敛为以天文视觉、公开项目、绘画素材和电影偏好组成的个人 blog。笔者的主要工作是不断指出真实偏好、提供深层次的反馈与顶层架构设计，模型则完成快速实现页面结构、交互逻辑、素材接入和部署修复。最终页面可以公网访问，也保留了继续手工改正文案和扩展 Notes 的空间。
+
+笔者认为，现在的 AI coding 时代，对于实际编码能力、语法熟练度、工具熟练度的传统要求正在转化向更加抽象的顶层设计，理解算法思想，知晓核心思路的重要性会远大于熟练的代码操作能力，这需要我们成为更加深入的思考者，成为原理层面的架构工程师，想必也是大势所趋。对于架构、设计的掌控能力上，人类暂且强于 AI agent, 能够设计 AI 自身难以完成的抽象结构，越发抽象、上层的感知力与判断力想必也是核心能力的衡量标准。
 
 
 \end{document}
