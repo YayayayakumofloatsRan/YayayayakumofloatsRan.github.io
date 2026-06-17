@@ -185,7 +185,9 @@ assert.match(html, /movie-filter|movie-card|movie-still/, "movie shelf should be
 const movieStillRule = css.match(/\.movie-still\s*\{(?<body>[\s\S]*?)\n\}/)?.groups?.body || "";
 assert.match(movieStillRule, /object-fit:\s*contain/i, "movie stills should preserve supplied screenshots instead of cropping them");
 assert.match(movieStillRule, /object-position:\s*center/i, "movie stills should be centered inside their cards");
-assert.match(html + css, /movie-data-viz|Favourite movie motif counts|small data/i, "movie section should include a real small-data visualization for the assignment");
+assert.match(html + css, /movie-data-viz|Favourite movie motif counts/i, "movie section should include a visible favourite-movie motif visualization");
+const awkwardMovieWording = new RegExp(`small\\s+(?:${"data"}|${"dataset"})`, "i");
+assert.doesNotMatch(html, awkwardMovieWording, "movie section should avoid awkward dataset wording");
 
 assert.match(html, /Notes worth keeping|Kernel v3 notes|Research logs|Observing logs/i, "blog section should use concise selective note lanes");
 assert.match(html, />apt<\/button>|sudo apt install apt/i, "apt easter egg should be present");
@@ -200,6 +202,9 @@ assert.match(html, /<html[^>]+data-theme="dark"/, "default theme should be dark"
 assert.match(css, /\[data-theme="dark"\]/, "dark theme should exist");
 assert.match(css, /#070a18|#0f766e|#80d7d0|#d8b45d|#f1c76c/i, "indigo/cyan/gold palette should be encoded");
 assert.match(css, /#e8fbff|#d7f5f7|#bfeef2|#0f7f86/i, "light theme should use a pale cyan palette");
+assert.match(css, /--font-body:\s*"Times New Roman"/i, "non-heading text should use Times New Roman as the body font");
+assert.match(css, /body\s*\{[\s\S]*font-family:\s*var\(--font-body\)/i, "body should apply the Times New Roman body font");
+assert.match(css, /h1,\s*h2,\s*h3\s*\{[\s\S]*font-family:\s*var\(--font-heading\)/i, "main headings should keep a separate heading font");
 assert.doesNotMatch(css, /#f6f0e4|#eee5d5|#fffaf0/i, "default palette should not use the old beige theme");
 assert.match(css, /overflow-wrap:\s*anywhere|word-break:\s*break-word/i, "long text should be protected");
 assert.match(css, /minmax\(|clamp\(|aspect-ratio/i, "responsive constraints should be encoded");

@@ -176,3 +176,10 @@
 
 - Centered ReportLab image flowables and table cells in the assignment PDF generation path.
 - Regenerated the PDF after the centering pass; TeX and HTML body text were left unchanged for manual editing.
+
+## 2026-06-17 Vibe Debug Rewrite
+
+- Updated website body typography so non-heading text uses Times New Roman while headings keep a separate heading font.
+- Removed the awkward extra movie-section wording from the visible page copy and refreshed report screenshots.
+- Rewrote `docs/assignment_report.tex` from `\section{核心实现}` onward into one `Vibe 调试` section while preserving the user's earlier edits.
+- Cleaned the tracked smoke-test guard so the rejected movie wording no longer appears as a literal phrase in repository text.

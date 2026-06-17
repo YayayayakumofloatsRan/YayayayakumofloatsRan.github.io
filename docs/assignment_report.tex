@@ -89,22 +89,22 @@
 \bodyfont
 
 \begin{center}
-{\titlefont 基于 Vibe Coding 的个人主页设计与实现\par}
+{\titlefont Vibe Coding 个人主页设计与实现\par}
 \vspace{1.0em}
 {\authorfont Nemo Qi\par}
 \vspace{0.5em}
-{\affilfont （上海交通大学\quad 智能感知工程\quad enhancednemoqi@outlook.com）\par}
+{\affilfont （上海交通大学\quad 自动化与感知学院\quad 200240）\par}
 \end{center}
 \vspace{1.0em}
-{\heiti\fontsize{12pt}{18pt}\selectfont 摘要\quad}{\bodyfont 本报告记录一次使用 Codex 完成个人主页的 Vibe Coding 实践。页面以 Holo 作为技术主线，以天文观测作为视觉主线，并用 favourite movies 完成真实小数据展示。实现采用静态 HTML/CSS/JS。首屏使用横向 3D 卡片，后续内容回到纵向阅读。报告重点说明需求拆解，页面实现，截图展示和踩坑复盘。\par}
+{\heiti\fontsize{12pt}{18pt}\selectfont 摘要\quad}{\bodyfont 本文记录使用 Codex 完成个人主页的 Vibe Coding 的成果及实现过程。页面以 Holo 作为技术主线，以天文观测作为视觉主线，展现了设计特色，并用 favourite movies 完成真实小数据展示。实现采用静态 HTML/CSS/JS。首屏使用横向 3D 卡片，具有视觉效果，后续内容回到纵向阅读。本文重点描述踩坑复盘过程。\par}
 \vspace{0.5em}
-{\heiti\fontsize{12pt}{18pt}\selectfont 关键词\quad}{\bodyfont Vibe Coding；个人主页；Holo；天文观测；交互设计}
+{\heiti\fontsize{12pt}{18pt}\selectfont 关键词\quad}{\bodyfont Vibe Coding；个人主页；天文观测；交互设计}
 
 \Needspace{6\baselineskip}
-\section{引言}
-课程作业要求使用 Vibe Coding 完成一个能体现个人特征的主页。页面需要包含自我介绍，真实小数据展示和一个可以触发的交互彩蛋，还要提交成品截图，设计说明和踩坑复盘。笔者将这个要求理解为一次小型前端作品实践：页面要能打开，内容要真实，交互要有自己的判断，最后还要能说明 AI 在哪里帮到了我，哪里需要我重新把方向拉回来。
+\section{整体说明}
+主页成品部署在 GitHub Pages，地址为 \href{https://yayayayakumofloatsran.github.io/}{https://yayayayakumofloatsran.github.io/}。 本项目基于笔者的工作项目与艺术偏好展开，以个人的天文观测经历作为主线组织了大量个性化素材进行视觉效果的展示。成品完成了个人介绍、数据可视化、彩蛋三个基本模块。介绍、项目说明等方面则从个人简历中改编而来；数据可视化部分则由笔者的绘画、摄影、电影欣赏等方面提供支撑；彩蛋方面，笔者鼓励读者去自行探索，包括初始界面的 3D 横向界面滑动设计、 DARK/LIGHT 的整体配色区分、 微型太阳系模型的相位/速度交互，同样在一个相对明显的为止有一个可交互的 apt deadlock meme， 读者可以自己去尝试。
 
-本项目以个人 blog 作为网页形态。页面主线放在 Holo，天文观测和数理兴趣上。Holo 是公开项目，天文图像和设备照片来自个人素材，电影偏好作为真实小数据。页面只使用公开身份 Nemo Qi，保留学校，专业方向，邮箱和 GitHub 指路，头像和过于私人的内容不进入页面。成品部署在 GitHub Pages，访问地址为 \href{https://yayayayakumofloatsran.github.io/}{https://yayayayakumofloatsran.github.io/}。
+笔者主要的 Coding 工具使用 Windows 端 Codex gpt-5.4/5.5 xhigh， 其负责主要框架的编码与整体代码审查，笔者负责进行具体的翻页结构、交互设计、文字、素材内容的提供与修正要求。
 
 \begin{figure}[H]
     \centering
@@ -123,17 +123,13 @@
 \end{figure}
 
 \Needspace{6\baselineskip}
-\section{需求拆解与设计边界}
-作业说明中最关键的三个区域是自我介绍，数据可视化和交互彩蛋。我的处理方式是让 About 承担身份说明，让 Movies 承担真实小数据展示，让主题切换，横向 deck，太阳系控件，图片预览和 apt 彩蛋共同承担交互。这样安排后，页面不会停留在静态简历层面，也不会把私人信息暴露到公网。
+\section{设计理念与视觉方案}
 
-视觉边界也在迭代中逐步收紧。用户头像被删除，月球图片中的地点信息经过公开化处理，画作中的个人签名也做了弱化。主页默认使用深色模式，深色配色以靛蓝和青色为主，金色只用于细线和重点边框。浅青色模式保留为可切换状态，报告中只展示一张对照图。
+笔者的核心视觉追求是网页的表现力，避免使用纯色或过于繁琐的图案设计，Nemo Qi 为笔者英文名。本网页的视觉呈现是在迭代中不断产生的，，。用户头像被删除，月球图片中的地点信息经过公开化处理，画作中的个人签名也做了弱化。主页默认使用深色模式，指定深色以靛蓝和青色为主，金色只用于细线和重点边框。浅青色模式保留为可切换状态。
 
+页面分为两段。第一段是横向 3D deck，包含 Intro，About，Projects 和 Astronomy 四张卡片。卡片使用显式边缘按钮翻页，鼠标滚轮留给纵向阅读。这个调整来自实际体验，滚轮翻页会破坏阅读节奏，也会让卡片难以停在屏幕中央。第二段从 Gallery 开始恢复传统纵向阅读，用于放置绘画素材，电影数据，Notes 和 Contact。
 
-\Needspace{6\baselineskip}
-\section{页面结构与视觉方案}
-页面分为两段。第一段是横向 3D deck，包含 Intro，About，Projects 和 Astronomy 四张卡片。卡片使用显式边缘按钮翻页，鼠标滚轮留给纵向阅读。这个调整来自实际体验：滚轮翻页会破坏阅读节奏，也会让卡片难以停在屏幕中央。第二段从 Gallery 开始恢复传统纵向阅读，用于放置绘画素材，电影数据，Notes 和 Contact。
-
-首屏使用月球图像作为视觉锚点。Astronomy 区展示月面，SKYWATCHER 200mm F5 牛顿反射镜，极轴镜视角和太阳系控件。Gallery 和 Movies 使用同一套图片卡片与 inspector 说明区，文字不直接压在图片上。这样能保证图片本身干净，访问者停留或点击时再获得解释。
+首屏使用月球图像作为视觉锚点，phase = 0.885 的月面照片天然地提供了一个良好的主页表现方案，蕴含着天文的明线主题。Astronomy 区展示月面，SKYWATCHER 200mm F5 牛顿反射镜，极轴镜视角和太阳系控件。Gallery 和 Movies 使用同一套图片卡片与 inspector 说明区，文字不直接压在图片上。这样能保证图片本身干净，访问者停留或点击时再获得解释，避免了每张图片的解释说明堆砌。
 
 \begin{figure}[H]
     \centering
@@ -163,11 +159,14 @@
     \caption{图 2 横向 deck 的四个主要状态。四张截图来自同一套本地渲染流程，均在深色模式下截取。}
 \end{figure}
 
-\Needspace{6\baselineskip}
-\section{核心实现}
-项目采用纯静态实现，核心文件是 site/index.html，site/styles.css 和 site/script.js。这种结构不依赖构建工具，便于课程提交，也便于 GitHub Pages 直接发布。部署时曾出现图片加载失败，排查后发现发布目录和资源路径不一致，随后将 site 目录作为 Pages 输出源，并保留根目录跳转文件，图片路径才稳定下来。
 
-交互逻辑被拆成几个小模块。主题切换通过 data-theme 保存状态，横向 deck 只响应左右按钮，图片预览使用统一 lightbox，Movies 区根据电影主题统计生成条形图，Astronomy 区的太阳系控件按行星公转周期比例调整速度。这里没有追求复杂框架，重点放在可读，稳定和容易继续手工修改。
+\Needspace{6\baselineskip}
+\section{Vibe 调试}
+笔者的网页制作思路可以概括为三点。第一，主页要先像一个可访问的个人 blog，而后再承载项目、素材和课程要求。第二，公开页面只放可以承担公开风险的信息，头像、精确地点、完整签名和本地路径均不进入页面。第三，视觉和交互要来自笔者真实兴趣，天文观测、绘画素材、电影偏好和项目链接都服务于同一个公开身份。
+
+Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.com/YayayayakumofloatsRan/Holo}{https://github.com/YayayayakumofloatsRan/Holo}。网页在 Projects 中把它放在主项目位置，不在报告中展开项目技术细节。
+
+网页最终采用两段式结构。第一段为横向 3D 卡片组，包含 Intro、About、Projects 和 Astronomy。第二段回到纵向阅读，放置 Gallery、Movies、Notes 和 Contact。横向卡片只使用边缘按钮翻页，滚轮保留给正常阅读。这个决定来自反复试用后的修正：滚轮翻页会打断纵向浏览，也会让卡片难以停在屏幕中央。
 
 \begin{figure}[H]
     \centering
@@ -182,21 +181,54 @@
         \includegraphics[width=\linewidth]{astronomy-dark.png}
         \caption{Astronomy}
     \end{subfigure}
-    \caption{图 3 Projects 与 Astronomy 的并排展示。左图说明项目结构，右图展示天文观测与太阳系控件。}
+    \caption{图 3 Projects 与 Astronomy。左图保留 Holo 链接和项目入口，右图展示天文素材和太阳系交互。}
 \end{figure}
 
-\Needspace{6\baselineskip}
-\section{Holo 项目说明}
-Holo 是我的主要公开项目。公开 README 将它定义为一个 experimental subject-runtime host，用于围绕 durable local state，replaceable processors 和 transport shells 构建 bounded, inspectable conversational agent。公开仓库只保留 generic runtime kernel，测试和文档，不包含私人 profile，长期记忆，运行数据库，传输回执和 canary artifacts。
+\textbf{网页制作阶段的标准化输入输出。} 以下记录只保留网页制作、素材处理、交互调整和部署相关内容。工作目录恢复、报告写作、PDF 排版等后续问题不纳入本表。
 
-主页中的 Holo 介绍保持简短。Projects 区只说明它是一个可检查的 AI runtime kernel，并点出 memory，processor，transport，action selection 和 acceptance gates 这些公开架构线索。README 里的 offline bionic kernel probe 已推进到 Stage35 到 Stage39，这说明 kernel v3 已经经历多轮迭代。页面因此把 Holo 放在 primary project 位置，laser\_extraction 只作为次要公开项目保留。
+\begin{enumerate}
+    \item \textbf{用户输入：} 帮笔者做一个个人主页，参考附件，先做框架；不要做到提交部分；可以部署到公网；给出 GitHub 指路；视觉尽可能好看，深色系，靛蓝加金线。\\
+    \textbf{模型输出：} 模型建立静态主页框架，设置首页、项目、数据、联系等区域，先给出可打开的本地版本，并预留 GitHub Pages 或 Cloudflare Pages 的部署路线...
 
+    \item \textbf{用户输入：} 头像不要放进去，不要透露过于 private 的东西，写 Nemo Qi 就行。\\
+    \textbf{模型输出：} 模型删除头像占位，把公开身份收敛到 Nemo Qi，把隐私字段从页面方案中移除...
 
-\Needspace{6\baselineskip}
-\section{真实小数据：Favourite Movies}
-作业要求一份真实属于自己的小数据。这里选用 favourite movies，因为它既真实，又能解释个人趣味。数据包括 Contact，1900，Gifted，Interstellar，The King's Speech，Batman Dark Knight，Puss in Boots 和 Ford v. Ferrari。页面没有调用外部海报接口，优先使用本地素材中已经整理好的电影图片，保证提交包离线打开时仍能显示。
+    \item \textbf{用户输入：} 连接到 GitHub；深色浅色应当可以切换；应该当作个人 blog；连接自己的几个开源 project。\\
+    \textbf{模型输出：} 模型加入 GitHub 链接、主题切换按钮、blog 式导航和项目入口，页面从单页展示转向可继续写作的个人主页...
 
-可视化采用主题计数。Space 覆盖 Contact 和 Interstellar，Mind 覆盖 Gifted 和 The King's Speech，Myth 覆盖 Batman Dark Knight 和 Puss in Boots，Music 对应 1900，Velocity 对应 Ford v. Ferrari。这个结果和主页整体气质一致：一部分兴趣指向宇宙和数理，一部分兴趣指向叙事，表达和工程判断。
+    \item \textbf{用户输入：} 邮箱、学校、专业、方向这些基本信息还是要放。\\
+    \textbf{模型输出：} 模型把公开邮箱、学校、专业方向放入 About 和 Contact 区域，并避免加入证件号、头像和本地路径...
+
+    \item \textbf{用户输入：} 主要项目为 Holo，laser\_extraction 只保留为次要项目；可以加入天文兴趣、EQ6、施密特卡塞格林、SKYWATCHER 200mm F5、深空、行星、Fermi、Feynman、数理兴趣和 ProjectH。\\
+    \textbf{模型输出：} 模型把 Holo 放到主项目位置，laser\_extraction 降为次要项目；Astronomy 区加入观测设备、月面素材和天文说明；ProjectH 只作研究方向提示...
+
+    \item \textbf{用户输入：} 提供绘画素材，可以添加进网页。\\
+    \textbf{模型输出：} 模型建立 Gallery 区，使用统一卡片和预览逻辑展示绘画素材，随后根据反馈把 Gallery 标题大写，并加入分类筛选...
+
+    \item \textbf{用户输入：} 多做一点可交互控件；默认浅色，深色用靛蓝、青为主，金线点缀；加入电影素材和 apt 彩蛋。\\
+    \textbf{模型输出：} 模型加入主题切换、Gallery 尺寸调节、Movies 分类按钮、apt 彩蛋和电影主题统计，后续又按要求把默认主题调整为深色...
+
+    \item \textbf{用户输入：} 做成横向展开，像 Apple 切换屏幕；一部分内容横向切页，一部分保持传统上下滑动。\\
+    \textbf{模型输出：} 模型把首屏改为四张横向 3D 卡片，后续内容保持纵向滚动；随后隐藏滚动条，加入边缘按钮，限制滚轮翻页，并使卡片循环切换...
+
+    \item \textbf{用户输入：} Astronomy 素材要按标注替换；不要用“大黑”，叫 SKYWATCHER；太阳系要更真实，图片注释不要盖在图上。\\
+    \textbf{模型输出：} 模型替换 Astronomy 图片，修正 SKYWATCHER 标签，把注释移动到 inspector 区域，并根据行星公转周期重做太阳系速度比例...
+
+    \item \textbf{用户输入：} Gallery 和 Movies 的图片说明不要只压一行字；Astronomy 占用太高；图片排成三行两列；Solar system 不要被压扁。\\
+    \textbf{模型输出：} 模型调整 Gallery、Movies、Astronomy 的说明布局，压缩横向卡片高度，Astronomy 使用 3 行 2 列图像网格，并给太阳系区域留出独立宽度...
+
+    \item \textbf{用户输入：} 图片点击要预览大图；图像分辨率低；月亮地点和画作签名需要处理。\\
+    \textbf{模型输出：} 模型加入 lightbox 大图预览，使用高分辨率 preview 资源，并对月球地点与画作签名区域做公开化处理...
+
+    \item \textbf{用户输入：} 改成 Schrödinger The Cat；apt not found 改成 apt；完善文案。\\
+    \textbf{模型输出：} 模型修正 Gallery 分类名，收敛 apt 彩蛋文案，清理页面说明，使主页更像公开 blog...
+
+    \item \textbf{用户输入：} 部署到 GitHub；图像加载不出来。\\
+    \textbf{模型输出：} 模型创建 GitHub Pages 工作流，加入根目录跳转和 .nojekyll，修复资源路径，使公网访问可以加载 site 目录中的图片...
+
+    \item \textbf{用户输入：} MERROR 是小错误；Movies 中 Contact 截图要居中；Movies 小标题文案显得突兀。\\
+    \textbf{模型输出：} 模型修正 SECONDARY MIRROR 拼写，给 smoke test 加防回归断言；Movies still 改为居中保留构图；删除 Movies 标题和说明里突兀的附加表述...
+\end{enumerate}
 
 \begin{figure}[H]
     \centering
@@ -211,8 +243,23 @@ Holo 是我的主要公开项目。公开 README 将它定义为一个 experimen
         \includegraphics[width=\linewidth]{movies-dark.png}
         \caption{Movies}
     \end{subfigure}
-    \caption{图 4 Gallery 与 Movies 的并排展示。绘画素材和电影小数据使用统一卡片语言，Movies 截图在八张图片完成加载后生成。}
+    \caption{图 4 Gallery 与 Movies。两者使用相近的卡片语言，说明文字移到独立区域，图片本身保持干净。}
 \end{figure}
+
+\textbf{踩坑复盘。} 第一类问题是隐私边界。个人主页容易被写成完整简历，模型也容易默认保留头像、地点和签名。笔者在多轮反馈中删除头像，只保留 Nemo Qi 这个公开称呼，并把月球图中的地点与画作中的签名做了公开化处理。这个过程说明，网页素材进入公网前要先看图像本身是否带出额外信息。
+
+第二类问题是主次关系。早期页面把 laser\_extraction 放得过重，与笔者的真实重心不匹配。后续调整为 Holo 主项目，ProjectH 只作为研究方向出现，公开页面不展开私人仓库细节。项目介绍也因此变短，保留链接和位置即可。
+
+第三类问题是交互节奏。横向 3D 卡片的视觉效果较强，但滚轮触发会影响正常阅读。笔者多次指出卡片无法停在屏幕中央、侧边和底部滚动条突兀、内部滚动条破坏观感。最终方案改为边缘按钮翻页，按钮平时近似隐藏，用户触碰或聚焦时才出现。这个方案保留横向切页的立体感，也让纵向阅读恢复稳定。
+
+第四类问题是图片说明。最初的 Gallery、Movies 和 Astronomy 把注释压在图上，画面被文字遮挡。后续改为 inspector 说明区，鼠标停留或键盘聚焦时更新说明。这个调整让图片先作为视觉素材出现，解释文字再按需出现，视觉负担明显降低。
+
+第五类问题是素材准确性。Astronomy 区曾出现月球图片重复、设备名称不准、太阳系动画比例粗糙等问题。后续按照素材文件夹标注替换图片，把设备名修正为 SKYWATCHER 200mm F5，并用行星公转周期设置速度比例。图像区域也从松散排列改为 3 行 2 列，太阳系控件单独占位，避免被挤压。
+
+第六类问题是图片预览和电影截图。点击图片后打开大图的初版反应慢，并且只对少数图片生效。后续把预览绑定到整张卡片，优先打开遮罩，再加载高清图。Movies 区的截图也从裁切显示改为居中保留构图，Contact 这类宽银幕画面不再偏到一侧。
+
+第七类问题是部署路径。GitHub Pages 初次访问时图片加载失败，原因是发布根目录和资源目录不一致。后续加入根目录跳转、Pages 工作流和 .nojekyll，资源路径才稳定。这个问题提醒笔者，静态网页在本地能打开，只说明文件存在；公网部署还要检查发布入口和资源相对路径。
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.92\linewidth}
@@ -220,23 +267,10 @@ Holo 是我的主要公开项目。公开 README 将它定义为一个 experimen
         \includegraphics[width=\linewidth]{preview-dark.png}
         \caption{Image preview}
     \end{subfigure}
-    \caption{图 5 图片大图预览。点击任意素材卡片后，页面以 lightbox 形式展示高分辨率图像。}
+    \caption{图 5 图片大图预览。点击素材卡片后，页面以 lightbox 展示高分辨率图像。}
 \end{figure}
 
-\Needspace{6\baselineskip}
-\section{踩坑复盘}
-第一类问题是隐私边界。AI 倾向于把个人主页写得更完整，也容易保留头像占位，地点标注和签名信息。后续通过明确指令删除头像，限制公开身份，并对图片做像素处理，页面才适合放到公网。这个问题说明，公开页面的素材选择不能只看好不好看，还要检查图像里是否带有额外信息。
-
-第二类问题是交互节奏。横向 deck 的视觉效果很好，但滚轮触发后会干扰纵向浏览。解决方法是把卡片翻页改为显式按钮，并让按钮在未触碰时近似隐形。这样保留了横向切页的立体感，也让传统阅读不受影响。
-
-第三类问题是报告格式。AI 生成网页和 PDF 时容易走向彩色化和组件化，这与课程论文模板不一致。最后的处理方式是回到参考 TeX，逐项对齐字体，字号，行距，页边距和首行缩进。若重新开始，我会在前期就写清评分标准，公开边界，提交文件格式和报告模板，减少后期返工。
-
-
-\Needspace{6\baselineskip}
-\section{总结}
-本次作业完成了一个可部署的个人主页。页面用 Holo 建立技术主线，用天文素材建立视觉主线，用 favourite movies 完成真实小数据展示，并用主题切换，横向 deck，太阳系控件，图片预览和 apt 彩蛋补足交互。
-
-这次实践也让我更清楚地看到 Vibe Coding 的分工。AI 适合快速搭建结构，补齐样式和实现交互；人的工作是不断收紧边界，判断审美，检查隐私，并把作品重新拉回作业要求。最终版本仍然保留可继续手工修改的空间，后续可以把 Notes 扩展成真正的 blog 内容。
+\textbf{总结。} 本次网页制作从一个个人主页框架开始，逐步收敛为以天文视觉、公开项目、绘画素材和电影偏好组成的个人 blog。笔者的主要工作是不断指出真实偏好、隐私边界和视觉问题；模型的主要作用是快速实现页面结构、交互逻辑、素材接入和部署修复。最终页面可以公网访问，也保留了继续手工改正文案和扩展 Notes 的空间。
 
 
 \end{document}
