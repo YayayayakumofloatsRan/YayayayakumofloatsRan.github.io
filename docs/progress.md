@@ -190,3 +190,9 @@
 - Compiled `docs/assignment_report.tex` with XeLaTeX into an 8-page `docs/assignment_report.pdf` and rendered a contact sheet for visual review.
 - Rebuilt `submission/NemoQi_作业三.zip` so the submission package includes the latest PDF and TeX files.
 - Verified the homepage smoke test, zip manifest, and basic PDF page/text checks before publishing.
+
+## 2026-06-17 Report Formatting Only
+
+- Converted the existing prompt list into a booktabs-style three-line table without rewriting the report body paragraphs.
+- Standardized report screenshot placement with a fixed-height TeX image macro and refreshed Notes/Contact screenshots onto equal-size canvases.
+- Recompiled the XeLaTeX report PDF after visual contact-sheet review.

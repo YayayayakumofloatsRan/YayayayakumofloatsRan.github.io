@@ -85,6 +85,14 @@
 \newcommand{\affilfont}{\songti\fontsize{12pt}{18pt}\selectfont}
 \newcommand{\bodyfont}{\songti\fontsize{12pt}{18pt}\selectfont}
 
+\newcommand{\reportshot}[2][0.18\textheight]{%
+\begin{minipage}[c][#1][c]{\linewidth}
+\centering
+\includegraphics[width=\linewidth,height=#1,keepaspectratio]{#2}
+\end{minipage}%
+}
+
+
 \begin{document}
 \bodyfont
 
@@ -106,20 +114,21 @@
 
 笔者主要的 Coding 工具为 Windows 端 Codex gpt-5.4/5.5 xhigh， 其负责主要框架的编码与整体代码审查，笔者负责进行具体的翻页结构、交互设计、文字、素材内容的提供与修正要求。
 
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{homepage-dark.png}
+        \reportshot{homepage-dark.png}
         \caption{默认深色首屏}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{homepage-light.png}
+        \reportshot{homepage-light.png}
         \caption{浅色模式对照}
     \end{subfigure}
-    \caption{图 1 主页首屏主题对照。默认展示采用深色天文主题，浅色模式仅作为可切换状态保留。}
+    \caption{主页首屏主题对照。默认展示采用深色天文主题，浅色模式仅作为可切换状态保留。}
 \end{figure}
 
 \Needspace{6\baselineskip}
@@ -131,32 +140,33 @@
 
 首屏使用月球图像作为视觉锚点，phase = 0.885 的月面照片天然地提供了一个良好的主页表现方案，蕴含着天文的明线主题。Astronomy 区展示月面，SKYWATCHER 200mm F5 牛顿反射镜，极轴镜视角和太阳系控件。Gallery 和 Movies 使用同一套图片卡片与 inspector 说明区，文字不直接压在图片上。这样能保证图片本身干净，访问者停留或点击时再获得解释，避免了每张图片的解释说明堆砌。
 
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{homepage-dark.png}
-        \caption{Intro}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[t]{0.48\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{about-dark.png}
+        \reportshot{about-dark.png}
         \caption{About}
     \end{subfigure}
-    \vspace{0.5em}
+    \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{projects-dark.png}
+        \reportshot{projects-dark.png}
         \caption{Projects}
+    \end{subfigure}
+    \vspace{0.55em}
+    \begin{subfigure}[t]{0.48\linewidth}
+        \centering
+        \reportshot{astronomy-dark.png}
+        \caption{Astronomy}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{astronomy-dark.png}
-        \caption{Astronomy}
+        \reportshot{gallery-dark.png}
+        \caption{Gallery}
     \end{subfigure}
-    \caption{图 2 横向 deck 的四个主要状态。四张截图来自同一套本地渲染流程，均在深色模式下截取。}
+    \caption{页面主要模块截图。四张图分别展示公开身份、项目入口、天文交互与绘画素材展示。}
 \end{figure}
 
 
@@ -168,104 +178,89 @@ Holo 只作为笔者已有公开项目出现，链接为 \href{https://github.co
 
 网页最终采用两段式结构。第一段为横向 3D 卡片组，包含 Intro、About、Projects 和 Astronomy。第二段回到纵向阅读，放置 Gallery、Movies、Notes 和 Contact。横向卡片只使用边缘按钮翻页，滚轮保留给正常阅读。这个决定来自反复试用后的修正，倘若使用滚轮翻页会打断纵向浏览，也会让卡片难以停在屏幕中央。
 
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{projects-dark.png}
-        \caption{Projects}
+        \reportshot{movies-dark.png}
+        \caption{Movies}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{astronomy-dark.png}
-        \caption{Astronomy}
+        \reportshot{preview-dark.png}
+        \caption{Image preview}
     \end{subfigure}
-    \caption{图 3 Projects 与 Astronomy。左图保留 Holo 链接和项目入口，右图展示天文素材和太阳系交互。}
+    \caption{电影偏好统计与图片大图预览。两张图展示数据展示区和 lightbox 交互状态。}
 \end{figure}
 
 \textbf{网页制作阶段的部分输入输出调试} 以下记录保留网页制作、素材处理、交互调整和部署的最重要的提示词内容，部分细碎的细节，如字体调整、渲染优化、图片布局调整没有在此尽数展示，且由于 Codex 回复较长，亦无法进行全面的原文记录，此处仅以实际效果的重点迭代节点作为展示部分。
 
-\begin{enumerate}
-    \item \textbf{用户输入：} 帮我做一个个人主页，文字版本参考附件中的个人简历 NemoQi\_RESUME\_EN，具体结构要求在根目录，先做框架看一下效果，未知的具体内容留空，以后可以部署到公网；视觉设计要求简约大方，避免繁琐的图案花纹，深色系或浅色系，深色配色使用靛蓝加金线。\\
-    \textbf{模型输出：} 模型建立静态主页框架，设置首页、项目、数据、联系等区域，先给出可打开的本地版本，并预留 GitHub Pages 或 Cloudflare Pages 的部署路线...
 
-    \item \textbf{用户输入：} 连接到 GitHub 的同名仓库，给我生成公匙，我来建立 deploy key 迅速同步；深色浅色模式应当可以切换，配色维持上一个版本的靛蓝、青色与金线的主题。应该当作个人 blog，连接到几个开源 project 的链接，仅限 public 仓库，ProjectH 可以一笔带过。\\
-    \textbf{模型输出：} 模型加入 GitHub 链接、主题切换按钮、blog 式导航和项目入口，页面从单页展示转向可继续写作的个人主页...
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.08\textwidth}>{\raggedright\arraybackslash}p{0.43\textwidth}>{\raggedright\arraybackslash}p{0.41\textwidth}@{}}
+\caption{网页制作阶段的标准化输入输出摘录}\label{tab:vibe-io}\\
+\toprule
+序号 & 用户输入 & 模型输出 \\
+\midrule
+\endfirsthead
+\toprule
+序号 & 用户输入 & 模型输出 \\
+\midrule
+\endhead
+1 & 帮我做一个个人主页，文字版本参考附件中的个人简历 NemoQi\_RESUME\_EN，具体结构要求在根目录，先做框架看一下效果，未知的具体内容留空，以后可以部署到公网；视觉设计要求简约大方，避免繁琐的图案花纹，深色系或浅色系，深色配色使用靛蓝加金线。 & 模型建立静态主页框架，设置首页、项目、数据、联系等区域，先给出可打开的本地版本，并预留 GitHub Pages 或 Cloudflare Pages 的部署路线... \\
+2 & 连接到 GitHub 的同名仓库，给我生成公匙，我来建立 deploy key 迅速同步；深色浅色模式应当可以切换，配色维持上一个版本的靛蓝、青色与金线的主题。应该当作个人 blog，连接到几个开源 project 的链接，仅限 public 仓库，ProjectH 可以一笔带过。 & 模型加入 GitHub 链接、主题切换按钮、blog 式导航和项目入口，页面从单页展示转向可继续写作的个人主页... \\
+3 & github主页、邮箱、学校、专业、方向这些基本信息添加进去，细节参考修改后的RESUME\_EN，在项目根目录的pdf，这一部分做成一个 card。 之后的模块都建议做成 card 形式，先做一个 About 面和末尾的 Contact。 & 模型把公开邮箱、学校、专业方向放入 About 和 Contact 区域，并避免加入证件号、头像和本地路径... \\
+4 & 主要项目为 Holo，laser\_extraction 只保留为次要项目，可以加入天文兴趣、EQ6、施密特卡塞格林、SKYWATCHER 200mm F5、深空、行星、Fermi、Feynman、数理兴趣和 ProjectH。 & 模型把 Holo 放到主项目位置，laser\_extraction 降为次要项目；Astronomy 区加入观测设备、月面素材和天文说明；ProjectH 只作研究方向提示... \\
+5 & 我给你提供绘画素材，做一个Gallery，和 About 并列作为一个大的展示模块。素材里面的图片进行了标题标注，。 & 模型建立 Gallery 区，使用统一卡片和预览逻辑展示绘画素材，随后根据反馈把 Gallery 标题大写，并加入分类筛选... \\
+6 & 多做一点可交互控件；默认浅色，深色用靛蓝、青为主，金线点缀；加入电影素材和 apt 彩蛋。 & 模型加入主题切换、Gallery 尺寸调节、Movies 分类按钮、apt 彩蛋和电影主题统计，后续又按要求把默认主题调整为深色... \\
+7 & 做成横向展开，像 Apple 的切换屏幕；前四个 card ,包括门户,ABOUT, PROJECTS, PROJECTS, 做内容横向切页。剩下的Gallery,Movies保持传统上下滑动。 & 模型把首屏改为四张横向 3D 卡片，后续内容保持纵向滚动；随后隐藏滚动条，加入边缘按钮，限制滚轮翻页，并使卡片循环切换... \\
+8 & Astronomy 素材要按标注替换，不要用“大黑”，改名叫 SKYWATCHER。太阳系交互模型要按照真实轨道周期进行仿真，图片注释不要盖在图上，用户鼠标移动到再进行边栏的解释。 & 模型替换 Astronomy 图片，修正 SKYWATCHER 标签，把注释移动到 inspector 区域，并根据行星公转周期重做太阳系速度比例... \\
+9 & Gallery 和 Movies 的图片说明不要只压一行字；Astronomy 图片排成三行两列，图片确保可预览，16：9相同尺寸展示。太阳系控件保持独立，和左侧的图片区分开渲染地区，顶上增加控件说明。 & 模型调整 Gallery、Movies、Astronomy 的说明布局，压缩横向卡片高度，Astronomy 使用 3 行 2 列图像网格，并给太阳系区域留出独立宽度... \\
+10 & 图片点击要预览大图；图像分辨率低；月亮地点和画作签名需要处理。 & 模型加入 lightbox 大图预览，使用高分辨率 preview 资源，并对月球地点与画作签名区域做公开化处理... \\
+11 & 改成 Schrödinger The Cat；apt not found 改成 apt，我重新编辑了文案,重新编译。 & 模型修正 Gallery 分类名，收敛 apt 彩蛋文案，清理页面说明，使主页更像公开 blog... \\
+12 & 部署到 GitHub page,。 & 模型创建 GitHub Pages 工作流，加入根目录跳转和 .nojekyll，修复资源路径，使公网访问可以加载 site 目录中的图片... \\
+13 & MERROR 是小错误；Movies 中 Contact 截图要居中；Movies 小标题文案显得突兀。 & 模型修正 SECONDARY MIRROR 拼写，给 smoke test 加防回归断言；Movies still 改为居中保留构图；删除 Movies 标题和说明里突兀的附加表述... \\
+\bottomrule
+\end{longtable}
+\endgroup
 
-    \item \textbf{用户输入：} github主页、邮箱、学校、专业、方向这些基本信息添加进去，细节参考修改后的RESUME\_EN，在项目根目录的pdf，这一部分做成一个 card。 之后的模块都建议做成 card 形式，先做一个 About 面和末尾的 Contact。\\
-    \textbf{模型输出：} 模型把公开邮箱、学校、专业方向放入 About 和 Contact 区域，并避免加入证件号、头像和本地路径...
-
-    \item \textbf{用户输入：} 主要项目为 Holo，laser\_extraction 只保留为次要项目，可以加入天文兴趣、EQ6、施密特卡塞格林、SKYWATCHER 200mm F5、深空、行星、Fermi、Feynman、数理兴趣和 ProjectH。\\
-    \textbf{模型输出：} 模型把 Holo 放到主项目位置，laser\_extraction 降为次要项目；Astronomy 区加入观测设备、月面素材和天文说明；ProjectH 只作研究方向提示...
-
-    \item \textbf{用户输入：} 我给你提供绘画素材，做一个Gallery，和 About 并列作为一个大的展示模块。素材里面的图片进行了标题标注，。\\
-    \textbf{模型输出：} 模型建立 Gallery 区，使用统一卡片和预览逻辑展示绘画素材，随后根据反馈把 Gallery 标题大写，并加入分类筛选...
-
-    \item \textbf{用户输入：} 多做一点可交互控件；默认浅色，深色用靛蓝、青为主，金线点缀；加入电影素材和 apt 彩蛋。\\
-    \textbf{模型输出：} 模型加入主题切换、Gallery 尺寸调节、Movies 分类按钮、apt 彩蛋和电影主题统计，后续又按要求把默认主题调整为深色...
-
-    \item \textbf{用户输入：} 做成横向展开，像 Apple 的切换屏幕；前四个 card ,包括门户,ABOUT, PROJECTS, PROJECTS, 做内容横向切页。剩下的Gallery,Movies保持传统上下滑动。\\
-    \textbf{模型输出：} 模型把首屏改为四张横向 3D 卡片，后续内容保持纵向滚动；随后隐藏滚动条，加入边缘按钮，限制滚轮翻页，并使卡片循环切换...
-
-    \item \textbf{用户输入：} Astronomy 素材要按标注替换，不要用“大黑”，改名叫 SKYWATCHER。太阳系交互模型要按照真实轨道周期进行仿真，图片注释不要盖在图上，用户鼠标移动到再进行边栏的解释。\\
-    \textbf{模型输出：} 模型替换 Astronomy 图片，修正 SKYWATCHER 标签，把注释移动到 inspector 区域，并根据行星公转周期重做太阳系速度比例...
-
-    \item \textbf{用户输入：} Gallery 和 Movies 的图片说明不要只压一行字；Astronomy 图片排成三行两列，图片确保可预览，16：9相同尺寸展示。太阳系控件保持独立，和左侧的图片区分开渲染地区，顶上增加控件说明。\\
-    \textbf{模型输出：} 模型调整 Gallery、Movies、Astronomy 的说明布局，压缩横向卡片高度，Astronomy 使用 3 行 2 列图像网格，并给太阳系区域留出独立宽度...
-
-    \item \textbf{用户输入：} 图片点击要预览大图；图像分辨率低；月亮地点和画作签名需要处理。\\
-    \textbf{模型输出：} 模型加入 lightbox 大图预览，使用高分辨率 preview 资源，并对月球地点与画作签名区域做公开化处理...
-
-    \item \textbf{用户输入：} 改成 Schrödinger The Cat；apt not found 改成 apt，我重新编辑了文案,重新编译。\\
-    \textbf{模型输出：} 模型修正 Gallery 分类名，收敛 apt 彩蛋文案，清理页面说明，使主页更像公开 blog...
-
-    \item \textbf{用户输入：} 部署到 GitHub page,。\\
-    \textbf{模型输出：} 模型创建 GitHub Pages 工作流，加入根目录跳转和 .nojekyll，修复资源路径，使公网访问可以加载 site 目录中的图片...
-
-    \item \textbf{用户输入：} MERROR 是小错误；Movies 中 Contact 截图要居中；Movies 小标题文案显得突兀。\\
-    \textbf{模型输出：} 模型修正 SECONDARY MIRROR 拼写，给 smoke test 加防回归断言；Movies still 改为居中保留构图；删除 Movies 标题和说明里突兀的附加表述...
-\end{enumerate}
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{gallery-dark.png}
-        \caption{Gallery}
+        \reportshot{notes-dark.png}
+        \caption{Notes}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{movies-dark.png}
-        \caption{Movies}
+        \reportshot{contact-dark.png}
+        \caption{Contact}
     \end{subfigure}
-    \caption{图 4 Gallery 与 Movies。两者使用相近的卡片语言，说明文字移到独立区域，图片本身保持干净。}
+    \caption{博客记录与公开联系入口。页面末段保留后续扩展和公网联系路径。}
 \end{figure}
 
 \textbf{踩坑复盘} 1.第一类问题是隐私问题，一旦给它提供了简历参考，个人主页容易被写成完整简历副本，这对于公共网站而已越界明显，如默认头像、地点和签名等（包括后来添加的摄影、绘画素材）都有必要及时剔除，在参考阶段就不应该向 codex 提供。笔者在多轮反馈中删除头像，只保留 Nemo Qi 这个公开称呼，并把月球图中的地点与画作中的签名做马赛克处理，最后部署前同样人工核验了信息发布的去隐私化。
 
 2.早期迭代阶段，同样遇到主次关系分布把握不到位的问题，在起初要求尚不完整的情况下，codex 擅自加入了大量空洞的说明性文字，没有很好执行笔者对其“留空”的要求，同样，codex 添加的项目同样与笔者的真实重心不匹配，这属于笔者早期心理预期尚不明确时的疏忽，没有提供项目示例。后续调整为 Holo 主项目，ProjectH 只作为研究方向出现，公开页面不展开私人仓库细节。项目介绍也因此变短，保留链接和位置即可。
 
-3.交互节奏。横向 3D 卡片的视觉效果较强，但滚轮触发会影响正常阅读。多次指出卡片无法停在屏幕中央、侧边和底部滚动条突兀、内部滚动条破坏观感。最终方案改为边缘按钮翻页，按钮平时近似隐藏，用户触碰或聚焦时才出现，保留横向切页的立体感，也让纵向阅读恢复稳定。早期的版本渲染优化并不好，控件徒有其表，却会频繁触发，造成翻页上的卡顿，此间进行了大量的控件设计调整，优化了事件流。
+3.交互节奏问题，横向 3D 卡片的视觉效果较强，但滚轮触发会影响正常阅读。多次指出卡片无法停在屏幕中央、侧边和底部滚动条突兀、内部滚动条破坏观感。最终方案改为边缘按钮翻页，按钮平时近似隐藏，用户触碰或聚焦时才出现，保留横向切页的立体感，也让纵向阅读恢复稳定。早期的版本渲染优化并不好，控件徒有其表，却会频繁触发，造成翻页上的卡顿，此间进行了大量的控件设计调整，优化了事件流。
 
-4.图片及其说明。最初的 Gallery、Movies 和 Astronomy 把注释压在图上，画面被文字遮挡。后续改为 inspector 说明区，鼠标停留或键盘聚焦时更新说明。这个调整让图片先作为视觉素材出现，解释文字再按需出现，视觉负担明显降低。迭代初期，笔者与 codex 进行了大量可行的排版尝试，由于 codex 并没有真正的审美能力，它对于网页空间的布局很多时候同人的直观审美感受是违背的，例如人会追求图片、文字的上下镶嵌的效果，并且可以直观看出二者分布比重的协调与否，但又没有方法直观想象出合适的排布，所以就需要大量的调整尝试，并非 codex 的执行不到位，往往是在 prompt 阶段尚且对成品没有定型的预期，所以对于每次的迭代结果并不满意。笔者因此与 codex 对 Gallery,Movies 这些图片展示区做了大量的细节调整提示。
+4.图片及其说明上，最初的 Gallery、Movies 和 Astronomy 把注释压在图上，画面被文字遮挡。后续改为 inspector 说明区，鼠标停留或键盘聚焦时更新说明。这个调整让图片先作为视觉素材出现，解释文字再按需出现，视觉负担明显降低。迭代初期，笔者与 codex 进行了大量可行的排版尝试，由于 codex 并没有真正的审美能力，它对于网页空间的布局很多时候同人的直观审美感受是违背的，例如人会追求图片、文字的上下镶嵌的效果，并且可以直观看出二者分布比重的协调与否，但又没有方法直观想象出合适的排布，所以就需要大量的调整尝试，并非 codex 的执行不到位，往往是在 prompt 阶段尚且对成品没有定型的预期，所以对于每次的迭代结果并不满意。笔者因此与 codex 对 Gallery,Movies 这些图片展示区做了大量的细节调整提示。
 
-5.素材准确性。Astronomy 区曾出现月球图片重复、设备名称标注错误（如极轴镜、牛反这些）、太阳系动画比例粗糙等问题。后续按照素材文件夹标注替换图片，把设备名修正为 SKYWATCHER 200mm F5，并用行星公转周期设置速度比例。图像区域也从松散排列改为 3 行 2 列，太阳系控件单独占位，避免被挤压。Movies 区同样有类似的问题，codex 的图像识别工具调用可以让它轻易识别出笔者提供的大部分电影素材，但仅让它自行处理效果不理想，需要标注以节省时间。
+5.早期的素材准确性不足，Astronomy 区曾出现月球图片重复、设备名称标注错误（如极轴镜、牛反这些）、太阳系动画比例粗糙等问题。后续按照素材文件夹标注替换图片，把设备名修正为 SKYWATCHER 200mm F5，并用行星公转周期设置速度比例。图像区域也从松散排列改为 3 行 2 列，太阳系控件单独占位，避免被挤压。Movies 区同样有类似的问题，codex 的图像识别工具调用可以让它轻易识别出笔者提供的大部分电影素材，但仅让它自行处理效果不理想，需要标注以节省时间。
 
-6.图片预览和电影截图。点击图片后打开大图的初版反应极慢，且只对少数图片生效。后续把预览绑定到整张卡片，优先打开遮罩，再加载高清图。Movies 区的截图也从裁切显示改为居中保留构图，Contact 这类宽银幕画面不再偏到一侧。
+6.图片预览和电影截图显示欠佳，点击图片后打开大图的初版反应极慢，且只对少数图片生效。后续把预览绑定到整张卡片，优先打开遮罩，再加载高清图。Movies 区的截图也从裁切显示改为居中保留构图，Contact 这类宽银幕画面不再偏到一侧。
 
-7.部署。GitHub Pages 初次访问时图片加载失败，原因是发布根目录和资源目录不一致。后续加入根目录跳转、Pages 工作流和 .nojekyll，资源路径才稳定。公网部署还要检查发布入口和资源相对路径，具体的部署工作可以交给模型代工，但是人必须要起到充分的监管作用，并且提供人视角下的反馈，否则codex随时可能曲解用户意图。
+7.部署问题。GitHub Pages 初次访问时图片加载失败，原因是发布根目录和资源目录不一致。后续加入根目录跳转、Pages 工作流和 .nojekyll，资源路径才稳定。公网部署还要检查发布入口和资源相对路径，具体的部署工作可以交给模型代工，但是人必须要起到充分的监管作用，并且提供人视角下的反馈，否则codex随时可能曲解用户意图。
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[t]{0.92\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{preview-dark.png}
-        \caption{Image preview}
-    \end{subfigure}
-    \caption{图 5 图片大图预览。点击素材卡片后，页面以 lightbox 展示高分辨率图像。}
-\end{figure}
+
 
 \textbf{总结。} 本次网页制作从一个个人主页框架开始，逐步收敛为以天文视觉、公开项目、绘画素材和电影偏好组成的个人 blog。笔者的主要工作是不断指出真实偏好、隐私边界和视觉问题；模型的主要作用是快速实现页面结构、交互逻辑、素材接入和部署修复。最终页面可以公网访问，也保留了继续手工改正文案和扩展 Notes 的空间。
 
