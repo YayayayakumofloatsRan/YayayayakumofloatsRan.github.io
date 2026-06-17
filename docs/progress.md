@@ -171,3 +171,8 @@
 
 - Changed movie still cards from cropped cover rendering to centered contain rendering so supplied widescreen screenshots keep their composition.
 - Rebuilt the Movies report screenshot with centered stills and regenerated the assignment PDF.
+
+## 2026-06-17 Report Image Centering
+
+- Centered ReportLab image flowables and table cells in the assignment PDF generation path.
+- Regenerated the PDF after the centering pass; TeX and HTML body text were left unchanged for manual editing.
